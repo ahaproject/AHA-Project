@@ -9,6 +9,12 @@
     tools:context="project.aha.admin_panel.DeleteDoctorActivity">
 
 
+    <Button
+        android:id="@+id/my_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/my_exercises" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="60px" />

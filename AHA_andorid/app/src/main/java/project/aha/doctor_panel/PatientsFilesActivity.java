@@ -123,14 +123,14 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
             switch(result){
 
                 // if there are records -> fill list view
-                case Constants.PARENTS_RECORDS :{
+                case Constants.RECORDS :{
                     // set them to visible
                     fill_listView_with_parents(output);
                     break;
                 }
 
                 // if there are no records -> show text view with no records text
-                case Constants.NO_PARENTS_RECORDS:{
+                case Constants.NO_RECORDS:{
                     TextView no_records_text = (TextView) findViewById(R.id.no_records);
                     RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -140,17 +140,6 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                     break;
                 }
 
-                // if the admin try to delete parent and there are an error -> print error
-                case Constants.ERR_DELETE_PARENT:{
-                    Toast.makeText(this, getString(R.string.err_delete_parent), Toast.LENGTH_LONG).show();
-                    break;
-                }
-
-                // if the admin try to delete parent and it success -> show successful text
-                case Constants.SCF_DELETE_PARENT:{
-                    Toast.makeText(this, getString(R.string.scf_delete_parent), Toast.LENGTH_LONG).show();
-                    break;
-                }
             }
 
         } catch (JSONException e) {

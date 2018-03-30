@@ -16,6 +16,7 @@ public class DoctorMainActivity extends AppCompatActivity {
 
     private Button patients_files_btn;
     private Button create_exercise;
+    private Button my_exercises;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,14 @@ public class DoctorMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DoctorMainActivity.this , CreateExercise.class));
+            }
+        });
+
+        my_exercises = (Button) findViewById(R.id.my_exercise);
+        my_exercises.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DoctorMainActivity.this , DoctorExercises.class));
             }
         });
     }

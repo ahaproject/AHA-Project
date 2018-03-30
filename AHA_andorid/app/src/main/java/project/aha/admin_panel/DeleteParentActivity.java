@@ -78,7 +78,7 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
             switch(result){
 
                 // if there are records -> fill list view
-                case Constants.PARENTS_RECORDS :{
+                case Constants.RECORDS :{
                     // set them to visible
                     choose_parent_title.setVisibility(View.VISIBLE);
                     parentsList.setVisibility(View.VISIBLE);
@@ -87,7 +87,7 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                 }
 
                 // if there are no records -> show text view with no records text
-                case Constants.NO_PARENTS_RECORDS:{
+                case Constants.NO_RECORDS:{
                     TextView no_records_text = (TextView) findViewById(R.id.no_records);
                     LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT);

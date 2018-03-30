@@ -161,13 +161,12 @@ public class SignUpActivity extends AppCompatActivity implements ReceiveResult{
                         String user_password = (String) output.get(Constants.USER_PASSWORD_META);
                         String user_name = (String) output.get(Constants.USER_NAME_META);
                         int user_type = Integer.parseInt((String) output.get(Constants.USER_TYPE_META));
-                        //     public User(int user_id, String user_email, String user_name, String user_password, int user_type, String user_phone) {
                         User user = Constants.currentUser = new User(user_id, user_email, user_name, user_password, user_type, user_phone);
 
                         Constants.login(this,user);
 
                         break;
-                    case Constants.ERR_DUPLICAT_ACC:
+                    case Constants.ERR_DUPLICATE_ACC:
                         error.setText(getString(R.string.duplicate_account));
 
                         break;

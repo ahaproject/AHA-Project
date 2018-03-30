@@ -41,7 +41,9 @@
             android:label="@string/title_activity_signin"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".parent_panel.ParentSingleView" />
-        <activity android:name=".doctor_panel.CreateExercise"></activity>
+        <activity android:name=".doctor_panel.CreateExercise" />
+        <activity android:name=".doctor_panel.DoctorExercises" />
+        <activity android:name=".SingleExerciseView"></activity>
     </application>
 
 </manifest>

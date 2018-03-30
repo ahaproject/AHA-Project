@@ -50,8 +50,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
 
     // Camera activity request codes
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
+
     private static final int STORAGE_PERMISSION_CODE = 123;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
@@ -235,14 +234,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
         }
     }
 
-    //method to get the file path from uri
-    public String getPath(Uri uri) {
-        String[] proj = {MediaStore.Audio.Media.DATA};
-        Cursor cursor = managedQuery(uri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+
 
 
     //Requesting permission
@@ -296,7 +288,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                     break;
                 }
 
-                // if there are records -> fill list view
+
                 case Constants.ERR_CREATE_EXEC: {
                     // set them to visible
                     Toast.makeText(this, getString(R.string.err_add_exer), Toast.LENGTH_LONG).show();

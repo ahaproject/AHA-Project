@@ -78,7 +78,7 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
             switch(result){
 
                 // if there are records -> fill list view
-                case Constants.DOCTORS_RECORDS :{
+                case Constants.RECORDS :{
                     // set them to visible
                     choose_doctor_title.setVisibility(View.VISIBLE);
                     doctorsList.setVisibility(View.VISIBLE);
@@ -87,7 +87,7 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
                 }
 
                 // if there are no records -> show text view with no records text
-                case Constants.NO_DOCTORS_RECORDS:{
+                case Constants.NO_RECORDS:{
                     TextView no_records_text = (TextView) findViewById(R.id.no_records);
                     LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT);

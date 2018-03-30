@@ -123,4 +123,6 @@
     <string name="field_required">This field is required</string>
     <string name="scf_add_exer">Exercise added successfully !</string>
     <string name="err_add_exer">Failed !!</string>
+    <string name="my_exercises">My Exercises</string>
+    <string name="no_records">There are no records yet!</string>
 </resources>

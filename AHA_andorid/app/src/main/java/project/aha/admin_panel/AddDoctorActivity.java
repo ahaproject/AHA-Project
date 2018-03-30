@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import project.aha.*;
 import project.aha.R;
+import project.aha.models.Diagnose;
 
 public class AddDoctorActivity extends AppCompatActivity implements ReceiveResult{
 
@@ -48,7 +49,9 @@ public class AddDoctorActivity extends AppCompatActivity implements ReceiveResul
         specializes_dropdown_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                specialized = (String) parent.getItemAtPosition(position);
+                Diagnose di = (Diagnose) parent.getItemAtPosition(position);
+                specialized = di.getName();
+//                specialized_id = di.getId();
             }
 
             @Override
@@ -140,7 +143,7 @@ public class AddDoctorActivity extends AppCompatActivity implements ReceiveResul
 
             // if the data is duplicated
             switch(resultStr){
-                case Constants.ERR_DUPLICAT_ACC :{
+                case Constants.ERR_DUPLICATE_ACC :{
                     mEmailView.requestFocus();
                     mPhoneView.requestFocus();
                     error.setText(getString(R.string.duplicate_account));
