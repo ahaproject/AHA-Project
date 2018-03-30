@@ -8,7 +8,7 @@
     tools:context="project.aha.admin_panel.DeleteDoctorActivity">
 
     <TextView
-        android:id="@+id/choose_parent_title"
+        android:id="@+id/choose_doctor_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choose_doctor"
@@ -20,18 +20,18 @@
         android:id="@+id/no_records"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_parents_records"
+        android:text="@string/no_doctors_records"
         android:visibility="gone"
         android:textSize="18sp"
         tools:layout_editor_absoluteX="-7dp"
         tools:layout_editor_absoluteY="1dp" />
 
 
-    <ListView
-        android:id="@+id/parents_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/choose_parent_title" />
+        <ListView
+            android:id="@+id/doctors_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/choose_doctor_title" />
 
 
 </RelativeLayout>

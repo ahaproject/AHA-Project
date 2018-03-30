@@ -23,7 +23,7 @@ public class Splash extends Activity {
 
 
         SharedPreferences prefs = getSharedPreferences(Constants.PREF_FILE_NAME, MODE_PRIVATE);
-        final int user_id = -1;
+        final int user_id = prefs.getInt(Constants.PREF_USER_LOGGED_ID, -1);
         final int user_type = prefs.getInt(Constants.PREF_USER_LOGGED_TYPE, -1);
 
 
@@ -32,6 +32,7 @@ public class Splash extends Activity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
+
                 if(user_id == -1){ // no user is logged in
                     Intent mainIntent = new Intent(Splash.this,LoginActivity.class);
                     Splash.this.startActivity(mainIntent);

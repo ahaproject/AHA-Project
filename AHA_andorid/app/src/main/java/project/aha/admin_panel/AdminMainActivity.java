@@ -1,10 +1,8 @@
 package project.aha.admin_panel;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,7 +34,7 @@ public class AdminMainActivity extends AppCompatActivity {
         deleteDoctorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AdminMainActivity.this,DeletDoctorActivity.class));
+                startActivity(new Intent(AdminMainActivity.this,DeleteDoctorActivity.class));
             }
         });
 

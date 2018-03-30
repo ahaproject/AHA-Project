@@ -2,5 +2,5 @@ package project.aha;
 
 public interface ReceiveResult {
 
-    public void receive(Object result);
+    public void onReceiveResult(String resultJson);
 }

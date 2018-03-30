@@ -1,11 +1,11 @@
-package project.aha.admin_panel;
+package project.aha.doctor_panel;
 
-import android.content.DialogInterface;
-import android.widget.RelativeLayout.LayoutParams;
-
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,52 +28,67 @@ import project.aha.R;
 import project.aha.ReceiveResult;
 import project.aha.models.Parent;
 
-public class DeleteParentActivity extends AppCompatActivity implements ReceiveResult{
+public class PatientsFilesActivity extends AppCompatActivity implements ReceiveResult{
 
+    private ListView patients_listview;
+    private TextView name ;
+    private TextView phone ;
+    private TextView file_num ;
 
-    // list view of the parents
-    ListView parentsList;
-
-    final ArrayList<Parent> parents_objects = new ArrayList<>();
-
-    // arraylist that contains all parents
-    ArrayList<String> parents_names;
-
-    TextView choose_parent_title;
-
+    private ArrayList<Parent> patientsObjects;
+    private ArrayList<String> patientsNames;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete_parent);
+        setContentView(R.layout.activity_patients_files);
 
 
-
-        choose_parent_title = (TextView)findViewById(R.id.choose_parent_title);
-
-        // get the view list
-        parentsList = (ListView) findViewById(R.id.parents_list);
-
-        // set them to not visible until we ensure that there are records
-        choose_parent_title.setVisibility(View.GONE);
-        parentsList.setVisibility(View.GONE);
+        patients_listview = (ListView) findViewById(R.id.patients_listview);
+        name = (TextView)findViewById(R.id.name);
+        phone = (TextView)findViewById(R.id.phone);
+        file_num = (TextView)findViewById(R.id.file_num);
+        patientsObjects = new ArrayList<>();
+        patientsNames = new ArrayList<>();
 
 
-        // create empty array list of parents
-        parents_names = new ArrayList<>();
+        refresh();
+    }
 
-        // send request to database to get all parents
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.refresh_button, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                refresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void refresh(){
         HashMap<String,String> data = new HashMap<>();
         data.put(Constants.CODE , Constants.LIST_PARENTS+"");
-        DatabasePostConnection connection = new DatabasePostConnection(this);
-        connection.postRequest(data , Constants.DATABASE_URL);
 
+        DatabasePostConnection connection = new DatabasePostConnection(this);
+        connection.postRequest(data,Constants.DATABASE_URL);
     }
+
+
     @Override
     public void onReceiveResult(String resultJson) {
         try {
-
+            patients_listview.setAdapter(null);
             JSONObject output = new JSONObject(resultJson).getJSONObject("output");
 
+            Log.d("pat",resultJson);
             String result = output.getString(Constants.RESULT);
 
             switch(result){
@@ -80,8 +96,6 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                 // if there are records -> fill list view
                 case Constants.PARENTS_RECORDS :{
                     // set them to visible
-                    choose_parent_title.setVisibility(View.VISIBLE);
-                    parentsList.setVisibility(View.VISIBLE);
                     fill_listView_with_parents(output);
                     break;
                 }
@@ -89,7 +103,7 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                 // if there are no records -> show text view with no records text
                 case Constants.NO_PARENTS_RECORDS:{
                     TextView no_records_text = (TextView) findViewById(R.id.no_records);
-                    LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
+                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT);
                     no_records_text.setLayoutParams(lp);
                     no_records_text.setText(getString(R.string.no_parents_records));
@@ -110,12 +124,11 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                 }
             }
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
+
 
     private void fill_listView_with_parents(JSONObject output) {
         try{
@@ -129,7 +142,7 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                     int user_id = Integer.parseInt((String) jsonObject.get(Constants.USER_ID_META));
                     String user_name = (String) jsonObject.get(Constants.USER_NAME_META);
                     String file_number = (String) jsonObject.get(Constants.PARENT_FILE_NUMBER);
-                    parents_objects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE , file_number));
+                    patientsObjects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE , file_number));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -138,27 +151,31 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
 
             // ********************************************************************************************
             // add only parents names and specialize to the list view
-            for (Parent single_parent : parents_objects ) {
+            for (Parent single_parent : patientsObjects ) {
                 String content;
                 if(single_parent.getFileNumber().equalsIgnoreCase("0")){
                     content = single_parent.getUser_name()+" [ No File Number ]";
                 } else{
                     content = single_parent.getUser_name()+" [ "+getString(R.string.file_number)+" : "+single_parent.getFileNumber()+" ]";
                 }
-                parents_names.add(content);
+                patientsNames.add(content);
             }
             // ********************************************************************************************
 
             // Create ArrayAdapter which adapt array list to list view.
-            final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, parents_names);
-            parentsList.setAdapter(listAdapter);
+            final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, patientsNames);
+            patients_listview.setAdapter(listAdapter);
 
             // add action when the admin clicks on parent record in the listview
-            parentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            patients_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
-                    showConfirmDeleteDialog(position, listAdapter);
+
+                    Parent p = patientsObjects.get(position);
+                    name.setText(p.getChildName());
+                    phone.setText(p.getUser_phone());
+                    file_num.setText(p.getFileNumber());
 
                 }
             });
@@ -166,45 +183,5 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
         }catch(JSONException ex){
             ex.printStackTrace();
         }
-    }
-
-    private void showConfirmDeleteDialog(final int parent_record_position, final ArrayAdapter<String> listAdapter) {
-
-        // create dialog
-        AlertDialog.Builder confirm_delete_dialog = new AlertDialog.Builder(this);
-
-        // set title
-        confirm_delete_dialog.setTitle(getString(R.string.delete_parent_title));
-
-        // set message
-        confirm_delete_dialog.setMessage(getString(R.string.confirm_delete));
-
-        // set icon
-        confirm_delete_dialog.setIcon(android.R.drawable.ic_dialog_alert);
-
-        // add action when admin click on yes
-        confirm_delete_dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                removeParent(parent_record_position , listAdapter);
-            }});
-
-        // add action if the admin click on cancel
-        confirm_delete_dialog.setNegativeButton(android.R.string.no, null);
-
-
-        // show the dialog
-        confirm_delete_dialog.show();
-
-    }
-
-    private void removeParent(int parent_record_position, ArrayAdapter<String> listAdapter) {
-        Parent parent = parents_objects.get(parent_record_position);
-        HashMap<String,String> data = new HashMap<>();
-        data.put(Constants.CODE , Constants.DELETE_PARENT+"");
-        data.put(Constants.USER_ID_META , parent.getUser_id()+"");
-
-        new DatabasePostConnection(this).postRequest(data , Constants.DATABASE_URL);
-        parents_names.remove(parent_record_position);
-        listAdapter.notifyDataSetChanged();
     }
 }
