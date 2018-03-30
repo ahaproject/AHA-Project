@@ -38,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements ReceiveResult{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         Constants.hideKeyboard(this);
+        Constants.showLogo(this);
 
 
 

@@ -1,6 +1,7 @@
 package project.aha.admin_panel;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.widget.RelativeLayout.LayoutParams;
 
 import android.support.v7.app.AlertDialog;
@@ -25,7 +26,11 @@ import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.R;
 import project.aha.ReceiveResult;
+import project.aha.doctor_panel.ListAdapter;
+import project.aha.doctor_panel.PatientsFilesActivity;
 import project.aha.models.Doctor;
+import project.aha.models.Parent;
+import project.aha.parent_panel.ParentSingleView;
 
 public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveResult{
 
@@ -33,10 +38,10 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
     // list view of the doctors
     ListView doctorsList;
 
+    private ListAdapter listAdapter;
     final ArrayList<Doctor> doctors_objects = new ArrayList<>();
 
-    // arraylist that contains all doctors
-    ArrayList<String> doctors_names;
+
 
     TextView choose_doctor_title;
 
@@ -44,6 +49,7 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_doctor);
+        Constants.showLogo(this);
 
 
 
@@ -56,9 +62,6 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
         choose_doctor_title.setVisibility(View.GONE);
         doctorsList.setVisibility(View.GONE);
 
-
-        // create empty array list of doctors
-        doctors_names = new ArrayList<>();
 
         // send request to database to get all doctors
         HashMap<String,String> data = new HashMap<>();
@@ -88,12 +91,9 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
 
                 // if there are no records -> show text view with no records text
                 case Constants.NO_RECORDS:{
-                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
-                    LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
-                    lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    no_records_text.setLayoutParams(lp);
-                    no_records_text.setText(getString(R.string.no_doctors_records));
-                    no_records_text.setVisibility(View.VISIBLE);
+                    show_no_records();
+
+
                     break;
                 }
 
@@ -105,6 +105,12 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
 
                 // if the admin try to delete doctor and it success -> show successful text
                 case Constants.SCF_DELETE_DOCTOR:{
+                    int user_id = output.getInt(Constants.USER_ID_META);
+                    delete_doctor(user_id,listAdapter);
+
+                    if(doctors_objects.size()==0){
+                        show_no_records();
+                    }
                     Toast.makeText(this, getString(R.string.scf_delete_doctor), Toast.LENGTH_LONG).show();
                     break;
                 }
@@ -116,6 +122,17 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
             e.printStackTrace();
         }
 
+    }
+
+    private void show_no_records() {
+        choose_doctor_title.setVisibility(View.GONE);
+        doctorsList.setVisibility(View.GONE);
+        TextView no_records_text = (TextView) findViewById(R.id.no_records);
+        LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        no_records_text.setLayoutParams(lp);
+        no_records_text.setText(getString(R.string.no_doctors_records));
+        no_records_text.setVisibility(View.VISIBLE);
     }
 
     private void fill_listView_with_doctors(JSONObject output) {
@@ -142,18 +159,12 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
             }
 
             // ********************************************************************************************
-            // add only doctors names and specialize to the list view
-            for (Doctor single_doctor : doctors_objects ) {
-                String content = single_doctor.getUser_name()+" [ "+single_doctor.getSpecialized()+" ]";
-                doctors_names.add(content);
-            }
-            // ********************************************************************************************
-
             // Create ArrayAdapter which adapt array list to list view.
-            final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, doctors_names);
+            listAdapter = new ListAdapter(this, doctors_objects);
+//            listAdapter.
             doctorsList.setAdapter(listAdapter);
 
-            // add action when the admin clicks on doctor record in the listview
+            // add action when the admin clicks on parent record in the listview
             doctorsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
@@ -163,12 +174,27 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
                 }
             });
 
+
+            // Create ArrayAdapter which adapt array list to list view.
+//            listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, doctors_names);
+//            doctorsList.setAdapter(listAdapter);
+//
+//            // add action when the admin clicks on doctor record in the listview
+//            doctorsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view,
+//                                        final int position, long id) {
+//                    showConfirmDeleteDialog(position, listAdapter);
+//
+//                }
+//            });
+
         }catch(JSONException ex){
             ex.printStackTrace();
         }
     }
 
-    private void showConfirmDeleteDialog(final int doctor_record_position, final ArrayAdapter<String> listAdapter) {
+    private void showConfirmDeleteDialog(final int doctor_record_position, final ListAdapter listAdapter) {
 
         // create dialog
         AlertDialog.Builder confirm_delete_dialog = new AlertDialog.Builder(DeleteDoctorActivity.this);
@@ -185,7 +211,7 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
         // add action when admin click on yes
         confirm_delete_dialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                removeDoctor(doctor_record_position , listAdapter);
+                sendRequestDelete(doctor_record_position , listAdapter);
             }});
 
         // add action if the admin click on cancel
@@ -197,14 +223,23 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
 
     }
 
-    private void removeDoctor(int doctor_record_position, ArrayAdapter<String> listAdapter) {
+    private void sendRequestDelete(int doctor_record_position, ListAdapter listAdapter) {
         Doctor doctor = doctors_objects.get(doctor_record_position);
         HashMap<String,String> data = new HashMap<>();
         data.put(Constants.CODE , Constants.DELETE_DOCTOR+"");
         data.put(Constants.USER_ID_META , doctor.getUser_id()+"");
 
         new DatabasePostConnection(DeleteDoctorActivity.this).postRequest(data , Constants.DATABASE_URL);
-        doctors_names.remove(doctor_record_position);
-        listAdapter.notifyDataSetChanged();
+
+    }
+
+    private void delete_doctor(int doctor_id, ListAdapter listAdapter) {
+        for(Doctor d : doctors_objects){
+            if(d.getUser_id() == doctor_id){
+                doctors_objects.remove(d);
+                listAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 }

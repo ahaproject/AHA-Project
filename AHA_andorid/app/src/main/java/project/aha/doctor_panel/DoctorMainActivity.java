@@ -21,6 +21,7 @@ public class DoctorMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_main);
+        Constants.showLogo(this);
 
         patients_files_btn = (Button)findViewById(R.id.patients_files_btn);
         patients_files_btn.setOnClickListener(new View.OnClickListener() {

@@ -25,6 +25,8 @@ import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.R;
 import project.aha.ReceiveResult;
+import project.aha.doctor_panel.ListAdapter;
+import project.aha.models.Doctor;
 import project.aha.models.Parent;
 
 public class DeleteParentActivity extends AppCompatActivity implements ReceiveResult{
@@ -35,15 +37,14 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
 
     final ArrayList<Parent> parents_objects = new ArrayList<>();
 
-    // arraylist that contains all parents
-    ArrayList<String> parents_names;
-
     TextView choose_parent_title;
+    ListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_parent);
+        Constants.showLogo(this);
 
 
 
@@ -56,9 +57,6 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
         choose_parent_title.setVisibility(View.GONE);
         parentsList.setVisibility(View.GONE);
 
-
-        // create empty array list of parents
-        parents_names = new ArrayList<>();
 
         // send request to database to get all parents
         HashMap<String,String> data = new HashMap<>();
@@ -88,12 +86,7 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
 
                 // if there are no records -> show text view with no records text
                 case Constants.NO_RECORDS:{
-                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
-                    LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
-                    lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    no_records_text.setLayoutParams(lp);
-                    no_records_text.setText(getString(R.string.no_parents_records));
-                    no_records_text.setVisibility(View.VISIBLE);
+                    show_no_records();
                     break;
                 }
 
@@ -105,6 +98,12 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
 
                 // if the admin try to delete parent and it success -> show successful text
                 case Constants.SCF_DELETE_PARENT:{
+
+                    int user_id = output.getInt(Constants.USER_ID_META);
+                    delete_user(user_id,listAdapter);
+                    if(parents_objects.size() == 0){
+                        show_no_records();
+                    }
                     Toast.makeText(this, getString(R.string.scf_delete_parent), Toast.LENGTH_LONG).show();
                     break;
                 }
@@ -115,6 +114,17 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
             e.printStackTrace();
         }
 
+    }
+
+    private void show_no_records() {
+        choose_parent_title.setVisibility(View.GONE);
+        parentsList.setVisibility(View.GONE);
+        TextView no_records_text = (TextView) findViewById(R.id.no_records);
+        LayoutParams lp = (LayoutParams) no_records_text.getLayoutParams();
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        no_records_text.setLayoutParams(lp);
+        no_records_text.setText(getString(R.string.no_parents_records));
+        no_records_text.setVisibility(View.VISIBLE);
     }
 
     private void fill_listView_with_parents(JSONObject output) {
@@ -128,8 +138,7 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                     JSONObject jsonObject = parentsJSONArray.getJSONObject(i);
                     int user_id = Integer.parseInt((String) jsonObject.get(Constants.USER_ID_META));
                     String user_name = (String) jsonObject.get(Constants.USER_NAME_META);
-                    String file_number = (String) jsonObject.get(Constants.PARENT_FILE_NUMBER);
-                    parents_objects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE , file_number));
+                    parents_objects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE ));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,17 +146,9 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
             }
 
             // ********************************************************************************************
-            // add only parents names and specialize to the list view
-            for (Parent single_parent : parents_objects ) {
-                String content;
-                content = single_parent.getUser_name()+" [ "+getString(R.string.file_number)+" : "+single_parent.getUser_id()+" ]";
 
-                parents_names.add(content);
-            }
-            // ********************************************************************************************
-
-            // Create ArrayAdapter which adapt array list to list view.
-            final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, parents_names);
+            listAdapter = new ListAdapter(this, parents_objects);
+//            listAdapter.
             parentsList.setAdapter(listAdapter);
 
             // add action when the admin clicks on parent record in the listview
@@ -160,12 +161,26 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
                 }
             });
 
+            // Create ArrayAdapter which adapt array list to list view.
+//            listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, parents_names);
+//            parentsList.setAdapter(listAdapter);
+//
+//            // add action when the admin clicks on parent record in the listview
+//            parentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view,
+//                                        final int position, long id) {
+//                    showConfirmDeleteDialog(position, listAdapter);
+//
+//                }
+//            });
+
         }catch(JSONException ex){
             ex.printStackTrace();
         }
     }
 
-    private void showConfirmDeleteDialog(final int parent_record_position, final ArrayAdapter<String> listAdapter) {
+    private void showConfirmDeleteDialog(final int parent_record_position, final ListAdapter listAdapter) {
 
         // create dialog
         AlertDialog.Builder confirm_delete_dialog = new AlertDialog.Builder(this);
@@ -194,14 +209,23 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
 
     }
 
-    private void removeParent(int parent_record_position, ArrayAdapter<String> listAdapter) {
+    private void removeParent(int parent_record_position, ListAdapter listAdapter) {
         Parent parent = parents_objects.get(parent_record_position);
         HashMap<String,String> data = new HashMap<>();
         data.put(Constants.CODE , Constants.DELETE_PARENT+"");
         data.put(Constants.USER_ID_META , parent.getUser_id()+"");
 
         new DatabasePostConnection(this).postRequest(data , Constants.DATABASE_URL);
-        parents_names.remove(parent_record_position);
-        listAdapter.notifyDataSetChanged();
+    }
+
+
+    private void delete_user(int user_id, ListAdapter listAdapter) {
+        for(Parent p : parents_objects){
+            if(p.getUser_id() == user_id){
+                parents_objects.remove(p);
+                listAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 }

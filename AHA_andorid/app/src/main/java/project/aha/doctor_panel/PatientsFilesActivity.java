@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients_files);
+        Constants.showLogo(this);
 
 
         patients_listview = (ListView) findViewById(R.id.patients_listview);
@@ -125,12 +127,15 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                 // if there are records -> fill list view
                 case Constants.RECORDS :{
                     // set them to visible
+                    patients_listview.setVisibility(View.VISIBLE);
+                    file_num.setVisibility(View.VISIBLE);
                     fill_listView_with_parents(output);
                     break;
                 }
 
                 // if there are no records -> show text view with no records text
                 case Constants.NO_RECORDS:{
+                    show_no_records();
                     TextView no_records_text = (TextView) findViewById(R.id.no_records);
                     RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
                     lp.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -147,7 +152,15 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
         }
     }
 
-
+    private void show_no_records() {
+        file_num.setVisibility(View.GONE);
+        TextView no_records_text = (TextView) findViewById(R.id.no_records);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+        no_records_text.setLayoutParams(lp);
+        no_records_text.setText(getString(R.string.no_parents_records));
+        no_records_text.setVisibility(View.VISIBLE);
+    }
     private void fill_listView_with_parents(JSONObject output) {
         try{
             patients_listview.setAdapter(null);
@@ -161,8 +174,7 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                     JSONObject jsonObject = parentsJSONArray.getJSONObject(i);
                     int user_id = Integer.parseInt((String) jsonObject.get(Constants.USER_ID_META));
                     String user_name = (String) jsonObject.get(Constants.USER_NAME_META);
-                    String file_number = (String) jsonObject.get(Constants.PARENT_FILE_NUMBER);
-                    patientsObjects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE , file_number));
+                    patientsObjects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE ));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

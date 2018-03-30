@@ -3,6 +3,7 @@ package project.aha;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
         setContentView(R.layout.activity_login);
         Constants.hideKeyboard(this);
 
+        Constants.showLogo(this);
 
         mEmailView = (EditText) findViewById(R.id.email); // textinput email
         error = (TextView) findViewById(R.id.error); // error message text view
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
             @Override
             public void onClick(View view) {
 //                startActivity(new Intent(LoginActivity.this,SigninActivity.class));
-                startActivity(new Intent(LoginActivity.this,SigninActivity.class));
+                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
                 finish();
             }
         });

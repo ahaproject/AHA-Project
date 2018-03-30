@@ -8,20 +8,10 @@
     tools:context="project.aha.doctor_panel.DoctorExercises">
 
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
         <ListView
             android:id="@+id/list_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-
-
-    </LinearLayout>
 
 </LinearLayout>

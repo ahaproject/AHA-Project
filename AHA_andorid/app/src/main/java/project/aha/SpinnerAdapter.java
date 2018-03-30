@@ -31,7 +31,7 @@ public class SpinnerAdapter extends ArrayAdapter<Diagnose> {
     public View getCustomView(int position, View convertView, ViewGroup parent) {
         // Inflating the layout for the custom Spinner
         LayoutInflater inflater = context.getLayoutInflater();
-        View layout = inflater.inflate(R.layout.single_spinner_item, parent, false);
+        View layout = inflater.inflate(R.layout.spinner_style, parent, false);
 
 // Declaring and Typecasting the textview in the inflated layout
         TextView diagnose = (TextView) layout.findViewById(R.id.item);
@@ -55,3 +55,5 @@ public class SpinnerAdapter extends ArrayAdapter<Diagnose> {
         return getCustomView(position, convertView, parent);
     }
 }
+
+

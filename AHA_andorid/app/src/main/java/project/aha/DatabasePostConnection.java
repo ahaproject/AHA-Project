@@ -19,26 +19,19 @@ public class DatabasePostConnection{
 
     // from volley API -> because it's fast , not for heavy load
     private RequestQueueSingleton queue;
-
+    private ProgressDialog progressDialog;
     private Activity callerActivity;
-
-    private ProgressDialog processDialog;
-
     public DatabasePostConnection(Activity callerActivity) {
         this.callerActivity = callerActivity;
-
-        this.processDialog = new ProgressDialog(callerActivity);
-        processDialog.setMessage(callerActivity.getString(R.string.please_wait));
-        processDialog.setCancelable(false);
-
-
+        progressDialog = new ProgressDialog(callerActivity);
+        progressDialog.setMessage(callerActivity.getString(R.string.please_wait));
+        progressDialog.setCancelable(true);
         queue = RequestQueueSingleton.getInstance(callerActivity.getApplicationContext());
     }
 
 
     public void postRequest(final Map<String, String> data , String url){
-
-        processDialog.show();
+        progressDialog.show();
 
         // response when volley finish request
         Response.Listener responseListener = new Response.Listener<String>()
@@ -48,9 +41,7 @@ public class DatabasePostConnection{
                 Log.d("Response", response);
 
                 // hide
-                if (processDialog.isShowing()) {
-                    processDialog.dismiss();
-                }
+                progressDialog.hide();
 
 
                 ReceiveResult activity = (ReceiveResult) callerActivity;
@@ -66,9 +57,8 @@ public class DatabasePostConnection{
                 // error
                 Log.d("Error.Response", volleyError.toString());
                 // hide
-                if (processDialog.isShowing()) {
-                    processDialog.dismiss();
-                }
+                progressDialog.hide();
+
 
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(callerActivity, callerActivity.getString(R.string.network_error), Toast.LENGTH_SHORT).show();

@@ -1,13 +1,18 @@
 package project.aha;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Spinner;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import project.aha.admin_panel.AdminMainActivity;
 import project.aha.doctor_panel.DoctorMainActivity;
 import project.aha.models.Diagnose;
@@ -48,6 +53,9 @@ public class Constants { // class of constants variables
     public static final int CREATE_EXERCISE = 9;
     public static final int LIST_EXERCISES = 10;
     public static final int SELECT_SINGLE_EXERCISE = 11;
+    public static final int COMPLETE_REGISTRATION = 12;
+    public static final int CARS_EXAM = 13 ;
+
 
     // ###########################################################################################
     // ###########################################################################################
@@ -68,7 +76,7 @@ public class Constants { // class of constants variables
     public static final String ERR_INSERT_DOCTOR = "ERR_INSERT_DOCTOR";
     public static final String ERR_INSERT_PARENT = "ERR_INSERT_PARENT";
     public static final String ERR_LOGIN = "ERR_LOGIN";
-    public static final String ERR_DUPLICATE_ACC = "ERR_DUPLICAT_ACC";
+    public static final String ERR_DUPLICATE_ACC = "ERR_DUPLICATE_ACC";
     public static final String ERR_DELETE_DOCTOR = "ERR_DELETE_DOCTOR";
     public static final String ERR_DELETE_PARENT = "ERR_DELETE_PARENT";
     public static final String ERR_CREATE_EXEC = "ERR_CREATE_EXEC";
@@ -84,6 +92,8 @@ public class Constants { // class of constants variables
     public static final String SCF_DELETE_DOCTOR = "SCF_DELETE_DOCTOR";
     public static final String SCF_DELETE_PARENT = "SCF_DELETE_PARENT";
     public static final String SCF_CREATE_EXEC = "SCF_CREATE_EXEC";
+    public static final String SCF_COMPLETE_REGITER = "SCF_COMPLETE_REGITER";
+
     // ###########################################################################################
     // ###########################################################################################
     // ###########################################################################################
@@ -158,6 +168,7 @@ public class Constants { // class of constants variables
     public static final String PREF_USER_LOGGED_ID = "user_id";
     public static final String PREF_USER_LOGGED_TYPE = "user_type";
     public static final String DATABASE_URL = "https://ahaproject.000webhostapp.com/";
+    public static final String DATA = "data";
     // ###########################################################################################
     // ###########################################################################################
 
@@ -230,7 +241,7 @@ public class Constants { // class of constants variables
     // ###########################################################################################
 
     public static void add_to_spinner(Activity calledActivity, Spinner spinner) {
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(calledActivity, R.layout.single_spinner_item, Constants.diagnoses);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(calledActivity, R.layout.spinner_style, Constants.diagnoses);
         spinner.setAdapter(spinnerAdapter);
 
     }
@@ -241,5 +252,19 @@ public class Constants { // class of constants variables
         SharedPreferences prefs = activity.getSharedPreferences(Constants.PREF_FILE_NAME, activity.MODE_PRIVATE);
         final int user_id = prefs.getInt(Constants.PREF_USER_LOGGED_ID, -1);
         return user_id;
+    }
+
+    public static int get_current_user_type(Activity activity) {
+        SharedPreferences prefs = activity.getSharedPreferences(Constants.PREF_FILE_NAME, activity.MODE_PRIVATE);
+        final int user_type = prefs.getInt(Constants.PREF_USER_LOGGED_TYPE, -1);
+        return user_type;
+    }
+
+
+    public static void showLogo(AppCompatActivity activity) {
+        ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setLogo(R.mipmap.ic_launcher_round);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
     }
 }

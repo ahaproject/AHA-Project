@@ -40,6 +40,7 @@ public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_exercises);
+        Constants.showLogo(this);
 
 
         listView = (ListView) findViewById(R.id.list_view);

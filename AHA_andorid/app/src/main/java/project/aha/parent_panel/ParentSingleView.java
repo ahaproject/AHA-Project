@@ -19,6 +19,7 @@ public class ParentSingleView extends AppCompatActivity implements ReceiveResult
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_single_view);
+        Constants.showLogo(this);
 
         Intent i = getIntent() ;
         if(i != null){
@@ -36,6 +37,8 @@ public class ParentSingleView extends AppCompatActivity implements ReceiveResult
 
     @Override
     public void onReceiveResult(String resultJson) {
+
+        setTitle(p.getUser_id());
 
     }
 }

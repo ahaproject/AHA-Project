@@ -1,6 +1,7 @@
 package project.aha.doctor_panel;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -54,7 +55,6 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
     private static final int STORAGE_PERMISSION_CODE = 123;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
     private Uri fileUri; // file url to store image/video
     Spinner specializes_dropdown_list;
@@ -62,18 +62,20 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
     private Button create;
     private EditText subject;
-    private EditText description;
+    private EditText description, youtube_link;
     String specialized;
     int specialized_id;
 
     String imagePath;
     String videoPath;
-    private ImageButton btnCapturePicture, btnRecordVideo;
+    private ImageButton btnCapturePicture;
 
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_exercise);
+        Constants.showLogo(this);
 
         requestStoragePermission();
 
@@ -97,7 +99,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
 
         description = (EditText) findViewById(R.id.description);
-
+        youtube_link = (EditText) findViewById(R.id.youtube_link);
         create = (Button) findViewById(R.id.create_exercise);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +110,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
 
         btnCapturePicture = (ImageButton) findViewById(R.id.upload_photo_btn);
-        btnRecordVideo = (ImageButton) findViewById(R.id.upload_video_btn);
+//        btnRecordVideo = (ImageButton) findViewById(R.id.upload_video_btn);
 
         /**
          * Capture image button click event
@@ -127,22 +129,23 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
         /**
          * Record video button click event
          */
-        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("video/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Video"), MEDIA_TYPE_VIDEO);
-            }
-        });
+//        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setType("video/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Video"), MEDIA_TYPE_VIDEO);
+//            }
+//        });
     }
 
 
     public void createExercise() {
         String subjectString = subject.getText().toString();
         String descriptionString = description.getText().toString();
+        videoPath = youtube_link.getText().toString();
 
 
         if (subjectString == null || subjectString.length() == 0) {
@@ -154,12 +157,19 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
         } else if (specialized == null || specialized.length() == 0) {
             specializes_dropdown_list.requestFocus();
             Toast.makeText(this, getString(R.string.field_required), Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else if (videoPath != null && videoPath.length() > 0 && !videoPath.contains("youtube")){
+            youtube_link.requestFocus();
+            Toast.makeText(this, getString(R.string.must_be_youtube_link), Toast.LENGTH_LONG).show();
+        }else {
             SharedPreferences prefs = getSharedPreferences(Constants.PREF_FILE_NAME, MODE_PRIVATE);
             final int user_id = prefs.getInt(Constants.PREF_USER_LOGGED_ID, -1);
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.please_wait));
+            progressDialog.setCancelable(true);
+            progressDialog.show();
 
-            if ((imagePath == null || imagePath.length() == 0 )&&
-            (videoPath == null || videoPath.length() == 0)) {
+            if ((imagePath == null || imagePath.length() == 0 )) {
 
                 HashMap<String, String> data = new HashMap<>();
                 data.put(Constants.CODE, Constants.CREATE_EXERCISE + "");
@@ -167,6 +177,12 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                 data.put("description", descriptionString);
                 data.put("specialized_id", specialized_id + "");
                 data.put("user_id", user_id + "");
+
+
+                if(videoPath!= null && videoPath.length() > 0){
+                    data.put("youtube_link", videoPath);
+
+                }
                 DatabasePostConnection connection = new DatabasePostConnection(this);
                 connection.postRequest(data, Constants.DATABASE_URL);
             } else {
@@ -181,10 +197,13 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
                     if (imagePath != null && imagePath.length() > 0) {
                         upload.addFileToUpload(imagePath, "image");
+//                        upload.setNotificationConfig(new UploadNotificationConfig());
+                        upload.setMaxRetries(2);
                     }
 
-                    if (videoPath != null && videoPath.length() > 0) {
-                        upload.addFileToUpload(videoPath, "video");
+                    if(videoPath!= null && videoPath.length() > 0){
+                        upload.addParameter("youtube_link", videoPath);
+
                     }
                     upload.addParameter(Constants.CODE, Constants.CREATE_EXERCISE + "");
                     upload.addParameter("subject", subjectString);
@@ -192,14 +211,11 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                     upload.addParameter("specialized_id", specialized_id + "");
                     upload.addParameter("user_id", user_id + "");
 
-
-                    upload.setNotificationConfig(new UploadNotificationConfig());
-                    upload.setMaxRetries(2);
-
                     upload.startUpload(); //Starting the upload
 
                 } catch (Exception exc) {
-                    Toast.makeText(this, exc.getMessage() + "tttt", Toast.LENGTH_SHORT).show();
+                    Log.d("Error in multipart" , exc.getMessage());
+                    Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -221,15 +237,6 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                 e.printStackTrace();
             }
 //            imagePath = getPath(selectedImg);
-
-        } else if (requestCode == MEDIA_TYPE_VIDEO && resultCode == RESULT_OK) {
-
-            Uri selectedVidUri = data.getData();
-            try {
-                videoPath = PathUtil.getPath(this, selectedVidUri);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
 
         }
     }
@@ -271,7 +278,13 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
     @Override
     public void onReceiveResult(String resultJson) {
+        if(progressDialog != null){
+            progressDialog.hide();
+            progressDialog = null;
+        }
+
         try {
+            Log.d("RESULT" , resultJson);
             JSONObject output = new JSONObject(resultJson).getJSONObject("output");
 
             String result = output.getString(Constants.RESULT);
@@ -304,12 +317,18 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
     protected void onResume() {
         super.onResume();
         uploadReceiver.register(this);
-    }
+        if(progressDialog != null){
+            progressDialog.hide();
+            progressDialog = null;
+        }    }
     @Override
     protected void onPause() {
         super.onPause();
         uploadReceiver.unregister(this);
-    }
+        if(progressDialog != null){
+            progressDialog.hide();
+            progressDialog = null;
+        }    }
     @Override
     public void onProgress(int progress) {
         super.onResume();

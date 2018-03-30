@@ -19,6 +19,7 @@ public class AdminMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_main);
+        Constants.showLogo(this);
 
 
         addDoctorBtn = (Button) findViewById(R.id.add_doctor_btn);

@@ -25,11 +25,15 @@
                 android:textColor="@color/bg_register"
                 android:textSize="30sp" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="150px">
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150px">-->
 
-                <EditText
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40px" />
+
+            <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,14 +46,18 @@
                     android:singleLine="true"
                     android:textColorLink="@android:color/background_dark" />
 
-            </android.support.design.widget.TextInputLayout>
+            <!--</android.support.design.widget.TextInputLayout>-->
 
 
-            <android.support.design.widget.TextInputLayout
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150px">-->
+
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="150px">
+                android:layout_height="40px" />
 
-                <EditText
+            <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,12 +70,15 @@
                     android:singleLine="true"
                     android:textColorLink="@android:color/background_dark" />
 
-            </android.support.design.widget.TextInputLayout>
+            <!--</android.support.design.widget.TextInputLayout>-->
 
-
-            <android.support.design.widget.TextInputLayout
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="150px">
+                android:layout_height="40px" />
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150px">-->
 
                 <EditText
                     android:id="@+id/phone"
@@ -82,11 +93,15 @@
                     android:singleLine="true"
                     android:textColorLink="@android:color/background_dark" />
 
-            </android.support.design.widget.TextInputLayout>
+            <!--</android.support.design.widget.TextInputLayout>-->
 
-            <android.support.design.widget.TextInputLayout
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="150px">
+                android:layout_height="40px" />
+
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150px">-->
 
                 <EditText
                     android:id="@+id/password"
@@ -101,8 +116,11 @@
                     android:singleLine="true"
                     android:textColorLink="@android:color/background_dark" />
 
-            </android.support.design.widget.TextInputLayout>
+            <!--</android.support.design.widget.TextInputLayout>-->
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40px" />
 
 
             <Spinner

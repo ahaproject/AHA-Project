@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="project.aha.doctor_panel.PatientsFilesActivity">
+
+    <TextView
+        android:id="@+id/no_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_doctors_records"
+        android:visibility="gone"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="-7dp"
+        tools:layout_editor_absoluteY="1dp" />
 
     <!-- Editext for Search -->
     <EditText android:id="@+id/search_file"
+        android:visibility="gone"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_file"
         android:inputType="textVisiblePassword"/>
 
-    <LinearLayout
+
+
+    <ListView
+        android:id="@+id/patients_listview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ListView
-            android:id="@+id/patients_listview"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+        android:layout_below="@id/search_file"/>
 
 
 
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

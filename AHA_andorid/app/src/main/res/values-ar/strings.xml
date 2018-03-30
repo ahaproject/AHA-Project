@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">مساعد</string>
     <string name="progress_dialog">Please  Wait ...</string>
     <string name="title_activity_login">Login</string>
-
-
     <string name="doctor_panel">Dashboard</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -22,7 +20,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="search_file">Search parent by file number</string>
+    <string name="btnUploadToServer">Upload to Server</string>
+    <string name="search_file">Search by file number or phone</string>
     <string name="create_exercise">Create new exercise</string>
     <string name="patients_file_title">Patients files</string>
     <string name="contact_patient">Chat with patient</string>
@@ -77,6 +76,7 @@
     <string name="please_wait">Please Wait . . .</string>
 
 
+
     <string name="network_error">Cannot connect to Internet...Please check your connection!</string>
     <string name="server_error">The server could not be found. Please try again after some time!!</string>
     <string name="auth_failure_error">Cannot connect to Internet...Please check your connection!</string>
@@ -85,4 +85,41 @@
     <string name="timout_error">Connection TimeOut! Please check your internet connection.</string>
     <string name="file_number">File Number</string>
     <string name="refresh">Refresh</string>
+    <string name="title_activity_signin">Sign in</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="mother_name">Mother name</string>
+    <string name="mother_age">Mother age</string>
+    <string name="mother_nationality">Mother nationality</string>
+    <string name="mother_edu_level">Mother education level</string>
+    <string name="mother_job">Mother job</string>
+    <string name="father_job">Father job</string>
+    <string name="father_edu_level">Father education level</string>
+    <string name="father_nationality">Father nationality</string>
+    <string name="father_age">Father age</string>
+    <string name="father_name">Father name</string>
+    <string name="next">Next</string>
+    <string name="is_there_relation_parent">Is there a relationship between the parents?</string>
+    <string name="is_prenuptial_examinations">Did the parents do the prenuptial examinations ?</string>
+    <string name="is_chronic_disease">Does one of the parents suffer from chronic disease ?</string>
+    <string name="family_members">How many family members ?</string>
+    <string name="male_members">How many male members ?</string>
+    <string name="female_members">How many female members ?</string>
+    <string name="birth_order">What is the child\'s birth order ?</string>
+    <string name="child_relationship_parents">How is the relationship between the child and his parents ?</string>
+    <string name="child_relationship_brothers">How is the relationship between the child and his brothers ?</string>
+    <string name="babysitter">Do you count on a babysitter to care of the child ?</string>
+    <string name="child_live_with_parent">Does the child live with his parents ?</string>
+    <string name="is_polygamy">Is there any polygamy in the family ?</string>
+    <string name="family_problems">What are the most important family problems?</string>
+    <string name="is_divorce">Is there any divorce in the family ?</string>
+    <string name="divorce_relationship">if the answer is yes, did one of parents marry for the second time?</string>
+    <string name="second_partner_relationship">How is the relationship between the child and the second partner ?</string>
+    <string name="swipe">Swipe</string>
+    <string name="subject">Exercise subject</string>
+    <string name="description">Description</string>
+    <string name="field_required">This field is required</string>
+    <string name="scf_add_exer">Exercise added successfully !</string>
+    <string name="err_add_exer">Failed !!</string>
+    <string name="my_exercises">My Exercises</string>
+    <string name="no_records">There are no records yet!</string>
 </resources>

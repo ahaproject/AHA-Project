@@ -2,14 +2,13 @@
     <string name="app_name">Autism Helper</string>
     <string name="progress_dialog">Please  Wait ...</string>
     <string name="title_activity_login">Login</string>
-
-
     <string name="doctor_panel">Dashboard</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="sign_up">Sign up</string>
     <string name="error_invalid_email">This email address is invalid</string>
 
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -23,8 +22,6 @@
         completions."
     </string>
     <string name="btnUploadToServer">Upload to Server</string>
-
-
     <string name="search_file">Search by file number or phone</string>
     <string name="create_exercise">Create new exercise</string>
     <string name="patients_file_title">Patients files</string>
@@ -125,4 +122,92 @@
     <string name="err_add_exer">Failed !!</string>
     <string name="my_exercises">My Exercises</string>
     <string name="no_records">There are no records yet!</string>
+    <string name="youtube_link">Enter Link from youtube</string>
+    <string name="must_be_youtube_link">This link is not from youtube, please enter valid link</string>
+    <string name="child_name">Child Name</string>
+    <string name="child_bdate">Child birth date</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="child_sex">Child Sex</string>
+    <string name="child_details">Child Information</string>
+    <string name="mother_details">Mother Information</string>
+    <string name="father_details">Father Information</string>
+    <string name="relationship">Child Relationships</string>
+    <string name="economic_level">Economic Level</string>
+    <string name="high_level">High</string>
+    <string name="above_intermediate_level">Above intermediate</string>
+    <string name="intermediate_level">Intermediate</string>
+    <string name="poor_level">Poor</string>
+    <string name="living">Living</string>
+    <string name="flat">Flat</string>
+    <string name="villa">Villa</string>
+    <string name="building">Building</string>
+    <string name="health_status">Health status</string>
+    <string name="genetic_diseases">Are there genetic diseases in the family?</string>
+    <string name="genetic_diseases_list">What are the genetic diseases?</string>
+    <string name="pregnancy_and_childbirth">Circumstances of pregnancy and childbirth</string>
+    <string name="mother_age_birth">Mother\'s age during pregnancy</string>
+    <string name="mental_stress">Did the mother suffer from mental stress?</string>
+    <string name="pregnancy_after_abortion">Was pregnancy after abortion?</string>
+    <string name="pregnancy_period">Pregnancy period</string>
+    <string name="diseases_during_pregnancy">Diseases during the pregnancy if any</string>
+    <string name="exp_radiation">Does the mother have any kind of radiation?</string>
+    <string name="nutrition_mother">Mother\'s nutrition during pregnancy</string>
+    <string name="birth_hospital">Have the mother given birth in the hospital?</string>
+    <string name="easy_birth">Was the birth easy?</string>
+    <string name="child_health">Child Health After Childbirth</string>
+    <string name="vaccinations">Vaccinations against diseases and epidemics</string>
+    <string name="neonatal_jaundice">Did the child suffer from neonatal jaundice after childbirth</string>
+    <string name="child_overheated">Did the child suddenly feel overheated and not treated?</string>
+    <string name="organic_injuries">Did the child have organic injuries such as recurrent diarrhea, allergies and smallpox, ...</string>
+    <string name="sudden_injury">Have the child suffered a sudden injury (accident or otherwise)</string>
+    <string name="congenital_defects_or_diseases">Does the child suffer from congenital defects or diseases</string>
+    <string name="drugs_prescribed">The drugs are prescribed to the child</string>
+    <string name="child_illness">Does the child complain of any health or psychological illness</string>
+    <string name="child_illness_list">If yes, what is a child\'s health or psychological complaint?</string>
+    <string name="child_development">Child development and health after childbirth</string>
+    <string name="feeding">Chilf feeding</string>
+    <string name="normal_feeding">Normal feeding</string>
+    <string name="artificial_feeding">Artificial feeding</string>
+    <string name="mixed_feeding">Mixed feeding</string>
+    <string name="feeding_period">Feeding period</string>
+    <string name="duration_weaning">Duration of weaning</string>
+    <string name="normal_weaning">Normal weaning</string>
+    <string name="early_weaning">Early weaning</string>
+    <string name="late_weaning">Late weaning</string>
+    <string name="gradual_weaning">Gradual weaning</string>
+    <string name="sudden_weaning">Sudden weaning</string>
+    <string name="senses_intact">Are the senses intact</string>
+    <string name="began_speak">When the child began to speak</string>
+    <string name="behavioral_disorders">Behavioral disorders :</string>
+    <string name="fear">Fear</string>
+    <string name="intransigence">Intransigence</string>
+    <string name="eat_nails">Eat nails</string>
+    <string name="concern">Concern</string>
+    <string name="tantrums">Tantrums</string>
+    <string name="finger_sucking">Finger sucking</string>
+    <string name="mindlessness">Mindlessness</string>
+    <string name="epileptic_seizures">Epileptic seizures</string>
+    <string name="food_disorder">Food disorders</string>
+    <string name="aggressive">Aggressive</string>
+    <string name="shame_introversion">Shame and introversion</string>
+    <string name="sleep_disorder">Sleep disorder</string>
+    <string name="lying">Lying</string>
+    <string name="crying">Crying</string>
+    <string name="nocturnal_enuresis">Nocturnal enuresis</string>
+    <string name="child_skills">Child skills</string>
+    <string name="child_depends">The child depends on himself</string>
+    <string name="child_expresses_needs">The child expresses his needs</string>
+    <string name="identify_places_people">Can identify places and individuals</string>
+    <string name="urination_control">Control the urination process</string>
+    <string name="control_defecation">Control defecation process</string>
+    <string name="eat_by_himself">Can he eat and drink by himself</string>
+    <string name="main_complaint">Main complaint</string>
+    <string name="advance_registration">Advance registration</string>
+    <string name="save">Save</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="no_child_live_with_parent_reason">Why does the parents liveing with each other ?</string>
+    <string name="saved_success">Saved Successfully</string>
+    <string name="cars_exam">CARS Exam</string>
+    <string name="finish">Finish</string>
 </resources>

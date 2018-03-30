@@ -11,12 +11,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/title_activity_login"
+            android:roundIcon="@mipmap/ic_launcher_round" />
         <activity
             android:name=".Splash"
             android:theme="@style/AppTheme.NoActionBar">
@@ -28,22 +31,41 @@
         </activity>
         <activity
             android:name=".doctor_panel.DoctorMainActivity"
-            android:label="@string/title_activity_doctor_main" />
-        <activity android:name=".admin_panel.AdminMainActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".admin_panel.AddDoctorActivity" />
-        <activity android:name=".admin_panel.DeleteDoctorActivity" />
-        <activity android:name=".admin_panel.DeleteParentActivity" />
-        <activity android:name=".doctor_panel.PatientsFilesActivity" />
-        <activity android:name=".parent_panel.ParentMainActivity" />
+            android:label="@string/dashboard" />
         <activity
-            android:name=".SigninActivity"
-            android:label="@string/title_activity_signin"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".parent_panel.ParentMainActivity"
+            android:label="@string/dashboard" />
+        <activity
+            android:name=".admin_panel.AdminMainActivity"
+            android:label="@string/dashboard" />
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/sign_up" />
+        <activity
+            android:name=".admin_panel.AddDoctorActivity"
+            android:label="@string/add_doctor_title" />
+        <activity
+            android:name=".admin_panel.DeleteDoctorActivity"
+            android:label="@string/delete_doctor_title" />
+        <activity
+            android:name=".admin_panel.DeleteParentActivity"
+            android:label="@string/delete_parent_title" />
+        <activity
+            android:name=".doctor_panel.PatientsFilesActivity"
+            android:label="@string/patients_file_title" />
+        <activity
+            android:name=".parent_panel.CompleteRegister"
+            android:label="@string/advance_registration" />
         <activity android:name=".parent_panel.ParentSingleView" />
-        <activity android:name=".doctor_panel.CreateExercise" />
-        <activity android:name=".doctor_panel.DoctorExercises" />
-        <activity android:name=".SingleExerciseView"></activity>
+        <activity
+            android:name=".doctor_panel.CreateExercise"
+            android:label="@string/create_exercise" />
+        <activity
+            android:name=".doctor_panel.DoctorExercises"
+            android:label="@string/my_exercises" />
+        <activity android:name=".SingleExerciseView" />
+        <activity android:name=".parent_panel.CARS_Exam"
+            android:label="@string/cars_exam"></activity>
     </application>
 
 </manifest>

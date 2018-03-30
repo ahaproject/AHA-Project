@@ -30,6 +30,7 @@ public class SingleExerciseView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_exercise_view);
+        Constants.showLogo(this);
 
         Intent i = getIntent();
 
@@ -38,6 +39,9 @@ public class SingleExerciseView extends AppCompatActivity {
 
             subjectView = (TextView) findViewById(R.id.subject);
             subjectView.setText(e.getSubject());
+
+            setTitle(e.getSubject());
+
 
 
             dateView = (TextView) findViewById(R.id.date);
