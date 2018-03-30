@@ -3,7 +3,6 @@ package project.aha;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -20,7 +19,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import project.aha.models.Parent;
 import project.aha.models.User;
+import project.aha.parent_panel.SignUpActivity;
 
 
 public class LoginActivity extends AppCompatActivity implements ReceiveResult{
@@ -164,7 +165,13 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
             String user_name = (String) output.get(Constants.USER_NAME_META);
             int user_type = Integer.parseInt((String) output.get(Constants.USER_TYPE_META));
 
-            return new User(user_id, user_email, user_name, "", user_type, user_phone);
+
+            if(user_type == Constants.PARENT_TYPE){
+                boolean did_adv_reg = (output.getInt(Constants.PAREN_DID_ADVANCED_REGISTRATION) == 0 )?false : true;
+                return new Parent(user_id, user_email, user_name, user_type, user_phone , did_adv_reg);
+
+            }
+            return new User(user_id, user_email, user_name, user_type, user_phone);
 
         } catch (JSONException e) {
             e.printStackTrace();

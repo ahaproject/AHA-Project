@@ -1,24 +1,38 @@
 package project.aha.models;
 
-import java.util.ArrayList;
+import android.widget.TextView;
 
-public class CARS_Question {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class CARS_Question implements Serializable {
 
     private int q_id;
     private String question ;
-    private ArrayList<CARS_Answer> answers ;
+    private HashMap<Integer , CARS_Answer> answers ;
+
+    private int answer_id;
 
     public CARS_Question(int q_id, String question) {
         this.q_id = q_id;
         this.question = question;
-        this.answers = new ArrayList<>();
+        this.answers = new HashMap<>();
     }
 
 
     public void addAnswer(int a_id , String answer , double grade){
-        answers.add(new CARS_Answer(a_id , answer , grade ));
+        answers.put(a_id , new CARS_Answer(a_id , answer , grade ));
     }
 
+
+    public int getAnswer_id() {
+        return answer_id;
+    }
+
+    public void setAnswer_id(int answer_id) {
+        this.answer_id = answer_id;
+    }
 
     public int getQ_id() {
         return q_id;
@@ -36,11 +50,12 @@ public class CARS_Question {
         this.question = question;
     }
 
-    public ArrayList<CARS_Answer> getAnswers() {
+
+    public HashMap<Integer, CARS_Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(ArrayList<CARS_Answer> answers) {
+    public void setAnswers(HashMap<Integer, CARS_Answer> answers) {
         this.answers = answers;
     }
 }

@@ -1,5 +1,5 @@
 
-package project.aha;
+package project.aha.parent_panel;
 
 
 import android.content.Intent;
@@ -17,12 +17,17 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import project.aha.Constants;
+import project.aha.DatabasePostConnection;
+import project.aha.LoginActivity;
+import project.aha.R;
+import project.aha.ReceiveResult;
 import project.aha.models.User;
 
 /**
  * A signup screen that offers login via email/password.
  */
-public class SignUpActivity extends AppCompatActivity implements ReceiveResult{
+public class SignUpActivity extends AppCompatActivity implements ReceiveResult {
 
     // UI references.
     private EditText mNameView;
@@ -162,7 +167,7 @@ public class SignUpActivity extends AppCompatActivity implements ReceiveResult{
                         String user_password = (String) output.get(Constants.USER_PASSWORD_META);
                         String user_name = (String) output.get(Constants.USER_NAME_META);
                         int user_type = Integer.parseInt((String) output.get(Constants.USER_TYPE_META));
-                        User user = Constants.currentUser = new User(user_id, user_email, user_name, user_password, user_type, user_phone);
+                        User user = Constants.currentUser = new User(user_id, user_email, user_name, user_type, user_phone);
 
                         Constants.login(this,user);
 

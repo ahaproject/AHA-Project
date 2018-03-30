@@ -1,4 +1,4 @@
-package project.aha.doctor_panel;
+package project.aha;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -18,22 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import project.aha.Constants;
-import project.aha.DatabasePostConnection;
-import project.aha.R;
-import project.aha.ReceiveResult;
-import project.aha.SingleExerciseView;
 import project.aha.models.Exercise;
 
-public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
+public class ExercisesList extends AppCompatActivity implements ReceiveResult{
 
 
-    ListView listView;
-
+    private ListView listView;
     private ListAdapter listAdapter;
-
-    // Search EditText
-
     private List<Exercise> exercisesObjects;
 
     @Override
@@ -42,17 +33,40 @@ public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
         setContentView(R.layout.activity_doctor_exercises);
         Constants.showLogo(this);
 
+        Intent i = getIntent();
+        if(i != null){
 
-        listView = (ListView) findViewById(R.id.list_view);
-        exercisesObjects = new ArrayList<>();
+            int doctor_id = i.getIntExtra(Constants.DOCTOR_ID_META , -1);
+            int diagnose_id = i.getIntExtra(Constants.EXERCISE_DIAGNOSE , -1);
 
-        // call database to get all doctor exercises
-        HashMap<String,String> data = new HashMap<>();
-        data.put(Constants.CODE , Constants.LIST_EXERCISES+"");
-        data.put(Constants.DOCTOR_ID_META , Constants.get_current_user_id(this)+"");
+            // if this activity for doctor's execises
+            if(doctor_id > -1){
+                // call database to get all doctor exercises
+                HashMap<String,String> data = new HashMap<>();
+                data.put(Constants.CODE , Constants.LIST_EXERCISES+"");
+                data.put(Constants.DOCTOR_ID_META , doctor_id+"");
 
-        DatabasePostConnection connection = new DatabasePostConnection(this);
-        connection.postRequest(data,Constants.DATABASE_URL);
+                DatabasePostConnection connection = new DatabasePostConnection(this);
+                connection.postRequest(data,Constants.DATABASE_URL);
+            }// if this activity for specific diagnose exercises
+             else if(diagnose_id > -1){
+                // call database to get all doctor exercises
+                HashMap<String,String> data = new HashMap<>();
+                data.put(Constants.CODE , Constants.LIST_EXERCISES+"");
+                data.put(Constants.EXERCISE_DIAGNOSE , diagnose_id+"");
+
+                DatabasePostConnection connection = new DatabasePostConnection(this);
+                connection.postRequest(data,Constants.DATABASE_URL);
+            }
+            else{
+                HashMap<String,String> data = new HashMap<>();
+                data.put(Constants.CODE , Constants.LIST_EXERCISES+"");
+                DatabasePostConnection connection = new DatabasePostConnection(this);
+                connection.postRequest(data,Constants.DATABASE_URL);
+            }
+            listView = (ListView) findViewById(R.id.list_view);
+            exercisesObjects = new ArrayList<>();
+        }
     }
 
     @Override
@@ -93,10 +107,8 @@ public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
     private void fill_listView(JSONObject output) {
         try{
             listView.setAdapter(null);
-//            exercisesObjects.clear();
 
             // convert from JSON Array to ArrayList
-
             JSONArray parentsJSONArray = output.getJSONArray("data");
             for (int i = 0; i < parentsJSONArray.length(); i++) {
                 try {
@@ -129,7 +141,7 @@ public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
                         JSONArray vids = (JSONArray)vidsObj;
                         if(vids != null){
                             JSONObject vid = vids.getJSONObject(0);
-                            vid_path = vid.getString(Constants.VIDEO__PATH);
+                            vid_path = vid.getString(Constants.VIDEO_PATH);
                         }
                     }
 
@@ -146,7 +158,7 @@ public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
             // ********************************************************************************************
 
             // Create ArrayAdapter which adapt array list to list view.
-            listAdapter = new ListAdapter(DoctorExercises.this, exercisesObjects);
+            listAdapter = new ListAdapter(ExercisesList.this, exercisesObjects);
 //            listAdapter.
             listView.setAdapter(listAdapter);
 
@@ -156,7 +168,7 @@ public class DoctorExercises extends AppCompatActivity implements ReceiveResult{
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
                     Exercise e = exercisesObjects.get(position);
-                    Intent intent = new Intent(DoctorExercises.this, SingleExerciseView.class);
+                    Intent intent = new Intent(ExercisesList.this, SingleExerciseView.class);
                     intent.putExtra("exercise", e);
                     startActivity(intent);
                 }

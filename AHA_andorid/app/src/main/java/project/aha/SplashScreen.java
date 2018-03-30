@@ -9,7 +9,7 @@ import project.aha.admin_panel.AdminMainActivity;
 import project.aha.doctor_panel.DoctorMainActivity;
 import project.aha.parent_panel.ParentMainActivity;
 
-public class Splash extends Activity {
+public class SplashScreen extends Activity {
 
     /** Duration of wait **/
     private final int SPLASH_DISPLAY_LENGTH = 2000;
@@ -34,23 +34,23 @@ public class Splash extends Activity {
             public void run() {
 
                 if(user_id == -1){ // no user is logged in
-                    Intent mainIntent = new Intent(Splash.this,LoginActivity.class);
-                    Splash.this.startActivity(mainIntent);
-                    Splash.this.finish();
+                    Intent mainIntent = new Intent(SplashScreen.this,LoginActivity.class);
+                    SplashScreen.this.startActivity(mainIntent);
+                    SplashScreen.this.finish();
                 } else{
 
                     Intent i = null ;
                     switch(user_type){
                         case Constants.ADMIN_TYPE :
-                            i = new Intent(Splash.this,AdminMainActivity.class);
+                            i = new Intent(SplashScreen.this,AdminMainActivity.class);
                             break;
 
                         case Constants.DOCTOR_TYPE:
-                            i = new Intent(Splash.this,DoctorMainActivity.class);
+                            i = new Intent(SplashScreen.this,DoctorMainActivity.class);
                             break;
 
                         case Constants.PARENT_TYPE:
-                            i = new Intent(Splash.this,ParentMainActivity.class);
+                            i = new Intent(SplashScreen.this,ParentMainActivity.class);
                             break;
                     }
                     startActivity(i);

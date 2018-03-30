@@ -13,7 +13,9 @@
         android:id="@+id/my_exercise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/my_exercises" />
+        android:text="@string/my_exercises"
+        android:drawableStart="@android:drawable/ic_menu_sort_by_size"
+        android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
@@ -23,7 +25,9 @@
         android:id="@+id/create_exercise_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/create_exercise" />
+        android:text="@string/create_exercise"
+        android:drawableStart="@android:drawable/ic_menu_add"
+        android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
@@ -33,7 +37,9 @@
         android:id="@+id/patients_files_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/patients_file_title" />
+        android:text="@string/patients_file_title"
+        android:drawableStart="@drawable/ic_users"
+        android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
@@ -43,7 +49,10 @@
         android:id="@+id/chat_doc_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/chat_doctors" />
+        android:text="@string/chat_doctors"
+        android:drawableStart="@android:drawable/stat_notify_chat"
+
+        android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
@@ -53,5 +62,7 @@
         android:id="@+id/chat_patient_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/contact_patient" />
+        android:drawableStart="@android:drawable/stat_notify_chat"
+        android:text="@string/contact_patient"
+        android:textAlignment="viewStart" />
 </LinearLayout>

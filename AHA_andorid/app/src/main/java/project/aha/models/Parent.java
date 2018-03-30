@@ -2,60 +2,65 @@ package project.aha.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Parent extends User implements Serializable{
 
-    private String childName ;
-    private String childBDate ;
-    private int currentDiagnoseID ;
-    ArrayList<ParentMeta> metas ;
+    private boolean didAdvanceRegistration ;
+    HashMap<String , String> metas ;
 
-    public Parent(int user_id, String user_email, String user_name, String user_password, int user_type, String user_phone,
-                  String childName, String childBDate, int currentDiagnoseID) {
-        super(user_id, user_email, user_name, user_password, user_type, user_phone);
-        this.childName = childName;
-        this.childBDate = childBDate;
-        this.currentDiagnoseID = currentDiagnoseID;
-        metas = new ArrayList<>();
+    public Parent(int user_id, String user_email, String user_name, int user_type, String user_phone,
+                  boolean didAdvanceRegistration) {
+        super(user_id, user_email, user_name, user_type, user_phone);
+        this.didAdvanceRegistration = didAdvanceRegistration;
+        metas = new HashMap<>();
     }
 
     public Parent(int user_id, String user_name, int parentType) {
         super(user_id , user_name , parentType);
     }
 
-
-    public ArrayList<ParentMeta> getMetas() {
-        return metas;
+    public boolean DidAdvanceRegistration() {
+        return didAdvanceRegistration;
     }
 
-    public void setMetas(ArrayList<ParentMeta> metas) {
-        this.metas = metas;
+    public void setDidAdvanceRegistration(boolean didAdvanceRegistration) {
+        this.didAdvanceRegistration = didAdvanceRegistration;
     }
 
-    public void addMeta(String key , String value){
-        metas.add(new ParentMeta(key , value));
-    }
-    public String getChildName() {
-        return childName;
+
+    public String getMeta(String meta_key) {
+        return metas.get(meta_key);
     }
 
-    public void setChildName(String childName) {
-        this.childName = childName;
+    public void addMeta(String meta_key, String meta_value) {
+        metas.put(meta_key,meta_value);
     }
 
-    public String getChildBDate() {
-        return childBDate;
-    }
+    private class ParentMeta {
 
-    public void setChildBDate(String childBDate) {
-        this.childBDate = childBDate;
-    }
+        String meta_key;
+        String meta_value;
 
-    public int getCurrentDiagnoseID() {
-        return currentDiagnoseID;
-    }
+        public ParentMeta(String key  , String value){
+            meta_key = key;
+            meta_value = value;
+        }
 
-    public void setCurrentDiagnoseID(int currentDiagnoseID) {
-        this.currentDiagnoseID = currentDiagnoseID;
+        public String getMeta_key() {
+            return meta_key;
+        }
+
+        public void setMeta_key(String meta_key) {
+            this.meta_key = meta_key;
+        }
+
+        public String getMeta_value() {
+            return meta_value;
+        }
+
+        public void setMeta_value(String meta_value) {
+            this.meta_value = meta_value;
+        }
     }
 }

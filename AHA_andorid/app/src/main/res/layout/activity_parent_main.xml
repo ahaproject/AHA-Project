@@ -6,23 +6,77 @@
     android:orientation="vertical"
     tools:context="project.aha.parent_panel.ParentMainActivity">
 
-
-    <Button
-        android:id="@+id/advance_registration"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/advance_registration"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/what_is_autism"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/what_is_autism"
+                android:drawableStart="@android:drawable/ic_menu_help"
+                android:textAlignment="viewStart" />
 
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="40px" />
-
-    <Button
-        android:id="@+id/cars_exam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cars_exam"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
 
+            <Button
+                android:id="@+id/advance_registration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advance_registration"
+                android:drawableStart="@android:drawable/ic_menu_edit"
+                android:textAlignment="viewStart" />
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/cars_exam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cars_exam"
+                android:drawableStart="@android:drawable/ic_menu_compass"
+                android:textAlignment="viewStart" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/med_hist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medical_history"
+                android:drawableStart="@android:drawable/ic_menu_recent_history"
+                android:textAlignment="viewStart" />
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/exercises_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/exercises_list"
+                android:drawableStart="@drawable/ic_exercises"
+                android:textAlignment="viewStart" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -43,6 +43,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textAlignment="viewStart"
                     android:textColorLink="@android:color/background_dark" />
 
             </android.support.design.widget.TextInputLayout>
@@ -61,6 +62,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textAlignment="viewStart"
                     android:textColorLink="@android:color/background_dark" />
 
             </android.support.design.widget.TextInputLayout>

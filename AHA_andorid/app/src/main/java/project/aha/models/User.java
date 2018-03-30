@@ -5,15 +5,13 @@ public class User {
     private int user_id ;
     private String user_email ;
     private String user_name ;
-    private String user_password ;
     private int user_type ;
     private String user_phone ;
 
-    public User(int user_id, String user_email, String user_name, String user_password, int user_type, String user_phone) {
+    public User(int user_id, String user_email, String user_name, int user_type, String user_phone) {
         this.user_id = user_id;
         this.user_email = user_email;
         this.user_name = user_name;
-        this.user_password = user_password;
         this.user_type = user_type;
         this.user_phone = user_phone;
     }
@@ -48,13 +46,6 @@ public class User {
         this.user_name = user_name;
     }
 
-    public String getUser_password() {
-        return user_password;
-    }
-
-    public void setUser_password(String user_password) {
-        this.user_password = user_password;
-    }
 
     public int getUser_type() {
         return user_type;

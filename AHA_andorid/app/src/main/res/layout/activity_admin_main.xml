@@ -9,7 +9,9 @@ android:orientation="vertical"
         android:id="@+id/add_doctor_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_doctor_title" />
+        android:text="@string/add_doctor_title"
+        android:drawableStart="@android:drawable/ic_menu_add"
+        android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
@@ -19,15 +21,21 @@ android:orientation="vertical"
         android:id="@+id/delete_doctor_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/delete_doctor_title" />
+        android:text="@string/delete_doctor_title"
+        android:drawableStart="@android:drawable/ic_menu_delete"
+
+        android:textAlignment="viewStart" />
     <Space
         android:layout_width="match_parent"
         android:layout_height="40px" />
+
     <Button
         android:id="@+id/delete_parent_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/delete_parent_title" />
+        android:text="@string/delete_parent_title"
+        android:drawableStart="@android:drawable/ic_menu_delete"
+        android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"

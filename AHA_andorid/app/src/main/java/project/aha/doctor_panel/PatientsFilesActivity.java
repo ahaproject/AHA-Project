@@ -11,24 +11,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.*;
 import java.util.HashMap;
 
 import project.aha.Constants;
 import project.aha.DatabasePostConnection;
+import project.aha.ListAdapter;
 import project.aha.R;
 import project.aha.ReceiveResult;
 import project.aha.models.Parent;
@@ -136,12 +133,6 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                 // if there are no records -> show text view with no records text
                 case Constants.NO_RECORDS:{
                     show_no_records();
-                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
-                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
-                    lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    no_records_text.setLayoutParams(lp);
-                    no_records_text.setText(getString(R.string.no_parents_records));
-                    no_records_text.setVisibility(View.VISIBLE);
                     break;
                 }
 

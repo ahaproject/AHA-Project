@@ -93,43 +93,44 @@ public class DatabasePostConnection{
     }
 
 
+    // Fixed
+    static class  RequestQueueSingleton {
+        private static RequestQueueSingleton mInstance;
+        private RequestQueue mRequestQueue;
+        private Context mCtx;
+        private int MY_SOCKET_TIMEOUT_MS = 15000;
+
+        private RequestQueueSingleton(Context context) {
+            mCtx = context;
+            mRequestQueue = getRequestQueue();
+        }
+
+        public static synchronized RequestQueueSingleton getInstance(Context context) {
+            if (mInstance == null) {
+                mInstance = new RequestQueueSingleton(context);
+            }
+            return mInstance;
+        }
+
+        public RequestQueue getRequestQueue() {
+            if (mRequestQueue == null) {
+                mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+            }
+            return mRequestQueue;
+        }
+
+        public <T> void addToRequestQueue(Request<T> req) {
+            req.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            getRequestQueue().add(req);
+        }
+    }
 
 }
 
 
 
 
-// Fixed
-class RequestQueueSingleton {
-    private static RequestQueueSingleton mInstance;
-    private RequestQueue mRequestQueue;
-    private Context mCtx;
-    private int MY_SOCKET_TIMEOUT_MS = 15000;
 
-    private RequestQueueSingleton(Context context) {
-        mCtx = context;
-        mRequestQueue = getRequestQueue();
-    }
-
-    public static synchronized RequestQueueSingleton getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new RequestQueueSingleton(context);
-        }
-        return mInstance;
-    }
-
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
-        }
-        return mRequestQueue;
-    }
-
-    public <T> void addToRequestQueue(Request<T> req) {
-        req.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        getRequestQueue().add(req);
-    }
-}

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import project.aha.Constants;
+import project.aha.ExercisesList;
 import project.aha.R;
 
 public class DoctorMainActivity extends AppCompatActivity {
@@ -44,7 +45,9 @@ public class DoctorMainActivity extends AppCompatActivity {
         my_exercises.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DoctorMainActivity.this , DoctorExercises.class));
+                Intent i = new Intent(DoctorMainActivity.this , ExercisesList.class);
+                i.putExtra(Constants.DOCTOR_ID_META , Constants.get_current_user_id(DoctorMainActivity.this));
+                startActivity(i);
             }
         });
     }

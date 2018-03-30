@@ -206,8 +206,26 @@
     <string name="advance_registration">Advance registration</string>
     <string name="save">Save</string>
     <string name="dashboard">Dashboard</string>
-    <string name="no_child_live_with_parent_reason">Why does the parents liveing with each other ?</string>
+    <string name="no_child_live_with_parent_reason">Why does not the parents living with each other ?</string>
     <string name="saved_success">Saved Successfully</string>
     <string name="cars_exam">CARS Exam</string>
     <string name="finish">Finish</string>
+    <string name="date">Date</string>
+    <string name="diagnose">Diagnose</string>
+    <string name="answer_all_exam_questions">Please answer all questions first !</string>
+    <string name="cars_result_title">Exam Result</string>
+    <string name="severe_autism">Severe autism</string>
+    <string name="intermediate_autism">Intermediate Autism</string>
+    <string name="simple_autism">Simple Autism</string>
+    <string name="autism_spectrum">Autism Spectrum</string>
+    <string name="go_see_exercises">Go to exercises page !</string>
+    <string name="scf_save_result">You can review your answers in the Medical History</string>
+    <string name="normal_kid">Congratulations , Your child is normal.</string>
+    <string name="medical_history">Medical History</string>
+    <string name="score">Score</string>
+    <string name="must_did_adv_reg">You must do the advance registration first !</string>
+    <string name="what_is_autism">What is Autism ?</string>
+    <string name="autism_symptoms">Symptoms of Autism</string>
+    <string name="exercises_list">Exercises</string>
+    <string name="watch_video">Click here to watch the video</string>
 </resources>

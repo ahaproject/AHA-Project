@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="bg_login">#26ae90</color>
-    <color name="bg_register">#000000</color>
-    <color name="bg_main">#428bca</color>
-    <color name="white">#ffffff</color>
-    <color name="input_login">#222222</color>
-
-
-
-
-    <color name="input_login_hint">#999999</color>
-    <color name="input_register_hint">#5e6266</color>
-    <color name="btn_login">#26ae90</color>
-
-
-
-    <color name="btn_login_bg">#eceef1</color>
-    <color name="lbl_name">#333333</color>
-    <color name="btn_logut_bg">#ff6861</color>
-    <color name="action_bar">#1f2649</color>
+    <color name="aha_basic">#5d70db</color>
+    <color name="aha_black">#000000</color>
+    <color name="aha_bg">#ebe8e9</color>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
+    <color name="light_grey">#dcdada</color>
+
 </resources>

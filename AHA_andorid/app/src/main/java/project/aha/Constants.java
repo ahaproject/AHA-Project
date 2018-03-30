@@ -10,12 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Spinner;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import project.aha.admin_panel.AdminMainActivity;
 import project.aha.doctor_panel.DoctorMainActivity;
 import project.aha.models.Diagnose;
+import project.aha.models.Parent;
 import project.aha.models.User;
 import project.aha.parent_panel.ParentMainActivity;
 
@@ -25,9 +29,9 @@ public class Constants { // class of constants variables
     /*List of all specialized */
     public static final ArrayList<Diagnose> diagnoses = new ArrayList<Diagnose>() {{
         add(new Diagnose(0, "Speaking"));
-        add(new Diagnose(1, "Speacking"));
-        add(new Diagnose(2, "Speacking"));
-        add(new Diagnose(3, "Speacking"));
+        add(new Diagnose(1, "Speaking"));
+        add(new Diagnose(2, "Speaking"));
+        add(new Diagnose(3, "Speaking"));
     }};
     // ###########################################################################################
     // ###########################################################################################
@@ -55,6 +59,9 @@ public class Constants { // class of constants variables
     public static final int SELECT_SINGLE_EXERCISE = 11;
     public static final int COMPLETE_REGISTRATION = 12;
     public static final int CARS_EXAM = 13 ;
+    public static final int SAVE_CARS_RESULTS = 14;
+    public static final int LIST_MEDICAL_HISTORIES = 15 ;
+    public static final int SELECT_TEST_HISTORY = 16;
 
 
     // ###########################################################################################
@@ -80,6 +87,8 @@ public class Constants { // class of constants variables
     public static final String ERR_DELETE_DOCTOR = "ERR_DELETE_DOCTOR";
     public static final String ERR_DELETE_PARENT = "ERR_DELETE_PARENT";
     public static final String ERR_CREATE_EXEC = "ERR_CREATE_EXEC";
+    public static final String ERR_SAVE_EXAM_RESULT = "ERR_SAVE_EXAM_RESULT";
+
 
     // ###########################################################################################
     // ###########################################################################################
@@ -93,6 +102,7 @@ public class Constants { // class of constants variables
     public static final String SCF_DELETE_PARENT = "SCF_DELETE_PARENT";
     public static final String SCF_CREATE_EXEC = "SCF_CREATE_EXEC";
     public static final String SCF_COMPLETE_REGITER = "SCF_COMPLETE_REGITER";
+    public static final String SCF_SAVE_EXAM_RESULT = "SCF_SAVE_EXAM_RESULT";
 
     // ###########################################################################################
     // ###########################################################################################
@@ -113,7 +123,9 @@ public class Constants { // class of constants variables
 
     /* List of parent table meta */
     public static final String PARENT_TABLE = "Parent";
-    public static final String PARENT_FILE_NUMBER = "parent_file_number";
+    public static final String PARENT_ID_META = "parent_id";
+    public static final String PAREN_DID_ADVANCED_REGISTRATION = "did_adv_register";
+
     // ###########################################################################################
     // ###########################################################################################
     // ###########################################################################################
@@ -149,15 +161,25 @@ public class Constants { // class of constants variables
 
     /* List of picture table meta */
     public static final String VIDEO_TABLE = "Video";
-    public static final String VIDEO__ID_META = "vid_id";
-    public static final String VIDEO__PATH = "vid_path";
+    public static final String VIDEO_ID_META = "vid_id";
+    public static final String VIDEO_PATH = "vid_path";
 
     // ###########################################################################################
     // ###########################################################################################
     // ###########################################################################################
+        /* List of medical history table meta */
+    public static final String MEDICAL_HISTORY_ID_META = "med_id";
+    public static final String MEDICAL_HISTORY_SCORE_META = "score";
+    public static final String MEDICAL_HISTORY_DATE_META = "date";
+    // ###########################################################################################
+    // ###########################################################################################
+    // ###########################################################################################
+            /* List of test history table meta */
+    public static final String TEST_HISTORY = "";
 
-
-
+    // ###########################################################################################
+    // ###########################################################################################
+    // ###########################################################################################
     public static final String CODE = "code";
     public static final String RESULT = "result";
 
@@ -167,8 +189,11 @@ public class Constants { // class of constants variables
     public static final String PREF_FILE_NAME = "aha_pref_file";
     public static final String PREF_USER_LOGGED_ID = "user_id";
     public static final String PREF_USER_LOGGED_TYPE = "user_type";
+    private static final String PREF_USER_LOGGED_OBJECT = "user_object";
     public static final String DATABASE_URL = "https://ahaproject.000webhostapp.com/";
     public static final String DATA = "data";
+    public static final String CARS_RESULTS = "CARS_results";
+    public static final String WHAT_IS_AUTISM_URL = DATABASE_URL+"/symptoms.html";
     // ###########################################################################################
     // ###########################################################################################
 
@@ -198,6 +223,12 @@ public class Constants { // class of constants variables
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(Constants.PREF_USER_LOGGED_ID, user.getUser_id());
         editor.putInt(Constants.PREF_USER_LOGGED_TYPE, user.getUser_type());
+
+        Gson gson = new Gson();
+        String user_json = gson.toJson(user);
+        editor.putString(Constants.PREF_USER_LOGGED_OBJECT, user_json);
+
+
         editor.commit(); /// to save
 
 
@@ -266,5 +297,45 @@ public class Constants { // class of constants variables
         actionBar.setLogo(R.mipmap.ic_launcher_round);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+    }
+
+    public static User get_user_object(Activity activity){
+         /*
+
+        to retrive
+        */
+        Gson gson = new Gson();
+        SharedPreferences prefs = activity.getSharedPreferences(Constants.PREF_FILE_NAME, activity.MODE_PRIVATE);
+
+        String json = prefs.getString(Constants.PREF_USER_LOGGED_OBJECT, "");
+
+        int type = get_current_user_type(activity);
+        if(type  == Constants.PARENT_TYPE){
+            return gson.fromJson(json, Parent.class);
+        }
+
+
+        User user = gson.fromJson(json, User.class);
+        return user;
+
+    }
+
+
+    public static String getCARSResult(Activity activity , double sum) {
+
+        if (sum < 26) {
+            return activity.getString(R.string.normal_kid);
+        }
+        else if (sum >= 26 && sum <= 29) {
+            return activity.getString(R.string.autism_spectrum);
+        } else if (sum >= 30 && sum <= 33) {
+            return activity.getString(R.string.simple_autism);
+        } else if (sum >= 34 && sum <= 36) {
+            return activity.getString(R.string.intermediate_autism);
+        } else if (sum >= 37) {
+            return activity.getString(R.string.severe_autism);
+        }
+
+        return "";
     }
 }

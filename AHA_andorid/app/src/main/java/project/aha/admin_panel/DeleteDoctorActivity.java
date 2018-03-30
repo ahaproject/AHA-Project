@@ -1,7 +1,6 @@
 package project.aha.admin_panel;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.widget.RelativeLayout.LayoutParams;
 
 import android.support.v7.app.AlertDialog;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,11 +24,8 @@ import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.R;
 import project.aha.ReceiveResult;
-import project.aha.doctor_panel.ListAdapter;
-import project.aha.doctor_panel.PatientsFilesActivity;
+import project.aha.ListAdapter;
 import project.aha.models.Doctor;
-import project.aha.models.Parent;
-import project.aha.parent_panel.ParentSingleView;
 
 public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveResult{
 
@@ -151,7 +146,7 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
                     String user_phone = (String) jsonObject.get(Constants.USER_PHONE_META);
                     String user_name = (String) jsonObject.get(Constants.USER_NAME_META);
                     String specialized = (String) jsonObject.get(Constants.DOCTOR_SPECILIZED_META);
-                    doctors_objects.add(new Doctor(user_id, user_email, user_name, "", Constants.DOCTOR_TYPE, user_phone , specialized));
+                    doctors_objects.add(new Doctor(user_id, user_email, user_name, Constants.DOCTOR_TYPE, user_phone , specialized));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

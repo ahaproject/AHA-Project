@@ -27,11 +27,13 @@
         tools:layout_editor_absoluteY="1dp" />
 
 
-        <ListView
-            android:id="@+id/doctors_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/choose_doctor_title" />
+    <ListView
+        android:id="@+id/doctors_list"
+        android:layout_width="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/choose_doctor_title" />
 
 
 </RelativeLayout>

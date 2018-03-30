@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="project.aha.parent_panel.ResultCARS">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cars_result_title"
+                android:textAlignment="center"
+                android:textColor="@color/aha_basic"
+                android:textSize="24sp"
+                android:typeface="serif" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="100px" />
+
+            <TextView
+                android:id="@+id/show_cars_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/aha_black"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="100px" />
+
+            <Button
+                android:id="@+id/go_exercises"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/go_see_exercises" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50px" />
+
+            <TextView
+                android:id="@+id/scf_save_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
