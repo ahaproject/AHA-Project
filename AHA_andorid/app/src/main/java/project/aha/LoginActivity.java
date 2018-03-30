@@ -46,7 +46,8 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
         signUpBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,SignUpActivity.class));
+//                startActivity(new Intent(LoginActivity.this,SigninActivity.class));
+                startActivity(new Intent(LoginActivity.this,SigninActivity.class));
                 finish();
             }
         });

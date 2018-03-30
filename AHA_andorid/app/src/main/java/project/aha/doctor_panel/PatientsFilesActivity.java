@@ -1,7 +1,10 @@
 package project.aha.doctor_panel;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.HashMap;
 
 import project.aha.Constants;
@@ -27,16 +31,20 @@ import project.aha.DatabasePostConnection;
 import project.aha.R;
 import project.aha.ReceiveResult;
 import project.aha.models.Parent;
+import project.aha.parent_panel.ParentSingleView;
 
 public class PatientsFilesActivity extends AppCompatActivity implements ReceiveResult{
 
     private ListView patients_listview;
-    private TextView name ;
-    private TextView phone ;
-    private TextView file_num ;
+    private EditText file_num ;
 
-    private ArrayList<Parent> patientsObjects;
-    private ArrayList<String> patientsNames;
+
+    private ListAdapter listAdapter;
+
+    // Search EditText
+
+    private List<Parent> patientsObjects;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +52,33 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
 
 
         patients_listview = (ListView) findViewById(R.id.patients_listview);
-        name = (TextView)findViewById(R.id.name);
-        phone = (TextView)findViewById(R.id.phone);
-        file_num = (TextView)findViewById(R.id.file_num);
-        patientsObjects = new ArrayList<>();
-        patientsNames = new ArrayList<>();
+        file_num = (EditText)findViewById(R.id.search_file);
 
+
+        patientsObjects = new ArrayList<>();
+
+
+
+//        final String file_number = file_num.getText().toString();
+        file_num.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                PatientsFilesActivity.this.listAdapter.filter(cs.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+
+
+            }
+        });
 
         refresh();
     }
@@ -132,6 +161,8 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
 
     private void fill_listView_with_parents(JSONObject output) {
         try{
+            patients_listview.setAdapter(null);
+            patientsObjects.clear();
 
             // convert from JSON Array to ArrayList
 
@@ -148,22 +179,11 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                     e.printStackTrace();
                 }
             }
-
-            // ********************************************************************************************
-            // add only parents names and specialize to the list view
-            for (Parent single_parent : patientsObjects ) {
-                String content;
-                if(single_parent.getFileNumber().equalsIgnoreCase("0")){
-                    content = single_parent.getUser_name()+" [ No File Number ]";
-                } else{
-                    content = single_parent.getUser_name()+" [ "+getString(R.string.file_number)+" : "+single_parent.getFileNumber()+" ]";
-                }
-                patientsNames.add(content);
-            }
             // ********************************************************************************************
 
             // Create ArrayAdapter which adapt array list to list view.
-            final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, R.layout.user_single_view, patientsNames);
+            listAdapter = new ListAdapter(PatientsFilesActivity.this, patientsObjects);
+//            listAdapter.
             patients_listview.setAdapter(listAdapter);
 
             // add action when the admin clicks on parent record in the listview
@@ -171,12 +191,10 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
-
                     Parent p = patientsObjects.get(position);
-                    name.setText(p.getChildName());
-                    phone.setText(p.getUser_phone());
-                    file_num.setText(p.getFileNumber());
-
+                    Intent intent = new Intent(PatientsFilesActivity.this, ParentSingleView.class);
+                    intent.putExtra("parent", p);
+                    startActivity(intent);
                 }
             });
 

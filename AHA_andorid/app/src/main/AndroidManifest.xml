@@ -3,6 +3,9 @@
     package="project.aha">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,14 +28,20 @@
         </activity>
         <activity
             android:name=".doctor_panel.DoctorMainActivity"
-            android:label="@string/title_activity_doctor_main"/>
+            android:label="@string/title_activity_doctor_main" />
         <activity android:name=".admin_panel.AdminMainActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".admin_panel.AddDoctorActivity" />
         <activity android:name=".admin_panel.DeleteDoctorActivity" />
         <activity android:name=".admin_panel.DeleteParentActivity" />
         <activity android:name=".doctor_panel.PatientsFilesActivity" />
-        <activity android:name=".parent_panel.ParentMainActivity"></activity>
+        <activity android:name=".parent_panel.ParentMainActivity" />
+        <activity
+            android:name=".SigninActivity"
+            android:label="@string/title_activity_signin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".parent_panel.ParentSingleView" />
+        <activity android:name=".doctor_panel.CreateExercise"></activity>
     </application>
 
 </manifest>

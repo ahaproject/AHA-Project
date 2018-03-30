@@ -140,11 +140,8 @@ public class DeleteParentActivity extends AppCompatActivity implements ReceiveRe
             // add only parents names and specialize to the list view
             for (Parent single_parent : parents_objects ) {
                 String content;
-                if(single_parent.getFileNumber().equalsIgnoreCase("0")){
-                    content = single_parent.getUser_name()+" [ No File Number ]";
-                } else{
-                    content = single_parent.getUser_name()+" [ "+getString(R.string.file_number)+" : "+single_parent.getFileNumber()+" ]";
-                }
+                content = single_parent.getUser_name()+" [ "+getString(R.string.file_number)+" : "+single_parent.getUser_id()+" ]";
+
                 parents_names.add(content);
             }
             // ********************************************************************************************

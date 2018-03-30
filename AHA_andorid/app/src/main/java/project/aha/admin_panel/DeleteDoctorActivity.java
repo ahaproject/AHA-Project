@@ -129,7 +129,7 @@ public class DeleteDoctorActivity extends AppCompatActivity implements ReceiveRe
                     JSONObject jsonObject = doctorsJSONArray.getJSONObject(i);
 
 
-                    int user_id = Integer.parseInt((String) jsonObject.get("user_id"));
+                    int user_id = Integer.parseInt((String) jsonObject.get(Constants.USER_ID_META));
                     String user_email = (String) jsonObject.get(Constants.USER_EMAIL_META);
                     String user_phone = (String) jsonObject.get(Constants.USER_PHONE_META);
                     String user_name = (String) jsonObject.get(Constants.USER_NAME_META);

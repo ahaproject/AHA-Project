@@ -15,6 +15,7 @@ import project.aha.R;
 public class DoctorMainActivity extends AppCompatActivity {
 
     private Button patients_files_btn;
+    private Button create_exercise;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,15 @@ public class DoctorMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DoctorMainActivity.this , PatientsFilesActivity.class));
+            }
+        });
+
+
+        create_exercise = (Button) findViewById(R.id.create_exercise_btn);
+        create_exercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DoctorMainActivity.this , CreateExercise.class));
             }
         });
     }

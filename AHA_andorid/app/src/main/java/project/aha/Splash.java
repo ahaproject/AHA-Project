@@ -38,6 +38,7 @@ public class Splash extends Activity {
                     Splash.this.startActivity(mainIntent);
                     Splash.this.finish();
                 } else{
+
                     Intent i = null ;
                     switch(user_type){
                         case Constants.ADMIN_TYPE :

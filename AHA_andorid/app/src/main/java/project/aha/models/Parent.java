@@ -1,11 +1,15 @@
 package project.aha.models;
 
-public class Parent extends User {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Parent extends User implements Serializable{
 
     private String childName ;
     private String childBDate ;
     private int currentDiagnoseID ;
-    private String fileNumber ;
+
+    ArrayList<ParentMeta> metas ;
 
     public Parent(int user_id, String user_email, String user_name, String user_password, int user_type, String user_phone,
                   String childName, String childBDate, int currentDiagnoseID, String fileNumber) {
@@ -13,14 +17,16 @@ public class Parent extends User {
         this.childName = childName;
         this.childBDate = childBDate;
         this.currentDiagnoseID = currentDiagnoseID;
-        this.fileNumber = fileNumber;
+        metas = new ArrayList<>();
     }
 
     public Parent(int user_id, String user_name, int parentType, String fileNumber) {
         super(user_id , user_name , parentType);
-        this.fileNumber = fileNumber;
     }
 
+    public void addMeta(String key , String value){
+        metas.add(new ParentMeta(key , value));
+    }
     public String getChildName() {
         return childName;
     }
@@ -43,13 +49,5 @@ public class Parent extends User {
 
     public void setCurrentDiagnoseID(int currentDiagnoseID) {
         this.currentDiagnoseID = currentDiagnoseID;
-    }
-
-    public String getFileNumber() {
-        return fileNumber;
-    }
-
-    public void setFileNumber(String fileNumber) {
-        this.fileNumber = fileNumber;
     }
 }

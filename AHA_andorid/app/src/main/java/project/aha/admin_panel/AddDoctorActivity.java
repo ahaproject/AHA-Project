@@ -44,23 +44,7 @@ public class AddDoctorActivity extends AppCompatActivity implements ReceiveResul
 
         // get the dropdown of specializes
         specializes_dropdown_list = (Spinner)findViewById(R.id.specialized);
-        // fill it with specializes
-        addDataToDropdownList();
-
-
-        // add action when the admin clicks on add doctor
-        Button formAddDoctorBtn = (Button) findViewById(R.id.form_add_doctor_btn);
-        formAddDoctorBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                add_new_doctor();
-            }
-        });
-    }
-
-    private void addDataToDropdownList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.SPECIALIZES_ARRAY);
-        specializes_dropdown_list.setAdapter(adapter);
+        Constants.add_to_spinner(this,specializes_dropdown_list);
         specializes_dropdown_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -73,6 +57,15 @@ public class AddDoctorActivity extends AppCompatActivity implements ReceiveResul
             }
         });
 
+
+        // add action when the admin clicks on add doctor
+        Button formAddDoctorBtn = (Button) findViewById(R.id.form_add_doctor_btn);
+        formAddDoctorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                add_new_doctor();
+            }
+        });
     }
 
     public void add_new_doctor(){
