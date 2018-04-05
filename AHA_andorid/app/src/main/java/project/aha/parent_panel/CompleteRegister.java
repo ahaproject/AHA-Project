@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -30,7 +31,8 @@ import java.util.Locale;
 import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.R;
-import project.aha.ReceiveResult;
+import project.aha.interfaces.ReceiveResult;
+import project.aha.models.Parent;
 
 public class CompleteRegister extends AppCompatActivity implements ReceiveResult {
 
@@ -38,8 +40,9 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
     // date of registration
 
     private Calendar calender;
-    private EditText childBirthDate;
+    private TextView childBirthDate;
     private Button saveBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,35 +50,50 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         setContentView(R.layout.complete_registration);
         Constants.showLogo(this);
 
+        Parent parent = (Parent) Constants.get_user_object(this);
+        HashMap<String, String> parentData = parent.getMetas();
 
+        fillData(parentData);
         // calender picker
 
-        calender = Calendar.getInstance();
+        if (Build.VERSION.SDK_INT >= 24) {
+            calender = Calendar.getInstance();
 
-        childBirthDate = (EditText) findViewById(R.id.child_bdate);
-        childBirthDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(CompleteRegister.this,
-                        new OnDateSetListener() {
+            childBirthDate = (TextView) findViewById(R.id.child_bdate);
+            childBirthDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Build.VERSION.SDK_INT >= 24) {
 
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                                  int dayOfMonth) {
-                                calender.set(Calendar.YEAR, year);
-                                calender.set(Calendar.MONTH, monthOfYear);
-                                calender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                updateLabel();
-                            }
+                        new DatePickerDialog(CompleteRegister.this,
+                                new OnDateSetListener() {
 
-                        },
-                        calender.get(Calendar.YEAR),
-                        calender.get(Calendar.MONTH),
-                        calender.get(Calendar.DAY_OF_MONTH)
-                ).show();
-            }
-        });
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                                          int dayOfMonth) {
+                                        if (Build.VERSION.SDK_INT >= 24) {
+                                            calender.set(Calendar.YEAR, year);
+                                            calender.set(Calendar.MONTH, monthOfYear);
+                                            calender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                            updateLabel();
+                                        }
+                                    }
 
+                                },
+
+                                calender.get(Calendar.YEAR),
+                                calender.get(Calendar.MONTH),
+                                calender.get(Calendar.DAY_OF_MONTH)
+                        ).show();
+                    }
+                }
+            });
+
+        }else{
+            EditText et = (EditText)findViewById(R.id.child_bdate);
+            et.setFocusableInTouchMode(true);
+            et.setFocusable(true);
+        }
 
         // save btn
         saveBtn = (Button) findViewById(R.id.save_complete_registr);
@@ -87,6 +105,93 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         });
 
     }
+
+    private void fillData(HashMap<String, String> parentData) {
+        LinearLayout form = (LinearLayout) findViewById(R.id.complete_registration_form);
+        int count = form.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View o = form.getChildAt(i);
+
+            // deal with radio buttons
+            if (o instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) o;
+                String value = parentData.get(Constants.getHashMapKey(this,checkBox));
+
+                if (value != null && value.equalsIgnoreCase("yes")) {
+                    checkBox.setChecked(true);
+                }
+            }
+
+
+            // deal with edit texts
+            else if (o instanceof TextInputLayout) {
+                TextInputLayout til = (TextInputLayout) o;
+                FrameLayout fl = (FrameLayout) til.getChildAt(0);
+                EditText et = (EditText) fl.getChildAt(0);
+                String value = parentData.get(Constants.getHashMapKey(this,et));
+                if (value != null && value.length() > 0) {
+                    et.setText(value);
+                }
+            }
+
+            // deal with edit texts
+            else if (o instanceof EditText) {
+                EditText et = (EditText) o;
+                String value = parentData.get(Constants.getHashMapKey(this,et));
+                if (value != null && value.length() > 0) {
+                    et.setText(value);
+                }
+            }
+
+            // deal with edit texts
+            else if (o instanceof TextView) {
+                TextView tv = (TextView) o;
+                String value = parentData.get(Constants.getHashMapKey(this,tv));
+                if (value != null && value.length() > 0) {
+                    tv.setText(value);
+                }
+            }
+
+            // deal with radio buttons
+            else if (o instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) o;
+                String value = parentData.get(Constants.getHashMapKey(this,checkBox));
+
+                if (value != null && value.equalsIgnoreCase("yes")) {
+                    checkBox.setChecked(true);
+                }
+            }
+
+
+            // deal with radio buttons
+            else if (o instanceof LinearLayout) {
+                LinearLayout lin = (LinearLayout) o;
+                int linCount = lin.getChildCount();
+                for (int j = 0; j < linCount; j++) {
+                    o = lin.getChildAt(j);
+                    if (o instanceof RadioGroup) {
+                        TextView tv = (TextView) lin.getChildAt(j - 1);
+                        RadioGroup rg = (RadioGroup) o;
+                        if (rg.getId() == R.id.parents_chronic_disease) {
+                            Log.d("", "uuu");
+                        }
+                        int rgCount = rg.getChildCount();
+                        for (int z = 0; z < rgCount; z++) {
+                            RadioButton rb = (RadioButton) rg.getChildAt(z);
+                            String selection = getResources().getResourceEntryName(rb.getId());
+                            String value = parentData.get(Constants.getHashMapKey(this,rg));
+                            if (value != null && value.equalsIgnoreCase(selection)) {
+                                rb.setChecked(true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
 
     private void saveData() {
 
@@ -104,31 +209,38 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                 TextInputLayout til = (TextInputLayout) o;
                 FrameLayout fl = (FrameLayout) til.getChildAt(0);
                 EditText et = (EditText) fl.getChildAt(0);
-                String text = et.getText().toString();
-                if (text != null && text.length() > 0) {
-                    data.put(til.getHint().toString(), text);
-                }
+                String text = et.getText().toString().trim();
+//                if (text != null && text.length() > 0) {
+                String key = Constants.getHashMapKey(this,et);
+                if(key == null) continue;
+
+                data.put(key, text);
+
+
             }
 
             // deal with edit texts
             if (o instanceof EditText) {
                 EditText et = (EditText) o;
-                String text = et.getText().toString();
-                if (text != null && text.length() > 0) {
-                    data.put(et.getHint().toString(), text);
-                }
+                String text = et.getText().toString().trim();
+//                if (text != null && text.length() > 0) {
+                String key = Constants.getHashMapKey(this,et);
+                if(key == null) continue;
+                data.put(key, text);
+//                }
             }
 
             // deal with radio buttons
             if (o instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) o;
-                if(checkBox.isChecked()){
-                    data.put(checkBox.getText().toString() , "yes");
+                String key = Constants.getHashMapKey(this,checkBox);
+                if(key == null) continue;
+                if (checkBox.isChecked()) {
+                    data.put(key, "yes");
                 } else{
-                    data.put(checkBox.getText().toString() , "no");
+                    data.put(key, "no");
                 }
             }
-
 
 
             // deal with radio buttons
@@ -145,8 +257,10 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                             View radioButton = rg.findViewById(choice);
                             int radioId = rg.indexOfChild(radioButton);
                             RadioButton btn = (RadioButton) rg.getChildAt(radioId);
-                            String selection = (String) btn.getText();
-                            data.put(tv.getText().toString(), selection);// hashmap
+                            String selection = getResources().getResourceEntryName(btn.getId());
+                            String key = Constants.getHashMapKey(this,rg);
+                            if(key == null) continue;
+                            data.put(key, selection);// hashmap
                         }
                     }
                 }
@@ -154,26 +268,34 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         }
 
         DatabasePostConnection con = new DatabasePostConnection(this);
-        data.put(Constants.CODE , Constants.COMPLETE_REGISTRATION+"");
-        data.put(Constants.USER_ID_META , Constants.get_current_user_id(this)+"");
-        con.postRequest(data , Constants.DATABASE_URL);
+
+        // save child bdate
+        data.put(Constants.getHashMapKey(this,findViewById(R.id.child_bdate)), ((TextView) findViewById(R.id.child_bdate)).getText().toString());
+        data.put(Constants.CODE, Constants.COMPLETE_REGISTRATION + "");
+        data.put(Constants.USER_ID_META, Constants.get_current_user_id(this) + "");
+
+        data.remove("null");
+        con.postRequest(data, Constants.DATABASE_URL);
     }
 
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        if (Build.VERSION.SDK_INT >= 24) {
 
-        childBirthDate.setText(sdf.format(calender.getTime()));
+            String myFormat = "MM/dd/yy"; //In which you need put here
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+            childBirthDate.setText(sdf.format(calender.getTime()));
+        }
     }
 
 
     @Override
     public void onReceiveResult(String resultJson) {
 
-        Log.d("RESULT JSON" , resultJson);
+        Log.d("RESULT JSON", resultJson);
 
-        if(resultJson == null || resultJson.length() < 1){
-            Log.d("RESULT JSON" , "NULL RESULT");
+        if (resultJson == null || resultJson.length() < 1) {
+            Log.d("RESULT JSON", "NULL RESULT");
             return;
         }
         try {
@@ -183,12 +305,14 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
             switch (result) {
                 case Constants.SCF_COMPLETE_REGITER: {
                     Toast.makeText(this, getString(R.string.saved_success), Toast.LENGTH_LONG).show();
+                    Parent p = (Parent) Constants.updateUser(this, output);
+                    break;
                 }
 
-                default:{
-                    Log.d("error in update " ,result);
+                default: {
+                    Log.d("error in update ", result);
                     Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-
+                    break;
                 }
             }
         } catch (JSONException e) {

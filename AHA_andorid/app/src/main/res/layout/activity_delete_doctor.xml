@@ -5,7 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="project.aha.admin_panel.DeleteDoctorActivity">
+    tools:context="project.aha.admin_panel.ListDoctorsActivity">
+    <TextView
+        android:id="@+id/no_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/no_records"
+        android:textSize="18sp" />
+
 
     <TextView
         android:id="@+id/choose_doctor_title"
@@ -13,27 +22,20 @@
         android:layout_height="wrap_content"
         android:text="@string/choose_doctor"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="-7dp"
-        tools:layout_editor_absoluteY="1dp" />
-
-    <TextView
-        android:id="@+id/no_records"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_doctors_records"
         android:visibility="gone"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="-7dp"
-        tools:layout_editor_absoluteY="1dp" />
+        />
+
+
 
 
     <ListView
         android:id="@+id/doctors_list"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
         android:layout_height="match_parent"
-        android:layout_below="@+id/choose_doctor_title" />
+        android:layout_below="@+id/choose_doctor_title"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" />
 
 
 </RelativeLayout>

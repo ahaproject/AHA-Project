@@ -75,24 +75,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="40px" />
 
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="150px">-->
 
-                <EditText
-                    android:id="@+id/phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_phone"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColorLink="@android:color/background_dark" />
+            <net.rimoto.intlphoneinput.IntlPhoneInput
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/phone" />
 
-            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <!--&lt;!&ndash;<android.support.design.widget.TextInputLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="150px">&ndash;&gt;-->
+
+                <!--<EditText-->
+                    <!--android:id="@+id/phone"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="@string/hint_phone"-->
+                    <!--android:imeActionId="@+id/login"-->
+                    <!--android:imeActionLabel="@string/action_sign_in_short"-->
+                    <!--android:imeOptions="actionUnspecified"-->
+                    <!--android:inputType="phone"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:textColorLink="@android:color/background_dark" />-->
+
+            <!--&lt;!&ndash;</android.support.design.widget.TextInputLayout>&ndash;&gt;-->
 
             <Space
                 android:layout_width="match_parent"

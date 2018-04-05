@@ -1,38 +1,28 @@
 package project.aha.parent_panel;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.R;
-import project.aha.ReceiveResult;
+import project.aha.interfaces.ReceiveResult;
 import project.aha.models.CARS_Answer;
 import project.aha.models.CARS_Question;
-import project.aha.models.Doctor;
 
 public class CARS_Exam extends AppCompatActivity implements ReceiveResult {
 
@@ -47,6 +37,7 @@ public class CARS_Exam extends AppCompatActivity implements ReceiveResult {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cars_exam);
 
+        Constants.showLogo(this);
 
 
 

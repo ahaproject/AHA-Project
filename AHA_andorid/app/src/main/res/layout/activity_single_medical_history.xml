@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="project.aha.parent_panel.SingleMedicalHistory">
+    tools:context="project.aha.SingleMedicalHistory">
 
     <TextView
         android:id="@+id/date"
@@ -32,11 +32,10 @@
         android:textSize="16sp" />
 
     <View
-        android:layout_width="383dp"
+        android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_margin="10dp"
-        android:background="@android:color/darker_gray"
-        android:textAlignment="center" />
+        android:background="@android:color/darker_gray" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

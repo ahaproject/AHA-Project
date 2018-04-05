@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import project.aha.Constants;
+import project.aha.MedicalHistoryList;
 import project.aha.R;
 import project.aha.ExercisesList;
+import project.aha.admin_panel.ListDoctorsActivity;
 import project.aha.models.Parent;
 
 public class ParentMainActivity extends AppCompatActivity {
@@ -23,11 +25,14 @@ public class ParentMainActivity extends AppCompatActivity {
     private Button med_hist;
     private Button what_is_autism;
     private Button exercises;
+    private Button chat;
+    private Button help_section;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_main);
         Constants.showLogo(this);
+
 
         final Parent p  = (Parent) Constants.get_user_object(this);
         final String must_did_adv_reg = getString(R.string.must_did_adv_reg);
@@ -68,7 +73,10 @@ public class ParentMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(p.DidAdvanceRegistration()){
-                    startActivity(new Intent(ParentMainActivity.this, MedicalHistoryList.class));
+                    Intent i = new Intent(ParentMainActivity.this , MedicalHistoryList.class);
+                    i.putExtra(Constants.PARENT_ID_META , p.getUser_id());
+                    startActivity(i);
+
                 } else{
                     Toast.makeText(ParentMainActivity.this, must_did_adv_reg, Toast.LENGTH_SHORT).show();
                 }
@@ -83,6 +91,27 @@ public class ParentMainActivity extends AppCompatActivity {
             }
         });
 
+
+        chat = (Button) findViewById(R.id.chat_btn);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ParentMainActivity.this , ListDoctorsActivity.class);
+                i.putExtra(Constants.LIST_DOCTORS_ACTIVTY_CHOICE , "chat");
+                startActivity(i);
+            }
+        });
+
+
+        help_section = (Button) findViewById(R.id.help_btn);
+        help_section.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ParentMainActivity.this , HelpSection.class);
+                startActivity(i);
+            }
+        });
+
     }
 
 
@@ -90,19 +119,14 @@ public class ParentMainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_button, menu);
+        inflater.inflate(R.menu.menu_bar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.logout:
-                Constants.logout(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
+
     }
 }

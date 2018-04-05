@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="project.aha.admin_panel.DeleteDoctorActivity">
+    tools:context="project.aha.admin_panel.ListDoctorsActivity">
 
 
     <Button
@@ -14,41 +14,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/my_exercises"
+        style="@style/MenuButton"
         android:drawableStart="@android:drawable/ic_menu_sort_by_size"
         android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="60px" />
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/create_exercise_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_exercise"
+        style="@style/MenuButton"
         android:drawableStart="@android:drawable/ic_menu_add"
         android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="60px" />
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/patients_files_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/patients_file_title"
+        style="@style/MenuButton"
         android:drawableStart="@drawable/ic_users"
         android:textAlignment="viewStart" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="60px" />
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/doctor_patients_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/MenuButton"
+        android:drawableStart="@android:drawable/ic_menu_save"
+        android:text="@string/doctor_patients_list"
+        android:textAlignment="viewStart" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/chat_doc_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/MenuButton"
         android:text="@string/chat_doctors"
         android:drawableStart="@android:drawable/stat_notify_chat"
 
@@ -56,13 +73,16 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="60px" />
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/chat_patient_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/MenuButton"
         android:drawableStart="@android:drawable/stat_notify_chat"
         android:text="@string/contact_patient"
         android:textAlignment="viewStart" />
+
+
 </LinearLayout>

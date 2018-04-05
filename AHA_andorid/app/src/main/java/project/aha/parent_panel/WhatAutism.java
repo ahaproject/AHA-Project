@@ -13,6 +13,7 @@ public class WhatAutism extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_what_autism);
+        Constants.showLogo(this);
 
         WebView wv = (WebView)findViewById(R.id.what_is_autism_webview);
         wv.setWebViewClient(new AppWebViewClients(this));

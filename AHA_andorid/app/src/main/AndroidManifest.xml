@@ -6,7 +6,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
+    <!-- <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" /> -->
+    <!-- <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_places_api_key" /> -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -44,11 +48,9 @@
         <activity
             android:name=".admin_panel.AddDoctorActivity"
             android:label="@string/add_doctor_title" />
+        <activity android:name=".admin_panel.ListDoctorsActivity" />
         <activity
-            android:name=".admin_panel.DeleteDoctorActivity"
-            android:label="@string/delete_doctor_title" />
-        <activity
-            android:name=".admin_panel.DeleteParentActivity"
+            android:name=".admin_panel.ListParentActivity"
             android:label="@string/delete_parent_title" />
         <activity
             android:name=".doctor_panel.PatientsFilesActivity"
@@ -61,8 +63,7 @@
             android:name=".doctor_panel.CreateExercise"
             android:label="@string/create_exercise" />
         <activity
-            android:name=".ExercisesList"
-            android:label="@string/my_exercises" />
+            android:name=".ExercisesList"/>
         <activity android:name=".SingleExerciseView" />
         <activity
             android:name=".parent_panel.CARS_Exam"
@@ -71,10 +72,14 @@
             android:name=".parent_panel.ResultCARS"
             android:label="@string/cars_result_title" />
         <activity
-            android:name=".parent_panel.MedicalHistoryList"
+            android:name=".MedicalHistoryList"
             android:label="@string/medical_history" />
-        <activity android:name=".parent_panel.SingleMedicalHistory" />
+        <activity android:name=".SingleMedicalHistory" />
         <activity android:name=".parent_panel.WhatAutism" />
+        <activity android:name=".Chatting.SingleChatActivity" />
+        <activity android:name=".Chatting.ChatsActivity" />
+        <activity android:name=".parent_panel.HelpSection" />
+        <activity android:name=".doctor_panel.DoctorSingleView"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
-package project.aha.parent_panel;
+package project.aha;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.v7.app.ActionBar;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
-import project.aha.Constants;
-import project.aha.DatabasePostConnection;
-import project.aha.R;
-import project.aha.ReceiveResult;
+
+import project.aha.interfaces.ReceiveResult;
 import project.aha.models.MedicalHistory;
 public class SingleMedicalHistory extends AppCompatActivity implements ReceiveResult {
     private TextView date, score, result;
@@ -24,6 +21,7 @@ public class SingleMedicalHistory extends AppCompatActivity implements ReceiveRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_medical_history);
+        Constants.showLogo(this);
 
         date = (TextView) findViewById(R.id.date);
         score = (TextView) findViewById(R.id.score);
@@ -79,7 +77,9 @@ public class SingleMedicalHistory extends AppCompatActivity implements ReceiveRe
 
                 String question = obj.getString("question");
                 mQuestion = new TextView(this);
-                mQuestion.setTextAppearance(R.style.QuestionText);
+                if(Build.VERSION.SDK_INT >= 23) {
+                    mQuestion.setTextAppearance(R.style.QuestionText);
+                }
                 mQuestion.setText(question);
 
 

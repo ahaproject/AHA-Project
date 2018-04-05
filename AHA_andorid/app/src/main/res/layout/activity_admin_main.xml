@@ -11,27 +11,30 @@ android:orientation="vertical"
         android:layout_height="wrap_content"
         android:text="@string/add_doctor_title"
         android:drawableStart="@android:drawable/ic_menu_add"
-        android:textAlignment="viewStart" />
+        android:textAlignment="viewStart"
+        style="@style/MenuButton"/>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="40px" />
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/delete_doctor_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/delete_doctor_title"
+        style="@style/MenuButton"
         android:drawableStart="@android:drawable/ic_menu_delete"
 
         android:textAlignment="viewStart" />
     <Space
         android:layout_width="match_parent"
-        android:layout_height="40px" />
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/delete_parent_btn"
         android:layout_width="match_parent"
+        style="@style/MenuButton"
         android:layout_height="wrap_content"
         android:text="@string/delete_parent_title"
         android:drawableStart="@android:drawable/ic_menu_delete"
@@ -39,5 +42,14 @@ android:orientation="vertical"
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="40px" />
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/chat_doctor_btn"
+        android:layout_width="match_parent"
+        style="@style/MenuButton"
+        android:layout_height="wrap_content"
+        android:text="@string/chat_doctors"
+        android:drawableStart="@android:drawable/stat_notify_chat"
+        android:textAlignment="viewStart" />
 </LinearLayout>

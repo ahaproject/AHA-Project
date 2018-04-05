@@ -23,13 +23,8 @@
     </style>
 
 
-
-
-
-
     <!--style for the app-->
     <style name="AHATheme" parent="AppTheme" >
-        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:listDivider">@android:color/transparent</item>
         <item name="android:dividerHeight">20dp</item>
     </style>
@@ -41,6 +36,15 @@
         <item name="android:textColor">@color/aha_black</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!--style for the questions in the medical history -->
+    <style name="MenuButton" parent="@android:style/Widget.Button">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/aha_basic</item>
+    </style>
+
 
 
 </resources>

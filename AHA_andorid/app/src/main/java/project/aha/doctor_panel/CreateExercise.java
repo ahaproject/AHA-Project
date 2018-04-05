@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,13 +36,15 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.R;
-import project.aha.ReceiveResult;
+import project.aha.interfaces.ReceiveResult;
+//import project.aha.SingleUploadBroadcastReceiver;
 import project.aha.SingleUploadBroadcastReceiver;
 import project.aha.SpinnerAdapter;
 import project.aha.models.Diagnose;
@@ -85,9 +86,10 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
         requestStoragePermission();
 
         subject = (EditText) findViewById(R.id.subject);
-        specializes_dropdown_list = (Spinner) findViewById(R.id.specialized);
-        Constants.add_to_spinner(this, specializes_dropdown_list);
 
+        specializes_dropdown_list = (Spinner) findViewById(R.id.specialized);
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, R.layout.spinner_style, new ArrayList<>(Constants.diagnoses.values()));
+        specializes_dropdown_list.setAdapter(spinnerAdapter);
         specializes_dropdown_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -130,27 +132,13 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), MEDIA_TYPE_IMAGE);
             }
         });
-
-        /**
-         * Record video button click event
-         */
-//        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setType("video/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Select Video"), MEDIA_TYPE_VIDEO);
-//            }
-//        });
     }
 
 
     public void createExercise() {
         String subjectString = subject.getText().toString();
         String descriptionString = description.getText().toString();
-        videoPath = youtube_link.getText().toString();
+        videoPath = youtube_link.getText().toString().toLowerCase();
 
 
         if (subjectString == null || subjectString.length() == 0) {
@@ -198,7 +186,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                     uploadReceiver.setUploadID(uploadId);
 
 
-                    MultipartUploadRequest upload = new MultipartUploadRequest(this, uploadId, Constants.DATABASE_URL);
+                    MultipartUploadRequest upload = new MultipartUploadRequest(this, uploadId, Constants.DATABASE_URL).setUtf8Charset();
 
                     if (imagePath != null && imagePath.length() > 0) {
                         upload.addFileToUpload(imagePath, "image");
@@ -273,7 +261,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Displaying a toast
-                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
             } else {
                 //Displaying another toast if permission is not granted
                 Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
@@ -317,7 +305,6 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
             e.printStackTrace();
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();

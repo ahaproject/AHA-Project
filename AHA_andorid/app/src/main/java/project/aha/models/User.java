@@ -1,7 +1,9 @@
 package project.aha.models;
 
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
     private int user_id ;
     private String user_email ;
     private String user_name ;
@@ -22,6 +24,9 @@ public class User {
         this.user_type = user_type;
     }
 
+    public User() {
+    }
+
     public int getUser_id() {
         return user_id;
     }
@@ -39,6 +44,9 @@ public class User {
     }
 
     public String getUser_name() {
+        if(user_name == null){
+            return user_email;
+        }
         return user_name;
     }
 

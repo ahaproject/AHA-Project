@@ -27,14 +27,14 @@ import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.ListAdapter;
 import project.aha.R;
-import project.aha.ReceiveResult;
+import project.aha.interfaces.ReceiveResult;
 import project.aha.models.Parent;
 import project.aha.parent_panel.ParentSingleView;
 
-public class PatientsFilesActivity extends AppCompatActivity implements ReceiveResult{
+public class PatientsFilesActivity extends AppCompatActivity implements ReceiveResult {
 
     private ListView patients_listview;
-    private EditText file_num ;
+    private EditText file_num;
 
 
     private ListAdapter listAdapter;
@@ -51,11 +51,10 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
 
 
         patients_listview = (ListView) findViewById(R.id.patients_listview);
-        file_num = (EditText)findViewById(R.id.search_file);
+        file_num = (EditText) findViewById(R.id.search_file);
 
 
         patientsObjects = new ArrayList<>();
-
 
 
 //        final String file_number = file_num.getText().toString();
@@ -69,13 +68,10 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
-
             }
         });
 
@@ -101,12 +97,12 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
         }
     }
 
-    public void refresh(){
-        HashMap<String,String> data = new HashMap<>();
-        data.put(Constants.CODE , Constants.LIST_PARENTS+"");
+    public void refresh() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(Constants.CODE, Constants.LIST_PARENTS + "");
 
         DatabasePostConnection connection = new DatabasePostConnection(this);
-        connection.postRequest(data,Constants.DATABASE_URL);
+        connection.postRequest(data, Constants.DATABASE_URL);
     }
 
 
@@ -116,23 +112,24 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
             patients_listview.setAdapter(null);
             JSONObject output = new JSONObject(resultJson).getJSONObject("output");
 
-            Log.d("pat",resultJson);
+            Log.d("pat", resultJson);
             String result = output.getString(Constants.RESULT);
 
-            switch(result){
+            switch (result) {
 
                 // if there are records -> fill list view
-                case Constants.RECORDS :{
+                case Constants.RECORDS: {
                     // set them to visible
                     patients_listview.setVisibility(View.VISIBLE);
                     file_num.setVisibility(View.VISIBLE);
+                    findViewById(R.id.no_records).setVisibility(View.GONE);
                     fill_listView_with_parents(output);
                     break;
                 }
 
                 // if there are no records -> show text view with no records text
-                case Constants.NO_RECORDS:{
-                    show_no_records();
+                case Constants.NO_RECORDS: {
+//                    show_no_records();
                     break;
                 }
 
@@ -144,16 +141,18 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
     }
 
     private void show_no_records() {
-        file_num.setVisibility(View.GONE);
-        TextView no_records_text = (TextView) findViewById(R.id.no_records);
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
-        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-        no_records_text.setLayoutParams(lp);
-        no_records_text.setText(getString(R.string.no_parents_records));
-        no_records_text.setVisibility(View.VISIBLE);
+//        file_num.setVisibility(View.GONE);
+//        patients_listview.setVisibility(View.GONE);
+//        TextView no_records_text = (TextView) findViewById(R.id.no_records);
+//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
+//        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        no_records_text.setLayoutParams(lp);
+//        no_records_text.setText(getString(R.string.no_records));
+//        no_records_text.setVisibility(View.VISIBLE);
     }
+
     private void fill_listView_with_parents(JSONObject output) {
-        try{
+        try {
             patients_listview.setAdapter(null);
             patientsObjects.clear();
 
@@ -163,9 +162,28 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
             for (int i = 0; i < parentsJSONArray.length(); i++) {
                 try {
                     JSONObject jsonObject = parentsJSONArray.getJSONObject(i);
-                    int user_id = Integer.parseInt((String) jsonObject.get(Constants.USER_ID_META));
-                    String user_name = (String) jsonObject.get(Constants.USER_NAME_META);
-                    patientsObjects.add(new Parent(user_id, user_name, Constants.PARENT_TYPE ));
+
+
+                    int user_id = jsonObject.getInt(Constants.USER_ID_META);
+                    String user_email = jsonObject.getString(Constants.USER_EMAIL_META);
+                    String user_phone = jsonObject.optString(Constants.USER_PHONE_META , "");
+                    String user_name = jsonObject.optString(Constants.USER_NAME_META,"");
+                    int user_type = jsonObject.getInt(Constants.USER_TYPE_META);
+                    int consult_doctor = jsonObject.optInt(Constants.CONSULT_DOCTOR , -1);
+
+                    Parent parent = new Parent(user_id, user_email, user_name, user_type, user_phone, true,consult_doctor);
+                    JSONArray metas = jsonObject.optJSONArray("metas");
+                    if (metas != null && metas.length() > 0) {
+                        for (int j = 0; j < metas.length(); j++) {
+                            JSONObject meta = metas.getJSONObject(j);
+                            String meta_key = meta.getString("meta_key");
+                            String meta_value = meta.getString("meta_value");
+                            parent.addMeta(meta_key, meta_value);
+                        }
+                    }
+
+
+                    patientsObjects.add(parent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -177,20 +195,18 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
             listAdapter = new ListAdapter(PatientsFilesActivity.this, patientsObjects);
 //            listAdapter.
             patients_listview.setAdapter(listAdapter);
-
-            // add action when the admin clicks on parent record in the listview
             patients_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
-                    Parent p = patientsObjects.get(position);
-                    Intent intent = new Intent(PatientsFilesActivity.this, ParentSingleView.class);
-                    intent.putExtra("parent", p);
-                    startActivity(intent);
+                    Intent i = new Intent(PatientsFilesActivity.this, ParentSingleView.class);
+                    i.putExtra("parent", patientsObjects.get(position));
+                    startActivity(i);
                 }
             });
 
-        }catch(JSONException ex){
+
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
     }

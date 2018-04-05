@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "382428860861",
+    "firebase_url": "https://ahaandorid.firebaseio.com",
+    "project_id": "ahaandorid",
+    "storage_bucket": "ahaandorid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382428860861:android:349c8eddd1866c63",
+        "android_client_info": {
+          "package_name": "project.aha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382428860861-cu4135gsignri8ibvd41bicj1phj3ce8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "project.aha",
+            "certificate_hash": "d78175427064fc718776720f4c8274130b9888d0"
+          }
+        },
+        {
+          "client_id": "382428860861-jul6evanjrqtvi4v1cdc2stp08t6t9rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZsav1K67Q3ksRZEpLfNds2RcvAGP8gTw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382428860861-jul6evanjrqtvi4v1cdc2stp08t6t9rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

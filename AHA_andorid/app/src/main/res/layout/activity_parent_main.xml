@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <Button
@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/what_is_autism"
+                style="@style/MenuButton"
                 android:drawableStart="@android:drawable/ic_menu_help"
                 android:textAlignment="viewStart" />
 
@@ -33,6 +34,7 @@
                 android:id="@+id/advance_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/MenuButton"
                 android:text="@string/advance_registration"
                 android:drawableStart="@android:drawable/ic_menu_edit"
                 android:textAlignment="viewStart" />
@@ -47,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cars_exam"
+                style="@style/MenuButton"
                 android:drawableStart="@android:drawable/ic_menu_compass"
                 android:textAlignment="viewStart" />
 
@@ -59,6 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/medical_history"
+                style="@style/MenuButton"
                 android:drawableStart="@android:drawable/ic_menu_recent_history"
                 android:textAlignment="viewStart" />
 
@@ -72,7 +76,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/exercises_list"
+                style="@style/MenuButton"
                 android:drawableStart="@drawable/ic_exercises"
+                android:textAlignment="viewStart" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/chat_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/MenuButton"
+                android:text="@string/chat_doctors"
+                android:drawableStart="@android:drawable/stat_notify_chat"
+                android:textAlignment="viewStart" />
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/help_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/MenuButton"
+                android:text="@string/help_sction"
+                android:drawableStart="@android:drawable/ic_dialog_info"
                 android:textAlignment="viewStart" />
 
 

@@ -2,7 +2,6 @@ package project.aha;
 
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -19,12 +18,12 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import project.aha.models.Parent;
+import project.aha.interfaces.ReceiveResult;
 import project.aha.models.User;
 import project.aha.parent_panel.SignUpActivity;
 
 
-public class LoginActivity extends AppCompatActivity implements ReceiveResult{
+public class LoginActivity extends AppCompatActivity implements ReceiveResult {
 
     // UI references.
     private EditText mEmailView;
@@ -35,8 +34,6 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Constants.hideKeyboard(this);
-
         Constants.showLogo(this);
 
         mEmailView = (EditText) findViewById(R.id.email); // textinput email
@@ -67,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
     }
 
     private void attemptLogin() {
-        Constants.hideKeyboard(this);
         // Reset errors.
 
         error.setText("");
@@ -124,21 +120,16 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
             Log.d("func result",function_result);
 
 
+            if(Constants.diagnoses == null && Constants.diagnoses.size() == 0){
+                Constants.updateDiagnoses(this);
+            }
             switch(function_result) {
                 case Constants.SCF_LOGIN: // if successful !
 
-                    // get the user data
-                    output = output.getJSONArray("data").getJSONObject(0);
-
-                    // convert from json to Java Object
-                    User user = readAndSaveUser(output);
-                    if(user == null ){
-                        Log.d("NULL LOGIN USER" , output.toString());
-                        return ;
-                    }
                     // attempt login
                     //  1. write data to file
                     //  2. save a global object of the user
+                    User user = Constants.updateUser(this,output);
                     Constants.login(this , user);
 
                     break;
@@ -154,31 +145,6 @@ public class LoginActivity extends AppCompatActivity implements ReceiveResult{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Nullable
-    private User readAndSaveUser(JSONObject output) {
-        try {
-            int user_id = Integer.parseInt((String) output.get(Constants.USER_ID_META));
-            String user_email = (String) output.get(Constants.USER_EMAIL_META);
-            String user_phone = (String) output.get(Constants.USER_PHONE_META);
-            String user_name = (String) output.get(Constants.USER_NAME_META);
-            int user_type = Integer.parseInt((String) output.get(Constants.USER_TYPE_META));
-
-
-            if(user_type == Constants.PARENT_TYPE){
-                boolean did_adv_reg = (output.getInt(Constants.PAREN_DID_ADVANCED_REGISTRATION) == 0 )?false : true;
-                return new Parent(user_id, user_email, user_name, user_type, user_phone , did_adv_reg);
-
-            }
-            return new User(user_id, user_email, user_name, user_type, user_phone);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // if any error occurred -> return null
-        return null;
     }
 }
 

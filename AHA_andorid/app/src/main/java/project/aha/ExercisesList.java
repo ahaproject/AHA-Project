@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import project.aha.interfaces.ReceiveResult;
+import project.aha.models.Diagnose;
 import project.aha.models.Exercise;
 
-public class ExercisesList extends AppCompatActivity implements ReceiveResult{
+public class ExercisesList extends AppCompatActivity implements ReceiveResult {
 
 
     private ListView listView;
@@ -33,6 +35,9 @@ public class ExercisesList extends AppCompatActivity implements ReceiveResult{
         setContentView(R.layout.activity_doctor_exercises);
         Constants.showLogo(this);
 
+
+
+
         Intent i = getIntent();
         if(i != null){
 
@@ -41,6 +46,7 @@ public class ExercisesList extends AppCompatActivity implements ReceiveResult{
 
             // if this activity for doctor's execises
             if(doctor_id > -1){
+                setTitle(getString(R.string.my_exercises));
                 // call database to get all doctor exercises
                 HashMap<String,String> data = new HashMap<>();
                 data.put(Constants.CODE , Constants.LIST_EXERCISES+"");
@@ -59,6 +65,8 @@ public class ExercisesList extends AppCompatActivity implements ReceiveResult{
                 connection.postRequest(data,Constants.DATABASE_URL);
             }
             else{
+                setTitle(getString(R.string.exercises_list));
+
                 HashMap<String,String> data = new HashMap<>();
                 data.put(Constants.CODE , Constants.LIST_EXERCISES+"");
                 DatabasePostConnection connection = new DatabasePostConnection(this);
@@ -83,18 +91,22 @@ public class ExercisesList extends AppCompatActivity implements ReceiveResult{
                 // if there are records -> fill list view
                 case Constants.RECORDS :{
                     // set them to visible
+                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
+                    no_records_text.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                     fill_listView(output);
                     break;
                 }
 
                 // if there are no records -> show text view with no records text
                 case Constants.NO_RECORDS:{
-                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
-                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
-                    lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    no_records_text.setLayoutParams(lp);
-                    no_records_text.setText(getString(R.string.no_records));
-                    no_records_text.setVisibility(View.VISIBLE);
+//                    listView.setVisibility(View.GONE);
+//                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
+//                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
+//                    lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+//                    no_records_text.setLayoutParams(lp);
+//                    no_records_text.setText(getString(R.string.no_records));
+//                    no_records_text.setVisibility(View.VISIBLE);
                     break;
                 }
 
@@ -117,7 +129,7 @@ public class ExercisesList extends AppCompatActivity implements ReceiveResult{
                     int ex_id = jsonObject.getInt(Constants.EXERCISE_ID_META);
                     String subject = jsonObject.getString(Constants.EXERCISE_SUBJECT);
                     int diagnose_id = jsonObject.getInt(Constants.EXERCISE_DIAGNOSE);
-                    StringBuilder description = new StringBuilder(jsonObject.getString(Constants.EXERCISE_DESCRIPTION));
+                    StringBuilder description = new StringBuilder(jsonObject.optString(Constants.EXERCISE_DESCRIPTION , ""));
                     String added_date = jsonObject.getString("added_date");
                     Object imgsObj = jsonObject.get("img");
                     String img_path = null;
@@ -145,8 +157,10 @@ public class ExercisesList extends AppCompatActivity implements ReceiveResult{
                         }
                     }
 
+                    Diagnose diagnose = Constants.diagnoses.get(diagnose_id);
+                    String diagnoseName = (diagnose == null)? "":diagnose.getName();
                     Exercise ex = new Exercise(ex_id,subject , Constants.get_current_user_id(this) ,
-                            description , Constants.diagnoses.get(diagnose_id).getName(),added_date);
+                            description , diagnoseName,added_date);
                     ex.setImage(img_path);
                     ex.setVideo(vid_path);
                     exercisesObjects.add(ex);

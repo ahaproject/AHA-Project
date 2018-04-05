@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.view.*;
 import android.widget.*;
 
-import project.aha.Constants;
-import project.aha.R;
+import project.aha.Chatting.SingleChatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import project.aha.SingleExerciseView;
+import project.aha.models.Chat;
+import project.aha.models.Diagnose;
 import project.aha.models.Doctor;
 import project.aha.models.Exercise;
 import project.aha.models.MedicalHistory;
@@ -59,9 +60,9 @@ public class ListAdapter<T> extends BaseAdapter {
 
         T type = allObjects.get(position);
 
-        TextView first_row = (TextView) convertView.findViewById(R.id.first_row);
-        TextView second_row = (TextView) convertView.findViewById(R.id.second_row);
-        TextView third_row = (TextView) convertView.findViewById(R.id.third_row);
+        TextView first_row =  convertView.findViewById(R.id.first_row);
+        TextView second_row =  convertView.findViewById(R.id.second_row);
+        TextView third_row =  convertView.findViewById(R.id.third_row);
 
 
         if(type instanceof Parent){
@@ -101,15 +102,17 @@ public class ListAdapter<T> extends BaseAdapter {
     }
 
     private void process_for_doctor(T type, TextView first_row, TextView second_row, TextView third_row, View convertView, final int position) {
-        Doctor e = (Doctor) type;
+        Doctor d = (Doctor) type;
         if (first_row != null) {
-            first_row.setText(e.getUser_name());
+            first_row.setText(d.getUser_name());
         }
         if (second_row != null) {
-            second_row.setText(mContext.getString(R.string.hint_specialized)+" : "+e.getSpecialized());
+            Diagnose diagnoseObj = Constants.diagnoses.get(d.getDiag_id());
+            if(diagnoseObj != null)
+            second_row.setText(mContext.getString(R.string.hint_specialized)+" : "+diagnoseObj.getName());
         }
         if (third_row != null) {
-            third_row.setText(mContext.getString(R.string.hint_email)+" : "+e.getUser_email());
+            third_row.setText(mContext.getString(R.string.hint_email)+" : "+d.getUser_email());
         }
     }
 
@@ -156,15 +159,6 @@ public class ListAdapter<T> extends BaseAdapter {
         if(Constants.get_current_user_type(mContext) == Constants.ADMIN_TYPE)
             return;
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Parent p = (Parent)allObjects.get(position);
-                Intent intent = new Intent(mContext, ParentSingleView.class);
-                intent.putExtra("id", p.getUser_id());
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     // Filter Class
@@ -196,5 +190,11 @@ public class ListAdapter<T> extends BaseAdapter {
                 (p.getUser_phone() != null && p.getUser_phone().toLowerCase().contains(charText.toString()))) {
             allObjects.add(type);
         }
+    }
+
+    public void updateDataSet(List<T> chats) {
+        this.allObjects = chats;
+        this.arraylist = new ArrayList<>();
+        this.arraylist.addAll(chats);
     }
 }

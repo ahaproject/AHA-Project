@@ -24,7 +24,7 @@
     <string name="btnUploadToServer">Upload to Server</string>
     <string name="search_file">Search by file number or phone</string>
     <string name="create_exercise">Create new exercise</string>
-    <string name="patients_file_title">Patients files</string>
+    <string name="patients_file_title">All Patients files</string>
     <string name="contact_patient">Chat with patient</string>
     <string name="chat_doctors">Chat with doctors</string>
     <string name="title_activity_main">MainActivity</string>
@@ -42,7 +42,7 @@
     <string name="btn_link_to_register">Not a member? Sign up now.</string>
     <string name="welcome">Welcome</string>
     <string name="btn_logout">LOGOUT</string>
-    <string name="name">Fullname</string>
+    <string name="name">Name</string>
     <string name="error_login">Incorrect Email address/Phone number or Password provided</string>
     <string name="title_activity_admin_main">AdminMainActivity</string>
     <string name="title_activity_doctor_main">DoctorMainActivity</string>
@@ -220,7 +220,7 @@
     <string name="autism_spectrum">Autism Spectrum</string>
     <string name="go_see_exercises">Go to exercises page !</string>
     <string name="scf_save_result">You can review your answers in the Medical History</string>
-    <string name="normal_kid">Congratulations , Your child is normal.</string>
+    <string name="normal_kid">Normal</string>
     <string name="medical_history">Medical History</string>
     <string name="score">Score</string>
     <string name="must_did_adv_reg">You must do the advance registration first !</string>
@@ -228,4 +228,32 @@
     <string name="autism_symptoms">Symptoms of Autism</string>
     <string name="exercises_list">Exercises</string>
     <string name="watch_video">Click here to watch the video</string>
+    <string name="send">Send</string>
+    <string name="enter_message">Enter your message</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_chat">Chat</string>
+    <string name="no_chats">There are no chats yet!!</string>
+    <string name="help_sction">Help section</string>
+    <string name="parent_info_title">Patient Informations</string>
+    <string name="enter_valid_phone">Please re-enter a valid phone number</string>
+    <string name="hi">Hi</string>
+    <string name="assign_doctor">Assign %s to your file</string>
+    <string name="scf_assign_doctor">Doctor assigned successfully !</string>
+    <string name="report_abuse">Report abuse</string>
+    <string name="scf_report_abuse">Reported successfully, Thank you!</string>
+    <string name="confirm_report_abuse">Are you really want to report abuse for this user ?</string>
+    <string name="doctor_patients_list">Patients List</string>
+    <string name="switch_consult">Switch consultaion</string>
+    <string name="confirm_switch_consult">Are you really want to switch your consultation to this doctor ?</string>
+    <string name="profile">Profile</string>
+    <string name="copied_path">Your device does not support YouTube App or Chrome, The path is copied to your clipboard ..</string>
+    <!--end-->
+
+
+
+
+
 </resources>

@@ -10,11 +10,10 @@
         android:id="@+id/no_records"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_doctors_records"
-        android:visibility="gone"
+        android:text="@string/no_records"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="-7dp"
-        tools:layout_editor_absoluteY="1dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <!-- Editext for Search -->
     <EditText android:id="@+id/search_file"

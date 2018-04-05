@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+
+    <item android:id="@+id/user_info"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:visible="false"
+        android:title="@string/parent_info_title"
+        yourapp:showAsAction="always" />
+
+
+    <item android:id="@+id/report_abuse"
+        android:icon="@android:drawable/stat_sys_warning"
+        android:visible="false"
+        android:title="@string/report_abuse" />
+
+
+    <item android:id="@+id/switch_consult"
+        android:visible="false"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="@string/switch_consult" />
+
+</menu>

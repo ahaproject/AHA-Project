@@ -2,47 +2,59 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content" android:orientation="vertical"
     android:layout_width="match_parent"
-    style="@style/ListView">
+    android:paddingBottom="20dp">
 
     <TableRow
         android:layout_width="match_parent"
         android:id="@+id/TableRow01"
+        android:background="@color/aha_bg"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/first_row"
+            android:text="test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="textStart"
+            android:textAlignment="viewStart"
             android:textSize="24sp"
             android:textStyle="bold"
+
             android:typeface="normal" />
     </TableRow>
 
     <TableRow
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:background="@color/aha_bg"
 
-        <TextView
-            android:id="@+id/third_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="50px"
-            android:textColor="@color/aha_basic"
-            android:textSize="16dp" />
-    </TableRow>
-    <TableRow
-        android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
         <TextView
             android:id="@+id/second_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="50px"
+            android:paddingStart="20dp"
+            android:text="test"
+            android:textAlignment="viewStart"
             android:textColor="@color/aha_basic"
             android:textSize="20dp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_height="wrap_content"
+        android:background="@color/aha_bg"
+
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/third_row"
+            android:text="test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/aha_basic"
+            android:textSize="16dp" />
     </TableRow>
 
 </TableLayout>

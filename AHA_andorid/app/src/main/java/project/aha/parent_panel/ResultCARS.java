@@ -17,7 +17,7 @@ import project.aha.Constants;
 import project.aha.DatabasePostConnection;
 import project.aha.ExercisesList;
 import project.aha.R;
-import project.aha.ReceiveResult;
+import project.aha.interfaces.ReceiveResult;
 import project.aha.models.CARS_Answer;
 import project.aha.models.CARS_Question;
 
@@ -33,6 +33,7 @@ public class ResultCARS extends AppCompatActivity implements ReceiveResult{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_cars);
+        Constants.showLogo(this);
 
         Intent i = getIntent();
         if(i != null) {
