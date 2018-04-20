@@ -2,18 +2,14 @@ package project.aha.models;
 
 import java.io.Serializable;
 
-/**
- * Created by Hema on 3/24/2018 AD.
- */
+public class MedicalHistory implements Serializable {
 
-public class MedicalHistory implements Serializable{
-
-    int parent_id ;
-    int medical_hist_id ;
-    double score;
-    String date ;
-    int diagn_id ;
-    int doctor_id ;
+    private int parent_id;
+    private int medical_hist_id;
+    private double score;
+    private String date;
+    private int diagn_id;
+    private int doctor_id;
 
 
     public MedicalHistory(int parent_id, int medical_hist_id, double score, String date, int diagn_id, int doctor_id) {

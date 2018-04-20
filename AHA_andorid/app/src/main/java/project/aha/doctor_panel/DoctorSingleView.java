@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,12 +23,12 @@ import project.aha.R;
 import project.aha.interfaces.ReceiveResult;
 import project.aha.models.Diagnose;
 import project.aha.models.Doctor;
+import project.aha.models.Parent;
 
 public class DoctorSingleView extends AppCompatActivity implements ReceiveResult {
 
 
-    Doctor d;
-
+    private Doctor doctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,6 @@ public class DoctorSingleView extends AppCompatActivity implements ReceiveResult
         Intent i = getIntent();
         if (i != null) {
             int id = i.getIntExtra("id", -1);
-
             if (id > -1) {
                 HashMap<String, String> data = new HashMap<>();
                 data.put(Constants.CODE, Constants.SELECT_USER + "");
@@ -55,7 +57,6 @@ public class DoctorSingleView extends AppCompatActivity implements ReceiveResult
         try {
             JSONObject output = new JSONObject(resultJson).getJSONObject("output");
 
-            Log.d("pat", resultJson);
             String result = output.getString(Constants.RESULT);
 
             switch (result) {
@@ -63,29 +64,32 @@ public class DoctorSingleView extends AppCompatActivity implements ReceiveResult
                 // if there are records -> fill list view
                 case Constants.RECORDS: {
                     // set them to visible
-                    d = (Doctor) Constants.readAndSaveUser(output);
+                    output =output.getJSONArray("data").getJSONObject(0);
+                    doctor = (Doctor) Constants.readAndSaveUser(output , true);
 
-                    setTitle(d.getUser_name());
+                    setTitle(doctor.getUser_name());
 
                     TextView name = (TextView) findViewById(R.id.p_name);
-                    name.setText(getString(R.string.name) + " : " + d.getUser_name());
+                    name.setText(getString(R.string.name) + " : " + doctor.getUser_name());
 
 
                     TextView mSpecialized = (TextView) findViewById(R.id.specialized);
-                    Diagnose diagnoseObj = Constants.diagnoses.get(d.getDiag_id());
-                    if(diagnoseObj != null) mSpecialized.setText(getString(R.string.hint_specialized) + " : " + diagnoseObj.getName());
+                    Diagnose diagnoseObj = Constants.diagnoses.get(doctor.getDiag_id());
+                    if (diagnoseObj != null)
+                        mSpecialized.setText(getString(R.string.hint_specialized) + " : " + diagnoseObj.getName());
 
-                    if(Constants.get_current_user_type(this) == Constants.PARENT_TYPE) {
+                    if (Constants.get_current_user_type(this) == Constants.PARENT_TYPE) {
                         final Button assign_doctor = (Button) findViewById(R.id.assign_doctor);
                         assign_doctor.setVisibility(View.VISIBLE);
-                        assign_doctor.setText(String.format(getString(R.string.assign_doctor), d.getUser_name()));
+                        assign_doctor.setText(String.format(getString(R.string.assign_doctor), doctor.getUser_name()));
                         assign_doctor.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                assign_doctor(d.getUser_id());
+                                assign_doctor(doctor.getUser_id());
                             }
                         });
                     }
+
                     break;
                 }
 
@@ -98,10 +102,13 @@ public class DoctorSingleView extends AppCompatActivity implements ReceiveResult
 
                 case Constants.SCF_ASSIGN_DOCTOR: {
                     Toast.makeText(this, getString(R.string.scf_assign_doctor), Toast.LENGTH_SHORT).show();
+                    Parent parent = (Parent) Constants.get_user_object(this);
+                    parent.setDoctor_obj(doctor);
+                    Constants.update_user_object(this,parent);
                     break;
                 }
 
-                case Constants.ERR_ASSIGN_DOCTOR:{
+                case Constants.ERR_ASSIGN_DOCTOR: {
                     Toast.makeText(this, "ERR assigning doctor !!!", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -121,5 +128,22 @@ public class DoctorSingleView extends AppCompatActivity implements ReceiveResult
         data.put(Constants.DOCTOR_ID_META, doctor_id + "");
         DatabasePostConnection connection = new DatabasePostConnection(this);
         connection.postRequest(data, Constants.DATABASE_URL);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
     }
 }

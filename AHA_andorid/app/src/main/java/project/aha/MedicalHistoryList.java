@@ -3,6 +3,9 @@ package project.aha;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -64,22 +67,12 @@ public class MedicalHistoryList extends AppCompatActivity implements ReceiveResu
                 // if there are records -> fill list view
                 case Constants.RECORDS: {
                     // set them to visible
+                    findViewById(R.id.no_records).setVisibility(View.GONE);
                     medicalHistoriesListView.setVisibility(View.VISIBLE);
                     fill_listView(output);
                     break;
                 }
 
-                // if there are no records -> show text view with no records text
-                case Constants.NO_RECORDS: {
-//                    medicalHistoriesListView.setVisibility(View.GONE);
-//                    TextView no_records_text = (TextView) findViewById(R.id.no_records);
-//                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
-//                    lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-//                    no_records_text.setLayoutParams(lp);
-//                    no_records_text.setText(getString(R.string.no_records));
-//                    no_records_text.setVisibility(View.VISIBLE);
-                    break;
-                }
 
             }
 
@@ -137,5 +130,19 @@ public class MedicalHistoryList extends AppCompatActivity implements ReceiveResu
             ex.printStackTrace();
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
+    }
 }

@@ -9,7 +9,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,11 +55,14 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         Constants.showLogo(this);
 
         Parent parent = (Parent) Constants.get_user_object(this);
-        HashMap<String, String> parentData = parent.getMetas();
+        if (parent.getMetas() == null || parent.getMetas().size() == 0) {
 
-        fillData(parentData);
+        } else {
+            HashMap<String, String> parentData = parent.getMetas();
+            fillData(parentData);
+        }
+
         // calender picker
-
         if (Build.VERSION.SDK_INT >= 24) {
             calender = Calendar.getInstance();
 
@@ -89,8 +96,8 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                 }
             });
 
-        }else{
-            EditText et = (EditText)findViewById(R.id.child_bdate);
+        } else {
+            EditText et = (EditText) findViewById(R.id.child_bdate);
             et.setFocusableInTouchMode(true);
             et.setFocusable(true);
         }
@@ -100,7 +107,23 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveData();
+                EditText childName = (EditText) findViewById(R.id.child_name);
+                EditText child_birthdate = (EditText) findViewById(R.id.child_bdate);
+                RadioGroup child_sex = (RadioGroup) findViewById(R.id.child_sex);
+                int choice = child_sex.getCheckedRadioButtonId();
+
+                if (childName.getText().toString().length() < 1) {
+                    Toast.makeText(CompleteRegister.this, getString(R.string.child_name) + " : " + getString(R.string.field_required), Toast.LENGTH_SHORT).show();
+                    childName.requestFocus();
+                } else if (child_birthdate.getText().toString().length() < 1) {
+                    Toast.makeText(CompleteRegister.this, getString(R.string.child_bdate) + " : " + getString(R.string.field_required), Toast.LENGTH_SHORT).show();
+                    child_birthdate.callOnClick();
+                } else if (choice < 0) {
+                    Toast.makeText(CompleteRegister.this, getString(R.string.child_sex) + " : " + getString(R.string.field_required), Toast.LENGTH_SHORT).show();
+                    child_sex.requestFocus();
+                } else {
+                    saveData();
+                }
             }
         });
 
@@ -115,7 +138,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
             // deal with radio buttons
             if (o instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) o;
-                String value = parentData.get(Constants.getHashMapKey(this,checkBox));
+                String value = parentData.get(Constants.getHashMapKey(this, checkBox));
 
                 if (value != null && value.equalsIgnoreCase("yes")) {
                     checkBox.setChecked(true);
@@ -128,7 +151,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                 TextInputLayout til = (TextInputLayout) o;
                 FrameLayout fl = (FrameLayout) til.getChildAt(0);
                 EditText et = (EditText) fl.getChildAt(0);
-                String value = parentData.get(Constants.getHashMapKey(this,et));
+                String value = parentData.get(Constants.getHashMapKey(this, et));
                 if (value != null && value.length() > 0) {
                     et.setText(value);
                 }
@@ -137,7 +160,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
             // deal with edit texts
             else if (o instanceof EditText) {
                 EditText et = (EditText) o;
-                String value = parentData.get(Constants.getHashMapKey(this,et));
+                String value = parentData.get(Constants.getHashMapKey(this, et));
                 if (value != null && value.length() > 0) {
                     et.setText(value);
                 }
@@ -146,7 +169,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
             // deal with edit texts
             else if (o instanceof TextView) {
                 TextView tv = (TextView) o;
-                String value = parentData.get(Constants.getHashMapKey(this,tv));
+                String value = parentData.get(Constants.getHashMapKey(this, tv));
                 if (value != null && value.length() > 0) {
                     tv.setText(value);
                 }
@@ -155,7 +178,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
             // deal with radio buttons
             else if (o instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) o;
-                String value = parentData.get(Constants.getHashMapKey(this,checkBox));
+                String value = parentData.get(Constants.getHashMapKey(this, checkBox));
 
                 if (value != null && value.equalsIgnoreCase("yes")) {
                     checkBox.setChecked(true);
@@ -179,7 +202,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                         for (int z = 0; z < rgCount; z++) {
                             RadioButton rb = (RadioButton) rg.getChildAt(z);
                             String selection = getResources().getResourceEntryName(rb.getId());
-                            String value = parentData.get(Constants.getHashMapKey(this,rg));
+                            String value = parentData.get(Constants.getHashMapKey(this, rg));
                             if (value != null && value.equalsIgnoreCase(selection)) {
                                 rb.setChecked(true);
                                 break;
@@ -210,9 +233,8 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                 FrameLayout fl = (FrameLayout) til.getChildAt(0);
                 EditText et = (EditText) fl.getChildAt(0);
                 String text = et.getText().toString().trim();
-//                if (text != null && text.length() > 0) {
-                String key = Constants.getHashMapKey(this,et);
-                if(key == null) continue;
+                String key = Constants.getHashMapKey(this, et);
+                if (key == null) continue;
 
                 data.put(key, text);
 
@@ -223,21 +245,19 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
             if (o instanceof EditText) {
                 EditText et = (EditText) o;
                 String text = et.getText().toString().trim();
-//                if (text != null && text.length() > 0) {
-                String key = Constants.getHashMapKey(this,et);
-                if(key == null) continue;
+                String key = Constants.getHashMapKey(this, et);
+                if (key == null) continue;
                 data.put(key, text);
-//                }
             }
 
             // deal with radio buttons
             if (o instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) o;
-                String key = Constants.getHashMapKey(this,checkBox);
-                if(key == null) continue;
+                String key = Constants.getHashMapKey(this, checkBox);
+                if (key == null) continue;
                 if (checkBox.isChecked()) {
                     data.put(key, "yes");
-                } else{
+                } else {
                     data.put(key, "no");
                 }
             }
@@ -258,8 +278,8 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
                             int radioId = rg.indexOfChild(radioButton);
                             RadioButton btn = (RadioButton) rg.getChildAt(radioId);
                             String selection = getResources().getResourceEntryName(btn.getId());
-                            String key = Constants.getHashMapKey(this,rg);
-                            if(key == null) continue;
+                            String key = Constants.getHashMapKey(this, rg);
+                            if (key == null) continue;
                             data.put(key, selection);// hashmap
                         }
                     }
@@ -270,7 +290,7 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         DatabasePostConnection con = new DatabasePostConnection(this);
 
         // save child bdate
-        data.put(Constants.getHashMapKey(this,findViewById(R.id.child_bdate)), ((TextView) findViewById(R.id.child_bdate)).getText().toString());
+        data.put(Constants.getHashMapKey(this, findViewById(R.id.child_bdate)), ((TextView) findViewById(R.id.child_bdate)).getText().toString());
         data.put(Constants.CODE, Constants.COMPLETE_REGISTRATION + "");
         data.put(Constants.USER_ID_META, Constants.get_current_user_id(this) + "");
 
@@ -280,10 +300,8 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
 
     private void updateLabel() {
         if (Build.VERSION.SDK_INT >= 24) {
-
             String myFormat = "MM/dd/yy"; //In which you need put here
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
             childBirthDate.setText(sdf.format(calender.getTime()));
         }
     }
@@ -291,13 +309,6 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
 
     @Override
     public void onReceiveResult(String resultJson) {
-
-        Log.d("RESULT JSON", resultJson);
-
-        if (resultJson == null || resultJson.length() < 1) {
-            Log.d("RESULT JSON", "NULL RESULT");
-            return;
-        }
         try {
             JSONObject output = new JSONObject(resultJson).getJSONObject("output");
             String result = output.getString(Constants.RESULT);
@@ -318,8 +329,23 @@ public class CompleteRegister extends AppCompatActivity implements ReceiveResult
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this, super.onOptionsItemSelected(item), item);
     }
 }
 

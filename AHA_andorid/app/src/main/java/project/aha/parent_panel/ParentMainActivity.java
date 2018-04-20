@@ -27,6 +27,9 @@ public class ParentMainActivity extends AppCompatActivity {
     private Button exercises;
     private Button chat;
     private Button help_section;
+
+
+    private Parent parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +37,9 @@ public class ParentMainActivity extends AppCompatActivity {
         Constants.showLogo(this);
 
 
-        final Parent p  = (Parent) Constants.get_user_object(this);
+        parent = (Parent) Constants.get_user_object(this);
         final String must_did_adv_reg = getString(R.string.must_did_adv_reg);
+
         advance_registration  = (Button) findViewById(R.id.advance_registration);
         advance_registration.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +63,7 @@ public class ParentMainActivity extends AppCompatActivity {
         cars_exam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(p.DidAdvanceRegistration()){
+                if(parent.DidAdvanceRegistration()){
                     startActivity(new Intent(ParentMainActivity.this, CARS_Exam.class));
                 } else{
                     Toast.makeText(ParentMainActivity.this, must_did_adv_reg, Toast.LENGTH_SHORT).show();
@@ -72,11 +76,10 @@ public class ParentMainActivity extends AppCompatActivity {
         med_hist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(p.DidAdvanceRegistration()){
+                if(parent.DidAdvanceRegistration()){
                     Intent i = new Intent(ParentMainActivity.this , MedicalHistoryList.class);
-                    i.putExtra(Constants.PARENT_ID_META , p.getUser_id());
+                    i.putExtra(Constants.PARENT_ID_META , parent.getUser_id());
                     startActivity(i);
-
                 } else{
                     Toast.makeText(ParentMainActivity.this, must_did_adv_reg, Toast.LENGTH_SHORT).show();
                 }
@@ -87,7 +90,13 @@ public class ParentMainActivity extends AppCompatActivity {
         exercises.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ParentMainActivity.this, ExercisesList.class));
+                if(parent.DidAdvanceRegistration()){
+                    Intent i = new Intent(ParentMainActivity.this , ExercisesList.class);
+                    i.putExtra(Constants.PARENT_ID_META , parent.getUser_id());
+                    startActivity(i);
+                } else{
+                    Toast.makeText(ParentMainActivity.this, must_did_adv_reg, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -96,9 +105,15 @@ public class ParentMainActivity extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ParentMainActivity.this , ListDoctorsActivity.class);
-                i.putExtra(Constants.LIST_DOCTORS_ACTIVTY_CHOICE , "chat");
-                startActivity(i);
+                if(parent.DidAdvanceRegistration()){
+                    Intent i = new Intent(ParentMainActivity.this , ListDoctorsActivity.class);
+                    i.putExtra(Constants.LIST_DOCTORS_ACTIVTY_CHOICE , "chat");
+                    startActivity(i);
+                } else{
+                    Toast.makeText(ParentMainActivity.this, must_did_adv_reg, Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -112,14 +127,25 @@ public class ParentMainActivity extends AppCompatActivity {
             }
         });
 
+
+        // check chats
+        Constants.checkChats(Constants.get_user_object(this) , this);
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        parent = (Parent) Constants.get_user_object(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
         return true;
     }
 
@@ -127,6 +153,5 @@ public class ParentMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
-
     }
 }

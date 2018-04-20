@@ -35,12 +35,9 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
 
     private ListView patients_listview;
     private EditText file_num;
-
-
     private ListAdapter listAdapter;
 
     // Search EditText
-
     private List<Parent> patientsObjects;
 
     @Override
@@ -57,9 +54,7 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
         patientsObjects = new ArrayList<>();
 
 
-//        final String file_number = file_num.getText().toString();
         file_num.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
@@ -76,6 +71,14 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
         });
 
         refresh();
+    }
+
+    public void refresh() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(Constants.CODE, Constants.LIST_PARENTS + "");
+
+        DatabasePostConnection connection = new DatabasePostConnection(this);
+        connection.postRequest(data, Constants.DATABASE_URL);
     }
 
     @Override
@@ -95,14 +98,6 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void refresh() {
-        HashMap<String, String> data = new HashMap<>();
-        data.put(Constants.CODE, Constants.LIST_PARENTS + "");
-
-        DatabasePostConnection connection = new DatabasePostConnection(this);
-        connection.postRequest(data, Constants.DATABASE_URL);
     }
 
 
@@ -127,12 +122,6 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
                     break;
                 }
 
-                // if there are no records -> show text view with no records text
-                case Constants.NO_RECORDS: {
-//                    show_no_records();
-                    break;
-                }
-
             }
 
         } catch (JSONException e) {
@@ -140,16 +129,6 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
         }
     }
 
-    private void show_no_records() {
-//        file_num.setVisibility(View.GONE);
-//        patients_listview.setVisibility(View.GONE);
-//        TextView no_records_text = (TextView) findViewById(R.id.no_records);
-//        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) no_records_text.getLayoutParams();
-//        lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        no_records_text.setLayoutParams(lp);
-//        no_records_text.setText(getString(R.string.no_records));
-//        no_records_text.setVisibility(View.VISIBLE);
-    }
 
     private void fill_listView_with_parents(JSONObject output) {
         try {
@@ -157,7 +136,6 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
             patientsObjects.clear();
 
             // convert from JSON Array to ArrayList
-
             JSONArray parentsJSONArray = output.getJSONArray("data");
             for (int i = 0; i < parentsJSONArray.length(); i++) {
                 try {
@@ -166,12 +144,12 @@ public class PatientsFilesActivity extends AppCompatActivity implements ReceiveR
 
                     int user_id = jsonObject.getInt(Constants.USER_ID_META);
                     String user_email = jsonObject.getString(Constants.USER_EMAIL_META);
-                    String user_phone = jsonObject.optString(Constants.USER_PHONE_META , "");
-                    String user_name = jsonObject.optString(Constants.USER_NAME_META,"");
+                    String user_phone = jsonObject.optString(Constants.USER_PHONE_META, "");
+                    String user_name = jsonObject.optString(Constants.USER_NAME_META, "");
                     int user_type = jsonObject.getInt(Constants.USER_TYPE_META);
-                    int consult_doctor = jsonObject.optInt(Constants.CONSULT_DOCTOR , -1);
+                    int consult_doctor = jsonObject.optInt(Constants.CONSULT_DOCTOR, -1);
 
-                    Parent parent = new Parent(user_id, user_email, user_name, user_type, user_phone, true,consult_doctor);
+                    Parent parent = new Parent(user_id, user_email, user_name, user_type, user_phone, true, consult_doctor);
                     JSONArray metas = jsonObject.optJSONArray("metas");
                     if (metas != null && metas.length() > 0) {
                         for (int j = 0; j < metas.length(); j++) {

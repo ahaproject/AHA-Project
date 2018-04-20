@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -73,11 +76,12 @@ public class SingleExerciseView extends AppCompatActivity {
 
                 Button link_click = (Button) findViewById(R.id.link_click);
                 link_click.setVisibility(View.VISIBLE);
+                final String path = (e.getVideo_path().contains("http"))?e.getVideo_path() : "http://"+e.getVideo_path();
                 link_click.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(e.getVideo_path()));
-                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(e.getVideo_path()));
+                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
                         try {
                             try {
                                 startActivity(appIntent);
@@ -85,7 +89,8 @@ public class SingleExerciseView extends AppCompatActivity {
                                 startActivity(webIntent);
                             }
                         } catch (ActivityNotFoundException ex) {
-                            Toast.makeText(SingleExerciseView.this, getString(R.string.copied_path), Toast.LENGTH_LONG).show();
+                            Toast.makeText(SingleExerciseView.this, getString(R.string.copied_path),
+                                    Toast.LENGTH_LONG).show();
                             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData clip = ClipData.newPlainText("youttube path", e.getVideo_path());
                             clipboard.setPrimaryClip(clip);
@@ -112,8 +117,6 @@ public class SingleExerciseView extends AppCompatActivity {
             try {
                 if (params[0].equalsIgnoreCase("img")) {
                     URL url = new URL(Constants.DATABASE_URL + params[1]);
-//                    Log.d("download",url.toString());
-
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.connect();
@@ -137,14 +140,23 @@ public class SingleExerciseView extends AppCompatActivity {
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageBitmap((Bitmap) result);
             }
-
-//            else if(){
-//
-//            }
-
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
+    }
 }
 
 

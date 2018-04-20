@@ -7,6 +7,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -23,13 +26,15 @@ import java.util.LinkedHashMap;
 
 import project.aha.Constants;
 import project.aha.R;
+import project.aha.admin_panel.AdminMainActivity;
 import project.aha.models.Chat;
 import project.aha.models.ChatMessage;
+import project.aha.models.ReportedChat;
 import project.aha.models.User;
 
 public class ChatsActivity extends AppCompatActivity{
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseReference = Constants.getChatsRef();
 
     RecyclerView chats_listview;
     ChatsAdapter listAdapter;
@@ -86,9 +91,14 @@ public class ChatsActivity extends AppCompatActivity{
     }
 
 
-    public void upChatsListView(DataSnapshot dataSnapshot , int current_user_id){
+    ///TODO
+    // copy this method to the main class
+    public void upChatsListView(DataSnapshot dataSnapshot , final int current_user_id){
         for(DataSnapshot ds : dataSnapshot.getChildren()) {
             final  String key = ds.getKey();
+            if(!key.contains(Constants.CHAT_USERS_SEPARATOR)){
+                continue;
+            }
             String [] id_string = ds.getKey().split(Constants.CHAT_USERS_SEPARATOR);
 
             int id_1 = Integer.parseInt(id_string[0]) , id_2 = Integer.parseInt(id_string[1]);
@@ -110,15 +120,15 @@ public class ChatsActivity extends AppCompatActivity{
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         ChatMessage cm = dataSnapshot.getValue(ChatMessage.class);
 
+                        Chat chat = new Chat(key, other_user, cm.getContent(), cm.getTime());
                         if(listAdapter.getByKey(key) == null) {
-                            listAdapter.add(new Chat(key, other_user, cm.getContent(), cm.getTime()));
+                            listAdapter.add(chat);
                         }else{
                             listAdapter.update(key, cm.getContent(), cm.getTime());
                         }
                         listAdapter.notifyDataSetChanged();
                         chats_listview.setVisibility(View.VISIBLE);
                         findViewById(R.id.no_chats).setVisibility(View.GONE);
-
                     }
 
                     @Override
@@ -136,5 +146,22 @@ public class ChatsActivity extends AppCompatActivity{
                 q.addChildEventListener(valueEventListener);
             }
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
     }
 }

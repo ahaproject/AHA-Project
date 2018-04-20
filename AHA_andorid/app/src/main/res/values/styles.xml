@@ -46,5 +46,15 @@
     </style>
 
 
+    <!--style for the questions in the medical history -->
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/aha_basic</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/aha_black</item>
+        <item name="colorControlNormal">@color/aha_basic</item>
+        <item name="colorControlActivated">@color/aha_black</item>
+    </style>
+
 
 </resources>

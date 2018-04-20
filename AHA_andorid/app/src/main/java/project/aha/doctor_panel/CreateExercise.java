@@ -20,6 +20,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -50,33 +53,27 @@ import project.aha.SpinnerAdapter;
 import project.aha.models.Diagnose;
 
 
-public class CreateExercise extends AppCompatActivity implements ReceiveResult, SingleUploadBroadcastReceiver.Delegate{
+public class CreateExercise extends AppCompatActivity implements ReceiveResult, SingleUploadBroadcastReceiver.Delegate {
 
-    private final SingleUploadBroadcastReceiver uploadReceiver =
-            new SingleUploadBroadcastReceiver();
-
-
-    // Camera activity request codes
+    private final SingleUploadBroadcastReceiver uploadReceiver = new SingleUploadBroadcastReceiver();
 
     private static final int STORAGE_PERMISSION_CODE = 123;
+    private static final int MEDIA_TYPE_IMAGE = 1;
 
-    public static final int MEDIA_TYPE_IMAGE = 1;
-
-    private Uri fileUri; // file url to store image/video
-    Spinner specializes_dropdown_list;
-
+    private Spinner specializes_dropdown_list;
 
     private Button create;
     private EditText subject;
     private EditText description, youtube_link;
-    String specialized;
-    int specialized_id;
+    private String specialized;
+    private int specialized_id;
 
-    String imagePath;
-    String videoPath;
+    private String imagePath;
+    private String videoPath;
     private ImageButton btnCapturePicture;
 
     ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,22 +84,29 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
         subject = (EditText) findViewById(R.id.subject);
 
+        // get the dropdown of specializes
         specializes_dropdown_list = (Spinner) findViewById(R.id.specialized);
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, R.layout.spinner_style, new ArrayList<>(Constants.diagnoses.values()));
-        specializes_dropdown_list.setAdapter(spinnerAdapter);
-        specializes_dropdown_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Diagnose di = (Diagnose) parent.getItemAtPosition(position);
-                specialized = di.getName();
-                specialized_id = di.getId();
-            }
+        if(Constants.diagnoses != null && !Constants.diagnoses.isEmpty()){
+            ArrayList<Diagnose> diagnoses = new ArrayList<>(Constants.diagnoses.values());
+            SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, R.layout.spinner_style, diagnoses );
+            specializes_dropdown_list.setAdapter(spinnerAdapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                specialized = null;
-            }
-        });
+            // set action when user clicks on specialize
+            specializes_dropdown_list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Diagnose di = (Diagnose) parent.getItemAtPosition(position);
+                    specialized = di.getName();
+                    specialized_id = di.getId();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    specialized = null;
+                }
+            });
+        }
+
 
 
         description = (EditText) findViewById(R.id.description);
@@ -117,7 +121,6 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
 
         btnCapturePicture = (ImageButton) findViewById(R.id.upload_photo_btn);
-//        btnRecordVideo = (ImageButton) findViewById(R.id.upload_video_btn);
 
         /**
          * Capture image button click event
@@ -138,7 +141,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
     public void createExercise() {
         String subjectString = subject.getText().toString();
         String descriptionString = description.getText().toString();
-        videoPath = youtube_link.getText().toString().toLowerCase();
+        videoPath = youtube_link.getText().toString();
 
 
         if (subjectString == null || subjectString.length() == 0) {
@@ -150,19 +153,19 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
         } else if (specialized == null || specialized.length() == 0) {
             specializes_dropdown_list.requestFocus();
             Toast.makeText(this, getString(R.string.field_required), Toast.LENGTH_LONG).show();
-        }
-        else if (videoPath != null && videoPath.length() > 0 && !videoPath.contains("youtube")){
+        } else if (videoPath != null && videoPath.length() > 0 && !videoPath.toLowerCase().contains("youtube")) {
             youtube_link.requestFocus();
             Toast.makeText(this, getString(R.string.must_be_youtube_link), Toast.LENGTH_LONG).show();
-        }else {
-            SharedPreferences prefs = getSharedPreferences(Constants.PREF_FILE_NAME, MODE_PRIVATE);
-            final int user_id = prefs.getInt(Constants.PREF_USER_LOGGED_ID, -1);
+        } else {
+
+
+            final int user_id = Constants.get_current_user_id(this);
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(getString(R.string.please_wait));
             progressDialog.setCancelable(true);
             progressDialog.show();
 
-            if ((imagePath == null || imagePath.length() == 0 )) {
+            if ((imagePath == null || imagePath.length() == 0)) {
 
                 HashMap<String, String> data = new HashMap<>();
                 data.put(Constants.CODE, Constants.CREATE_EXERCISE + "");
@@ -172,7 +175,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                 data.put("user_id", user_id + "");
 
 
-                if(videoPath!= null && videoPath.length() > 0){
+                if (videoPath != null && videoPath.length() > 0) {
                     data.put("youtube_link", videoPath);
 
                 }
@@ -190,11 +193,10 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
                     if (imagePath != null && imagePath.length() > 0) {
                         upload.addFileToUpload(imagePath, "image");
-//                        upload.setNotificationConfig(new UploadNotificationConfig());
                         upload.setMaxRetries(2);
                     }
 
-                    if(videoPath!= null && videoPath.length() > 0){
+                    if (videoPath != null && videoPath.length() > 0) {
                         upload.addParameter("youtube_link", videoPath);
 
                     }
@@ -207,7 +209,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                     upload.startUpload(); //Starting the upload
 
                 } catch (Exception exc) {
-                    Log.d("Error in multipart" , exc.getMessage());
+                    Log.d("Error in multipart", exc.getMessage());
                     Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -229,15 +231,12 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-//            imagePath = getPath(selectedImg);
 
         }
     }
 
 
-
-
-    //Requesting permission
+    //Requesting permission -> from internet
     private void requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
             return;
@@ -254,30 +253,27 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
     //This method will be called when the user will tap on allow or deny
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         //Checking the request code of our request
         if (requestCode == STORAGE_PERMISSION_CODE) {
-
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Displaying a toast
-//                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+
             } else {
                 //Displaying another toast if permission is not granted
-                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.denied_storage_access), Toast.LENGTH_LONG).show();
             }
         }
     }
 
     @Override
     public void onReceiveResult(String resultJson) {
-        if(progressDialog != null){
+        if (progressDialog != null) {
             progressDialog.hide();
             progressDialog = null;
         }
 
         try {
-            Log.d("RESULT" , resultJson);
+            Log.d("RESULT", resultJson);
             JSONObject output = new JSONObject(resultJson).getJSONObject("output");
 
             String result = output.getString(Constants.RESULT);
@@ -289,7 +285,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                     // set them to visible
                     Toast.makeText(this, getString(R.string.scf_add_exer), Toast.LENGTH_LONG).show();
 
-                    startActivity(new Intent(this , DoctorMainActivity.class));
+                    startActivity(new Intent(this, DoctorMainActivity.class));
                     finish();
                     break;
                 }
@@ -305,22 +301,27 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
             e.printStackTrace();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         uploadReceiver.register(this);
-        if(progressDialog != null){
+        if (progressDialog != null) {
             progressDialog.hide();
             progressDialog = null;
-        }    }
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
         uploadReceiver.unregister(this);
-        if(progressDialog != null){
+        if (progressDialog != null) {
             progressDialog.hide();
             progressDialog = null;
-        }    }
+        }
+    }
+
     @Override
     public void onProgress(int progress) {
         super.onResume();
@@ -353,7 +354,7 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
 
     }
 
-    private static class PathUtil {
+    private static class PathUtil { // from internet
         /*
          * Gets the file path of the given Uri.
          */
@@ -385,11 +386,11 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
                         uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                     }
                     selection = "_id=?";
-                    selectionArgs = new String[]{ split[1] };
+                    selectionArgs = new String[]{split[1]};
                 }
             }
             if ("content".equalsIgnoreCase(uri.getScheme())) {
-                String[] projection = { MediaStore.Images.Media.DATA };
+                String[] projection = {MediaStore.Images.Media.DATA};
                 Cursor cursor = null;
                 try {
                     cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
@@ -429,5 +430,22 @@ public class CreateExercise extends AppCompatActivity implements ReceiveResult, 
         public static boolean isMediaDocument(Uri uri) {
             return "com.android.providers.media.documents".equals(uri.getAuthority());
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this, super.onOptionsItemSelected(item), item);
     }
 }

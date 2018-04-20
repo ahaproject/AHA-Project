@@ -2,9 +2,15 @@ package project.aha.parent_panel;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -16,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import project.aha.Constants;
 import project.aha.DatabasePostConnection;
@@ -27,7 +34,7 @@ import project.aha.models.CARS_Question;
 public class CARS_Exam extends AppCompatActivity implements ReceiveResult {
 
 
-    HashMap<Integer, CARS_Question> all_questions;
+    private LinkedHashMap<Integer, CARS_Question> all_questions;
 
     private Button finishBtn;
     private TextView error;
@@ -48,11 +55,8 @@ public class CARS_Exam extends AppCompatActivity implements ReceiveResult {
         con.postRequest(data, Constants.DATABASE_URL);
 
 
-        all_questions = new HashMap<>();
-
-
+        all_questions = new LinkedHashMap<>();
         error = (TextView) findViewById(R.id.error);
-
         finishBtn = (Button) findViewById(R.id.finish_exam);
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,20 +144,39 @@ public class CARS_Exam extends AppCompatActivity implements ReceiveResult {
             RadioGroup rg = new RadioGroup(this); //create the RadioGroup
             rg.setOrientation(RadioGroup.VERTICAL);//RadioGroup.VERTICAL
             rg.setId(q.getQ_id());
+            rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                    Log.d("Checked "+radioGroup.getId() , "id :"+i);
+                }
+            });
 
-            RadioButton rb;
+
+//            RadioButton rb;
             for (CARS_Answer answers : q.getAnswers().values()) {
-                rb = new RadioButton(this);
+                RadioButton rb = new RadioButton(this);
                 rb.setText(answers.getAnswer());
                 rb.setId(answers.getA_id());
-//                Log.d("Res" , answers.getA_id()+". "+answers.getAnswer());
-
 
                 rg.addView(rb);
             }
 
             section.addView(rg);//you add the whole RadioGroup to the layout
             form.addView(section);
+        }
+
+        printViewHierarchy(form , "VIEW : ");
+    }
+
+    public static void printViewHierarchy(ViewGroup vg, String prefix) {
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            View v = vg.getChildAt(i);
+            String desc = prefix + " | " + "[" + i + "/" + (vg.getChildCount()-1) + "] "+ v.getClass().getSimpleName() + " " + v.getId();
+            Log.v("x", desc);
+
+            if (v instanceof ViewGroup) {
+                printViewHierarchy((ViewGroup)v, desc);
+            }
         }
     }
 
@@ -207,5 +230,23 @@ public class CARS_Exam extends AppCompatActivity implements ReceiveResult {
         i.putExtra(Constants.CARS_RESULTS , all_questions);
         startActivity(i);
         finish();
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this ,super.onOptionsItemSelected(item),item);
     }
 }

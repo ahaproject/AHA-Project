@@ -1,6 +1,9 @@
 package project.aha.admin_panel;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.RelativeLayout.LayoutParams;
 
 import android.support.v7.app.AppCompatActivity;
@@ -31,22 +34,16 @@ import project.aha.models.Parent;
 import project.aha.models.User;
 import project.aha.parent_panel.ParentSingleView;
 
-public class ListParentActivity extends AppCompatActivity implements ReceiveResult , DialogCallBack {
+public class ListParentActivity extends AppCompatActivity implements ReceiveResult, DialogCallBack {
 
 
     // list view of the doctors
-    ListView parentsList;
-
+    private ListView parentsList;
     private ListAdapter listAdapter;
     final List<Parent> parents_objects = new ArrayList<>();
-
-
-    TextView choose_parent_title;
-
-    String choice;
-
-
-    int presse_item_position = -1;
+    private TextView choose_parent_title;
+    private String choice;
+    private int presse_item_position = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +56,6 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
         // get the view list
         parentsList = (ListView) findViewById(R.id.parents_list);
 
-        // set them to not visible until we ensure that there are records
-        choose_parent_title.setVisibility(View.GONE);
-        parentsList.setVisibility(View.GONE);
-
 
         Intent i = getIntent();
         if (i != null) {
@@ -70,7 +63,7 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
             choice = i.getStringExtra(Constants.LIST_PARENTS_ACTIVTY_CHOICE);
             switch (choice) {
 
-                case "doctor_patients":{
+                case "doctor_patients": {
                     setTitle(R.string.doctor_patients_list);
                     // add action when the admin clicks on parent record in the listview
                     parentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,7 +76,7 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
                         }
                     });
 
-                    // send request to database to get all doctors
+                    // send request to database to get all parents of specific doctor
                     HashMap<String, String> data = new HashMap<>();
                     data.put(Constants.CODE, Constants.LIST_PARENTS + "");
                     data.put(Constants.DOCTOR_ID_META, Constants.get_current_user_id(this) + "");
@@ -106,7 +99,7 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
                         }
                     });
 
-                    // send request to database to get all doctors
+                    // send request to database to get all parents
                     HashMap<String, String> data = new HashMap<>();
                     data.put(Constants.CODE, Constants.LIST_PARENTS + "");
                     DatabasePostConnection connection = new DatabasePostConnection(this);
@@ -117,24 +110,17 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
                 case "delete": {
                     setTitle(R.string.delete_parent_title);
 
-                    // set title
-//                    confirm_delete_dialog.setTitle(activity.getString(R.string.delete_parent_title));
-//
-//                    // set message
-//                    confirm_delete_dialog.setMessage(activity.getString(R.string.confirm_delete));
-
                     // add action when the admin clicks on parent record in the listview
                     parentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 final int position, long id) {
                             presse_item_position = position;
-                            Constants.showConfirmDeleteDialog(ListParentActivity.this,getString(R.string.confirm_delete),getString(R.string.delete_parent_title));
-
+                            Constants.showConfirmDeleteDialog(ListParentActivity.this, getString(R.string.confirm_delete), getString(R.string.delete_parent_title));
                         }
                     });
 
-                    // send request to database to get all doctors
+                    // send request to database to get all parents
                     HashMap<String, String> data = new HashMap<>();
                     data.put(Constants.CODE, Constants.LIST_PARENTS + "");
                     DatabasePostConnection connection = new DatabasePostConnection(this);
@@ -145,7 +131,6 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
 
 
         }
-
 
 
     }
@@ -170,13 +155,6 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
                     break;
                 }
 
-                // if there are no records -> show text view with no records text
-                case Constants.NO_RECORDS: {
-//                    show_no_records();
-
-
-                    break;
-                }
 
                 // if the admin try to delete doctor and there are an error -> print error
                 case Constants.ERR_DELETE_PARENT: {
@@ -189,8 +167,8 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
                     int user_id = output.getInt(Constants.USER_ID_META);
                     delete_parent(user_id, listAdapter);
 
+                    // if there are no records remain in the list view
                     if (parents_objects.size() == 0) {
-
                         show_no_records();
                     }
                     Toast.makeText(this, getString(R.string.scf_delete_parent), Toast.LENGTH_LONG).show();
@@ -227,9 +205,9 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
                     String user_email = jsonObject.getString(Constants.USER_EMAIL_META);
                     String user_phone = jsonObject.optString(Constants.USER_PHONE_META, "");
                     String user_name = jsonObject.optString(Constants.USER_NAME_META, "");
-                    int consult_doctor = jsonObject.optInt(Constants.CONSULT_DOCTOR , -1);
+                    int consult_doctor = jsonObject.optInt(Constants.CONSULT_DOCTOR, -1);
 
-                    parents_objects.add(new Parent(user_id, user_email, user_name, Constants.PARENT_TYPE, user_phone , true , consult_doctor));
+                    parents_objects.add(new Parent(user_id, user_email, user_name, Constants.PARENT_TYPE, user_phone, true, consult_doctor));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -266,5 +244,22 @@ public class ListParentActivity extends AppCompatActivity implements ReceiveResu
         data.put(Constants.USER_ID_META, parent.getUser_id() + "");
 
         new DatabasePostConnection(this).postRequest(data, Constants.DATABASE_URL);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this, super.onOptionsItemSelected(item), item);
     }
 }

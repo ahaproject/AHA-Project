@@ -5,19 +5,18 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CARS_Question implements Serializable {
-
     private int q_id;
     private String question ;
-    private HashMap<Integer , CARS_Answer> answers ;
-
+    private LinkedHashMap<Integer , CARS_Answer> answers ;
     private int answer_id;
 
     public CARS_Question(int q_id, String question) {
         this.q_id = q_id;
         this.question = question;
-        this.answers = new HashMap<>();
+        this.answers = new LinkedHashMap<>();
     }
 
 
@@ -51,11 +50,11 @@ public class CARS_Question implements Serializable {
     }
 
 
-    public HashMap<Integer, CARS_Answer> getAnswers() {
+    public LinkedHashMap<Integer, CARS_Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(HashMap<Integer, CARS_Answer> answers) {
+    public void setAnswers(LinkedHashMap<Integer, CARS_Answer> answers) {
         this.answers = answers;
     }
 }

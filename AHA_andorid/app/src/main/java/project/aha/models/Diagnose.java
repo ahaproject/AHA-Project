@@ -1,12 +1,8 @@
 package project.aha.models;
 
 public class Diagnose {
-
-
-
    private int id ;
    private String name ;
-
 
     public Diagnose(int id, String name) {
         this.id = id;

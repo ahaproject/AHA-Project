@@ -73,23 +73,25 @@ public class DatabasePostConnection {
             public void onResponse(String response) {
                 Log.d("Response", response);
 
-                // hide
-                if (showDialog)
-                    progressDialog.hide();
-
-                if (code == Constants.LIST_DIAGNOSES) {
-                    listDiagnoses(response);
-                }
-
-                if (code == Constants.REPORT_ABUSE) {
-                    reportAbuse(response);
-                }
-
-
                 if (runOActivity) {
                     ReceiveResult activity = (ReceiveResult) callerActivity;
                     activity.onReceiveResult(response);
                 }
+
+                // hide
+                if (showDialog)
+                    progressDialog.hide();
+
+                if (code == Constants.LIST_DIAGNOSES && !runOActivity) {
+                    listDiagnoses(response);
+                }
+
+                if (code == Constants.REPORT_ABUSE && !runOActivity) {
+                    reportAbuse(response);
+                }
+
+
+
             }
         };
 

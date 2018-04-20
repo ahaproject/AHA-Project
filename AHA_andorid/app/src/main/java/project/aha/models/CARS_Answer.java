@@ -1,10 +1,5 @@
 package project.aha.models;
-
 import java.io.Serializable;
-
-/**
- * Created by Hema on 3/18/2018 AD.
- */
 
 public class CARS_Answer implements Serializable{
 

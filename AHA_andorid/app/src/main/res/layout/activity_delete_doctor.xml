@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/choose_doctor"
         android:textSize="18sp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 
 

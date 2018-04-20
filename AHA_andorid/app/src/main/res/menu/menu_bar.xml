@@ -1,23 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
 
-    <item android:id="@+id/logout"
-        android:icon="@drawable/logout_icon"
-        android:title="@string/btn_logout"
-        android:orderInCategory="100"
+
+    <item android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home"
         yourapp:showAsAction="always" />
 
     <item android:id="@+id/chat_activity"
         android:icon="@drawable/ic_navigation_chat"
         android:title="@string/title_chat"
-        android:orderInCategory="100"
-        yourapp:showAsAction="always" />
+        yourapp:showAsAction="ifRoom" />
 
 
-    <!--<item android:id="@+id/show_profile"-->
-        <!--android:icon="@drawable/ic_profile"-->
-        <!--android:title="@string/profile"-->
-        <!--android:visible="false"-->
-        <!--yourapp:showAsAction="ifRoom" />-->
+    <item android:id="@+id/show_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"
+        yourapp:showAsAction="ifRoom" />
+
+    <item android:id="@+id/logout"
+        android:icon="@drawable/logout_icon"
+        android:title="@string/btn_logout"
+        yourapp:showAsAction="ifRoom" />
 
 </menu>

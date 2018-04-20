@@ -1,9 +1,5 @@
 package project.aha.models;
 
-
-import android.graphics.Bitmap;
-import android.provider.MediaStore;
-
 import java.io.Serializable;
 
 public class Exercise implements Serializable{

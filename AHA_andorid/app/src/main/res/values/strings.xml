@@ -41,7 +41,7 @@
     <string name="btn_register">REGISTER</string>
     <string name="btn_link_to_register">Not a member? Sign up now.</string>
     <string name="welcome">Welcome</string>
-    <string name="btn_logout">LOGOUT</string>
+    <string name="btn_logout">Logout</string>
     <string name="name">Name</string>
     <string name="error_login">Incorrect Email address/Phone number or Password provided</string>
     <string name="title_activity_admin_main">AdminMainActivity</string>
@@ -218,7 +218,7 @@
     <string name="intermediate_autism">Intermediate Autism</string>
     <string name="simple_autism">Simple Autism</string>
     <string name="autism_spectrum">Autism Spectrum</string>
-    <string name="go_see_exercises">Go to exercises page !</string>
+    <string name="go_see_exercises">Exercises</string>
     <string name="scf_save_result">You can review your answers in the Medical History</string>
     <string name="normal_kid">Normal</string>
     <string name="medical_history">Medical History</string>
@@ -246,14 +246,35 @@
     <string name="scf_report_abuse">Reported successfully, Thank you!</string>
     <string name="confirm_report_abuse">Are you really want to report abuse for this user ?</string>
     <string name="doctor_patients_list">Patients List</string>
-    <string name="switch_consult">Switch consultaion</string>
+    <string name="switch_consult">Switch consultation</string>
     <string name="confirm_switch_consult">Are you really want to switch your consultation to this doctor ?</string>
     <string name="profile">Profile</string>
     <string name="copied_path">Your device does not support YouTube App or Chrome, The path is copied to your clipboard ..</string>
+    <string name="pwd_8_char">Password ust be 8 character and more</string>
+    <string name="doctor_info">Doctor Information</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="report_reason">Please write the report reason !</string>
+    <string name="incorrect_email">Invalid email address !</string>
+    <string name="call_admin">Call Admin</string>
+    <string name="little_unnatural">little Unnatural</string>
+    <string name="moderately_normal">Moderately Normal</string>
+    <string name="very_unnatural">Very unnatural</string>
+    <string name="reported_chats">Reported Chats</string>
+    <string name="reporter">Reporter</string>
+    <string name="reported">Reported</string>
+    <string name="the_chat">Chat History</string>
+    <string name="deleted">Deleted</string>
+    <string name="reported_chat">Reported Chat</string>
+    <string name="user_reporter">%s has reports another user</string>
+    <string name="denied_storage_access">Please, grant the application the access to storage to upload pictures !</string>
+    <string name="reason">Report reason</string>
+    <string name="user_switcher">Doctor %s assigned you a new patient</string>
+    <string name="scf_delete_exercise">Exercise has deleted successfully !</string>
+    <string name="err_delete_exercise">Excersise has not deleted !</string>
+    <string name="all">All</string>
+    <string name="normal_kid_congrats">Congratulations, your child is normal and no need for exercises !</string>
     <!--end-->
-
-
-
 
 
 </resources>

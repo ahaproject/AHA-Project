@@ -9,11 +9,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+
 import project.aha.Constants;
 import project.aha.ExercisesList;
 import project.aha.R;
+import project.aha.admin_panel.AdminMainActivity;
 import project.aha.admin_panel.ListParentActivity;
 import project.aha.admin_panel.ListDoctorsActivity;
+import project.aha.admin_panel.SingleViewReportedChat;
+import project.aha.models.ReportedChat;
+import project.aha.models.User;
 
 public class DoctorMainActivity extends AppCompatActivity {
 
@@ -30,6 +39,7 @@ public class DoctorMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_main);
         Constants.showLogo(this);
 
+        // add actions to the buttons
         patients_files_btn = (Button) findViewById(R.id.patients_files_btn);
         patients_files_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +97,69 @@ public class DoctorMainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        // check user chats
+        Constants.checkChats(Constants.get_user_object(this) , this);
+
+        
+        checkConsultantSwitch();
+    }
+    private void checkConsultantSwitch() {
+        // get the database reference
+        final DatabaseReference databaseReference = Constants.getSwitchingRef();
+
+        // add action if any child added to the database
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                doNotification(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void doNotification(DataSnapshot dataSnapshot) {
+        int doctor_id =  dataSnapshot.child("doctor").getValue(Integer.class);
+        String switcher =  dataSnapshot.child("switcher").getValue(String.class);
+        String seen =  dataSnapshot.child("seen").getValue(String.class);
+
+        // if this user is admin
+        if (Constants.get_current_user_id(this) == doctor_id) {
+            // and this notification not seen before
+            if (seen.equals("no")) {
+
+                // get the reporter object
+
+                // set the title and message for the notification
+                String title = getString(R.string.switch_consult);
+                String message = String.format(getString(R.string.user_switcher), switcher);
+
+                // set the intent when the user clicks on the notification
+                Intent resultIntent = new Intent(this, this.getClass());
+
+                // and then display it to the user
+                Constants.sendNotification(DoctorMainActivity.this, title, message,false, null);
+
+                // then set the notification to seen to not be pushed again !
+                dataSnapshot.getRef().child("seen").setValue("yes");
+            }
+        }
     }
 
 
@@ -94,6 +167,9 @@ public class DoctorMainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
         return true;
     }
 

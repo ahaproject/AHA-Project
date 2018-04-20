@@ -47,12 +47,7 @@
     <string name="add">إضافة</string>
     <string name="delete">حذف</string>
     <string name="duplicate_account">البريد الإلكتروني أو رقم الجوال موجود!</string>
-    <string name="scf_add_doctor">Doctor added successfully !</string>
-    <string name="specialized_1">sp1</string>
-    <string name="specialized_2">sp2</string>
-    <string name="specialized_3">sp3</string>
-    <string name="specialized_4">sp4</string>
-    <string name="specialized_5">sp5</string>
+    <string name="scf_add_doctor">تم إضافة الطبيب بنجاح !</string>
     <string name="choose_doctor">اختر طبيب : </string>
     <string name="choose_parent">اختر أب : </string>
     <string name="confirm_delete">هل تريد الحذف بالتأكيد؟</string>
@@ -63,11 +58,10 @@
     <string name="err_delete_parent">فشل حذف الأب!</string>
     <string name="scf_delete_doctor">تم حذف الطبيب بنجاح</string>
     <string name="scf_delete_parent">تم حذف الأب بنجاح</string>
-    <string name="please_wait">انتظر...</string>
+    <string name="please_wait">الرجاء الإنتظار . . .</string>
     <string name="network_error">لايمكن الإتصال بالإنترنت...الرجاء التأكد من الإتصال</string>
-    <string name="server_error">The server could not be found. Please try again after some time!!</string>
     <string name="auth_failure_error">لايمكن الإتصال بالإنترنت...الرجاء التأكد من الإتصال</string>
-    <string name="parse_error">Parsing error! Please try again after some time!!</string>
+    <string name="parse_error">خطأ تحليل! من فضلك حاول مرة أخرى بعد بعض من الوقت!!</string>
     <string name="no_connection_error">لايمكن الإتصال بالإنترنت...الرجاء التأكد من الإتصال</string>
     <string name="timout_error">الرجاء التأكد من الإتصال بالإنترنت</string>
     <string name="file_number">رقم الملف</string>
@@ -106,11 +100,9 @@
     <!--***********************************************************************************************-->
 
     <string name="sign_up">تسجيل</string>
-    <string name="is_polygamy">Is there any polygamy in the family ?</string>
     <string name="family_problems">ماهي أبرز مشاكل الأسرة؟</string>
     <string name="divorce_relationship">إذا كان الجواب نعم, هل أحد الاباء تزوج للمرة الثانية؟</string>
     <string name="second_partner_relationship">كيف علاقة الطفل مع الأب الثاني؟</string>
-    <string name="swipe">Swipe</string>
     <string name="youtube_link">أدخل رابط من اليوتيوب </string>
     <string name="must_be_youtube_link">هذا الرابط ليس من اليوتيوب, الرجاء التأكد من الرابط</string>
     <string name="child_name">اسم الطفل</string>
@@ -122,7 +114,6 @@
     <string name="mother_details">معلومات الأم</string>
     <string name="father_details">معلومات الأب</string>
     <string name="relationship"> علاقات الطفل</string>
-    <string name="economic_level">Economic Level</string>
     <string name="high_level">عالي</string>
     <string name="above_intermediate_level">فوق المتوسط</string>
     <string name="intermediate_level">متوسط</string>
@@ -140,42 +131,24 @@
     <string name="pregnancy_after_abortion">هل كان الحمل بعد الإجهاض؟</string>
     <string name="pregnancy_period">فترة الحمل</string>
     <string name="diseases_during_pregnancy">هل يوجد امراض أثناء الحمل</string>
-    <string name="exp_radiation">Does the mother have any kind of radiation?</string>
-    <string name="nutrition_mother">Mother\'s nutrition during pregnancy</string>
+
     <string name="birth_hospital"> هل ولدت الأم في المستشفى؟</string>
     <string name="easy_birth">هل كانت الولادة سهلة؟</string>
     <string name="child_health">صحة الطفل بعد الولادة</string>
-    <string name="vaccinations">Vaccinations against diseases and epidemics</string>
-    <string name="neonatal_jaundice">Did the child suffer from neonatal jaundice after childbirth</string>
-    <string name="child_overheated">Did the child suddenly feel overheated and not treated?</string>
-    <string name="organic_injuries">Did the child have organic injuries such as recurrent diarrhea, allergies and smallpox, ...</string>
-    <string name="sudden_injury">Have the child suffered a sudden injury (accident or otherwise)</string>
-    <string name="congenital_defects_or_diseases">Does the child suffer from congenital defects or diseases</string>
-    <string name="drugs_prescribed">The drugs are prescribed to the child</string>
-    <string name="child_illness">Does the child complain of any health or psychological illness</string>
-    <string name="child_illness_list">If yes, what is a child\'s health or psychological complaint?</string>
-    <string name="child_development">Child development and health after childbirth</string>
     <string name="feeding">رضاعة الطفل</string>
     <string name="normal_feeding">رضاعة طبيعية</string>
     <string name="artificial_feeding">رضاعة صناعية</string>
     <string name="mixed_feeding">مختلط</string>
     <string name="feeding_period">فترة الرضاعة</string>
-    <string name="duration_weaning">Duration of weaning</string>
     <string name="normal_weaning">فطام طبيعي</string>
     <string name="early_weaning">فطام بدري</string>
     <string name="late_weaning">فطام متأخر</string>
-    <string name="gradual_weaning">Gradual weaning</string>
-    <string name="sudden_weaning">Sudden weaning</string>
     <string name="senses_intact">هل جميع الحواس سليمة</string>
     <string name="began_speak">متى بدأ الطفل بالكلام</string>
-    <string name="behavioral_disorders">Behavioral disorders :</string>
-    <string name="fear">Fear</string>
-    <string name="intransigence">Intransigence</string>
     <string name="eat_nails">أكل الأظافر</string>
     <string name="concern">قلق</string>
     <string name="tantrums">غضب</string>
     <string name="finger_sucking">لعق الأصبع</string>
-    <string name="mindlessness">Mindlessness</string>
     <string name="epileptic_seizures">نوبات الصرع</string>
     <string name="food_disorder">اضطرابات الغذاء</string>
     <string name="aggressive">عدواني</string>
@@ -194,8 +167,8 @@
     <string name="main_complaint">المشكلة الرئيسية</string>
     <string name="advance_registration">التسجيل المسبق</string>
     <string name="save">حفظ</string>
-    <string name="dashboard">لوحة التحكم</string>
-    <string name="no_child_live_with_parent_reason">Why does the parents liveing with each other ?</string>
+    <string name="dashboard">قائمة الإختيارات</string>
+
     <string name="saved_success">تم الحفظ بنجاح</string>
     <string name="cars_exam">CARS إختبار</string>
     <string name="finish">إنهاء</string>
@@ -204,19 +177,12 @@
     <string name="severe_autism">التوحد الحاد</string>
     <string name="intermediate_autism">التوحد المتوسط</string>
     <string name="autism_spectrum">طيف التوحد</string>
-
-
-
-
-    <string name="title_activity_admin_main">AdminMainActivity</string>
-    <string name="title_activity_doctor_main">DoctorMainActivity</string>
-    <string name="title_activity_parent_main">ParentMainActivity</string>
     <string name="child_relationship_parents">كيف هي العلاقة بين الطفل و والداه ؟</string>
     <string name="child_relationship_brothers">كيف هي العلاقة بين الطفل وأخوانه/أخواته ؟</string>
     <string name="answer_all_exam_questions">الرجاء الإجابة على جميع الإجابات أولا !</string>
     <string name="cars_result_title">نتيجة الإختبار</string>
     <string name="simple_autism">التوحد البسيط</string>
-    <string name="go_see_exercises">الذهاب إلى صفة التمارين !</string>
+    <string name="go_see_exercises">التمارين</string>
     <string name="scf_save_result">يمكنك مراجعة إجاباتك في التاريخ الطبي</string>
     <string name="normal_kid">طبيعي</string>
     <string name="medical_history">السجل الطبي</string>
@@ -228,7 +194,6 @@
     <string name="watch_video">اضغط هنا لمشاهدة الفيديو</string>
     <string name="send">إرسال</string>
     <string name="enter_message">أدخل رسالتك</string>
-    <string name="title_activity_navigation">NavigationActivity</string>
     <string name="title_home">الصفحة الرئيسة</string>
     <string name="title_dashboard">لوحة</string>
     <string name="title_notifications">الإشعارات</string>
@@ -246,4 +211,57 @@
     <string name="doctor_patients_list">قائمة المرضى</string>
     <string name="switch_consult">تبديل استشارة الطبيب</string>
     <string name="confirm_switch_consult">هل انت متأكد من تبديل الإستشارة إلي هذا الطبيب ؟</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="doctor_info">معلومات الدكتور المشرف</string>
+    <string name="ok">تم</string>
+    <string name="cancel">إلغاء</string>
+    <string name="report_reason">الرجاء كتابة سبب التبليغ</string>
+    <string name="incorrect_email">بريد إلكتدوني غير صحيح !</string>
+    <string name="call_admin">الإتصال علي المدير</string>
+    <string name="little_unnatural">غير طبيعي بدرجة بسيطة</string>
+    <string name="moderately_normal">غير طبيعي بدرجة متوسط</string>
+    <string name="very_unnatural">غير طبيعي بدرجة شديدة</string>
+    <string name="reported_chats">المحادثات اللتي تم التبليغ عنها</string>
+    <string name="reporter">المبلغ</string>
+    <string name="reported">المبلغ عنه</string>
+    <string name="the_chat">المحادثة</string>
+    <string name="deleted">حساب محذوف</string>
+    <string name="reported_chat">محادثة مبلغ عنها</string>
+    <string name="user_reporter"> %s قد بلغ عن مستخدم آخر</string>
+    <string name="denied_storage_access">امنح التطبيق الصلاحية للوصول الى الصور لتحميل صورة</string>
+    <string name="reason">سبب التبليغ</string>
+
+
+
+
+    <string name="duration_weaning">مدة الفطام</string>
+    <string name="vaccinations">التطعيمات ضد الأمراض والأوبئة</string>
+    <string name="neonatal_jaundice">هل يعاني الطفل من الصفار بعد الولادة</string>
+    <string name="child_overheated">هل شعر الطفل فجأة بارتفاع في الحرارة ولم يتم التعامل معه؟</string>
+    <string name="organic_injuries">هل أصيب الطفل بجروح عضوية مثل الإسهال المتكرر والحساسية والجدري ، ...</string>
+    <string name="sudden_injury">هل عانى الطفل من إصابة مفاجئة (حادث أو غير ذلك)</string>
+    <string name="congenital_defects_or_diseases">هل يعاني الطفل من عيوب أو أمراض خلقية</string>
+    <string name="drugs_prescribed">الأدوية التي وصفت للطفل</string>
+    <string name="child_illness">هل يشتكي الطفل من أي مرض صحي أو نفسي ؟</string>
+    <string name="child_illness_list">إذا كانت الإجابة بنعم ، ما هي شكوى الطفل الصحية أو النفسية؟</string>
+    <string name="child_development">تنمية الطفل وصحته بعد الولادة</string>
+    <string name="exp_radiation">هل تعرضت الأم لأي نوع من الإشعاعات؟</string>
+    <string name="nutrition_mother">تغذية الأم أثناء الحمل</string>
+    <string name="is_polygamy">هل هناك تعدد الزوجات في الأسرة؟</string>
+    <string name="economic_level">المستوى الاقتصادي</string>
+    <string name="server_error">لا يمكن العثور على الخادم. من فضلك حاول مرة أخرى بعد بعض من الوقت!!</string>
+    <string name="no_child_live_with_parent_reason">لماذا لا يعيش الوالدان مع بعضهما البعض؟</string>
+    <string name="mindlessness">السرحان</string>
+    <string name="gradual_weaning">الفطام التدريجي</string>
+    <string name="sudden_weaning">الفطام المفاجئ</string>
+    <string name="behavioral_disorders">الاضطرابات السلوكية :</string>
+    <string name="fear">خوف</string>
+    <string name="intransigence">عناد</string>
+    <string name="copied_path">لا يدعم جهازك تطبيق YouTube أو Chrome ، يتم نسخ المسار إلى الحافظة الخاصة بك.</string>
+    <string name="pwd_8_char">كلمة المرور يجب أن تكون 8 أحرف وأكثر</string>
+    <string name="user_switcher"> %s قد حول إليك حالة مريض جديدة</string>
+    <string name="scf_delete_exercise">تم حذف التمرين بنجاح !</string>
+    <string name="err_delete_exercise">لم يتم حذف التمرين ! !</string>
+    <string name="all">الكل</string>
+    <string name="normal_kid_congrats">تهانينا ! طفلك بحالة صحية جيدة وليس هناك حاجة إلى التمارين !</string>
 </resources>

@@ -12,7 +12,6 @@
 
         <TextView
             android:id="@+id/first_row"
-            android:text="test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -34,7 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
-            android:text="test"
             android:textAlignment="viewStart"
             android:textColor="@color/aha_basic"
             android:textSize="20dp" />
@@ -48,7 +46,6 @@
 
         <TextView
             android:id="@+id/third_row"
-            android:text="test"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"

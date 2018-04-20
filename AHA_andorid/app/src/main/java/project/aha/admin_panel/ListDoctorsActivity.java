@@ -2,6 +2,9 @@ package project.aha.admin_panel;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.RelativeLayout.LayoutParams;
 
 import android.support.v7.app.AlertDialog;
@@ -13,6 +16,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,55 +35,51 @@ import project.aha.ListAdapter;
 import project.aha.Chatting.SingleChatActivity;
 import project.aha.models.Doctor;
 
-public class ListDoctorsActivity extends AppCompatActivity implements ReceiveResult ,DialogCallBack{
+public class ListDoctorsActivity extends AppCompatActivity implements ReceiveResult, DialogCallBack {
 
 
     // list view of the doctors
-    ListView doctorsList;
-
+    private ListView doctorsList;
     private ListAdapter listAdapter;
-    final ArrayList<Doctor> doctors_objects = new ArrayList<>();
+    private final ArrayList<Doctor> doctors_objects = new ArrayList<>();
+    private TextView choose_doctor_title;
+    private String choice;
+    private int clicked_position;
+    private int parent_id = -1;
 
-
-    TextView choose_doctor_title;
-
-    String choice;
-
-    int clicked_position;
-    int parent_id = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_doctor);
         Constants.showLogo(this);
 
+
         choose_doctor_title = (TextView) findViewById(R.id.choose_doctor_title);
 
         // get the view list
         doctorsList = (ListView) findViewById(R.id.doctors_list);
 
-        // set them to not visible until we ensure that there are records
-        choose_doctor_title.setVisibility(View.GONE);
-        doctorsList.setVisibility(View.GONE);
 
-
+        // get the called intent
         Intent i = getIntent();
         if (i != null) {
 
+            // get the purpose from this intent to do !
             choice = i.getStringExtra(Constants.LIST_DOCTORS_ACTIVTY_CHOICE);
             switch (choice) {
 
 
-                case "switch_consult" :{
+                // is it for switch consult
+                case "switch_consult": {
                     setTitle(R.string.switch_consult);
-                    parent_id = i.getIntExtra(Constants.PARENT_ID_META , -1);
+                    parent_id = i.getIntExtra(Constants.PARENT_ID_META, -1);
                     // add action when the admin clicks on parent record in the listview
                     doctorsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 final int position, long id) {
                             clicked_position = position;
-                            Constants.showConfirmDeleteDialog(ListDoctorsActivity.this , getString(R.string.confirm_switch_consult),getString(R.string.switch_consult));
+                            Constants.showConfirmDeleteDialog(ListDoctorsActivity.this, getString(R.string.confirm_switch_consult), getString(R.string.switch_consult));
                         }
                     });
 
@@ -120,7 +121,7 @@ public class ListDoctorsActivity extends AppCompatActivity implements ReceiveRes
                 case "delete": {
                     setTitle(R.string.delete_doctor_title);
 
-                    // add action when the admin clicks on parent record in the listview
+                    // add action when the admin clicks on doctor record in the listview
                     doctorsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
@@ -154,7 +155,7 @@ public class ListDoctorsActivity extends AppCompatActivity implements ReceiveRes
 
             switch (result) {
 
-                case Constants.SCF_ASSIGN_DOCTOR:{
+                case Constants.SCF_ASSIGN_DOCTOR: {
                     Toast.makeText(this, getString(R.string.scf_assign_doctor), Toast.LENGTH_LONG).show();
                     break;
                 }
@@ -213,7 +214,6 @@ public class ListDoctorsActivity extends AppCompatActivity implements ReceiveRes
         try {
 
             // convert from JSON Array to ArrayList
-
             JSONArray doctorsJSONArray = output.getJSONArray("data");
             for (int i = 0; i < doctorsJSONArray.length(); i++) {
                 try {
@@ -228,7 +228,7 @@ public class ListDoctorsActivity extends AppCompatActivity implements ReceiveRes
 
                     if ((choice.equalsIgnoreCase("doctor_chat") || choice.equalsIgnoreCase("switch_consult"))
                             && user_id == Constants.get_current_user_id(this)) {
-
+                        // do nothing
                     } else {
                         doctors_objects.add(new Doctor(user_id, user_email, user_name, Constants.DOCTOR_TYPE, user_phone, diagn));
                     }
@@ -242,6 +242,10 @@ public class ListDoctorsActivity extends AppCompatActivity implements ReceiveRes
             listAdapter = new ListAdapter(this, doctors_objects);
             //            listAdapter.
             doctorsList.setAdapter(listAdapter);
+
+            if (doctors_objects.size() == 0) {
+                show_no_records();
+            }
 
         } catch (JSONException ex) {
             ex.printStackTrace();
@@ -308,5 +312,27 @@ public class ListDoctorsActivity extends AppCompatActivity implements ReceiveRes
         new DatabasePostConnection(ListDoctorsActivity.this).postRequest(data, Constants.DATABASE_URL);
 
 
+        DatabaseReference newConsultation = Constants.getSwitchingRef().push();
+        newConsultation.child("doctor").setValue(doctor.getUser_id());
+        newConsultation.child("switcher").setValue(Constants.get_user_object(this).getUser_name());
+        newConsultation.child("seen").setValue("no");
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_bar, menu);
+        if(Constants.get_current_user_type(this) == Constants.ADMIN_TYPE){
+            menu.findItem(R.id.chat_activity).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return Constants.handleItemChoosed(this, super.onOptionsItemSelected(item), item);
     }
 }
