@@ -128,6 +128,9 @@ public class ListAdapter<T> extends BaseAdapter {
             Diagnose diagnoseObj = Constants.diagnoses.get(d.getDiag_id());
             if (diagnoseObj != null)
                 second_row.setText(mContext.getString(R.string.hint_specialized) + " : " + diagnoseObj.getName());
+            else{
+                second_row.setText("");
+            }
         }
         if (third_row != null) {
             third_row.setText(mContext.getString(R.string.hint_email) + " : " + d.getUser_email());
@@ -212,6 +215,8 @@ public class ListAdapter<T> extends BaseAdapter {
         if (third_row != null) {
             if (p.getMeta("child_name") != null) {
                 third_row.setText(mContext.getString(R.string.child_name) + " : " + p.getMeta("child_name"));
+            }else{
+                third_row.setText("");
             }
         }
 
